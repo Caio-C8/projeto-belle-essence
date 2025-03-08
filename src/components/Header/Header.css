@@ -1,0 +1,75 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  border-bottom: 1px solid #1c1c1c30;
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo__img {
+  width: auto;
+  height: 70px;
+}
+
+.header__search-bar {
+  position: relative;
+  width: 450px;
+  background: #efefef;
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.header__search-bar__input {
+  flex: 1;
+  background: transparent;
+  font-size: 1rem;
+}
+
+.header__search-bar__icon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.header__options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__options__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header__options__icon {
+  width: 30px;
+  height: 30px;
+  color: #1c1c1c;
+  cursor: pointer;
+}
+
+.header__options__badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #000;
+}

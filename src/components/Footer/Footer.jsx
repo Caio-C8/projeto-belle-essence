@@ -1,4 +1,5 @@
 import React from "react";
+import "./Footer.css";
 import { FaRegImage } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io5";
 import { IoLogoFacebook } from "react-icons/io5";
