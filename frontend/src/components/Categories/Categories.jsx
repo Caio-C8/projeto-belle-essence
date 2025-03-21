@@ -1,5 +1,5 @@
 import React from "react";
-import "./Categories.css";
+import "./Categorias.css";
 import { IoIosArrowDown } from "react-icons/io";
 
 const categorias = [
@@ -14,15 +14,15 @@ const categorias = [
   "Cuidados com o Corpo",
 ];
 
-const Categories = () => {
+const Categorias = () => {
   return (
-    <div className="categories">
-      <div className="categories__wrapper">
-        <div className="categories__menu">
+    <div className="categorias">
+      <div className="categorias__container">
+        <div className="categorias__menu">
           {categorias.map((categoria, index) => (
-            <div key={index} className="category">
-              <p className="category__text">{categoria}</p>
-              <IoIosArrowDown className="category__icon" />
+            <div key={index} className="categoria">
+              <p className="categoria__texto">{categoria}</p>
+              <IoIosArrowDown className="categoria__icone" />
             </div>
           ))}
         </div>
@@ -31,4 +31,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Categorias;

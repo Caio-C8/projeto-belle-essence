@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css";
-import Categories from "../Categories/Categories";
+import Categorias from "../Categorias/Categorias";
 import { IoBagOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
@@ -13,41 +13,41 @@ const Header = () => {
     <>
       <header className="header">
         <div className="header__logo">
-          <FaRegImage className="header__logo__img" />
+          <FaRegImage className="header__logo__imagem" />
         </div>
 
-        <div className="header__search-bar">
+        <div className="header__barra-pesquisa">
           <input
-            className="header__search-bar__input"
+            className="header__barra-pesquisa__input"
             type="text"
             placeholder="Procure por produtos"
           />
-          <IoIosSearch className="header__search-bar__icon" />
+          <IoIosSearch className="header__barra-pesquisa__icone" />
         </div>
 
-        <div className="header__options">
+        <div className="header__opcoes">
           {/* Botão para trocar tema (escuro/claro) */}
-          {/* <div className="header__options__item">
-            <PiCircleHalfFill className="header__options__icon" />
+          {/* <div className="header__opcoes__item">
+            <PiCircleHalfFill className="header__opcoes__icone" />
           </div> */}
 
-          <div className="header__options__item">
-            <IoPersonOutline className="header__options__icon" />
+          <div className="header__opcoes__item">
+            <IoPersonOutline className="header__opcoes__icone" />
           </div>
 
-          <div className="header__options__item">
-            <IoHeartOutline className="header__options__icon" />
-            <span className="header__options__badge">0</span>
+          <div className="header__opcoes__item">
+            <IoHeartOutline className="header__opcoes__icone" />
+            <span className="header__opcoes__notificacao">0</span>
           </div>
 
-          <div className="header__options__item">
-            <IoBagOutline className="header__options__icon" />
-            <span className="header__options__badge">0</span>
+          <div className="header__opcoes__item">
+            <IoBagOutline className="header__opcoes__icone" />
+            <span className="header__opcoes__notificacao">0</span>
           </div>
         </div>
       </header>
 
-      <Categories />
+      <Categorias />
     </>
   );
 };

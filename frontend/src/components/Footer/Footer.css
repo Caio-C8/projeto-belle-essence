@@ -6,41 +6,36 @@
   border-top: 1px solid #1c1c1c30;
 }
 
-.footer__content {
+.footer__conteudo {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.footer__logo__img {
+.footer__logo__imagem {
   width: auto;
   height: 100px;
 }
 
-.footer__social {
+.footer__redes {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.footer__social__title {
+.footer__redes__titulo {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.footer__social__title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.footer__social__icons {
+.footer__redes__icones {
   display: flex;
   gap: 30px;
   justify-content: flex-start;
 }
 
-.footer__social__icon {
+.footer__redes__icone {
   height: 100px;
   width: 100px;
   background: #f5fffa;
@@ -48,6 +43,10 @@
   transition: transform 0.2s ease;
 }
 
-.footer__social__icon:hover {
+.footer__redes__icone:hover {
   transform: scale(1.05);
+}
+
+.footer__endereco {
+  margin-top: 10px;
 }

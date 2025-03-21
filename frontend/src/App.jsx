@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
-import Cart from "./pages/Cart/Cart";
-import Favorites from "./pages/Favorites/Favorites";
+import Carrinho from "./pages/Carrinho/Carrinho";
+import Pesquisa from "./pages/Pesquisa/Pesquisa";
+import Favoritos from "./pages/Favoritos/Favoritos";
 
 const App = () => {
   return (
@@ -14,9 +14,9 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/pesquisa" element={<Pesquisa />} />
+          <Route path="/carrinho" element={<Carrinho />} />
+          <Route path="/favoritos" element={<Favoritos />} />
         </Routes>
       </main>
 

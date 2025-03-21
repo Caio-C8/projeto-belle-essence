@@ -10,12 +10,12 @@
   align-items: center;
 }
 
-.header__logo__img {
+.header__logo__imagem {
   width: auto;
   height: 70px;
 }
 
-.header__search-bar {
+.header__barra-pesquisa {
   position: relative;
   width: 450px;
   background: #efefef;
@@ -26,38 +26,38 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-.header__search-bar__input {
+.header__barra-pesquisa__input {
   flex: 1;
   background: transparent;
   font-size: 1rem;
 }
 
-.header__search-bar__icon {
+.header__barra-pesquisa__icone {
   width: 25px;
   height: 25px;
   cursor: pointer;
 }
 
-.header__options {
+.header__opcoes {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.header__options__item {
+.header__opcoes__item {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.header__options__icon {
+.header__opcoes__icone {
   width: 30px;
   height: 30px;
   color: #1c1c1c;
   cursor: pointer;
 }
 
-.header__options__badge {
+.header__opcoes__notificacao {
   position: absolute;
   top: -5px;
   right: -5px;

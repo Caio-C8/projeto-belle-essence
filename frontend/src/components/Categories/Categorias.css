@@ -1,4 +1,4 @@
-.categories {
+.categorias {
   background-color: #ffb4a2;
   display: flex;
   align-items: center;
@@ -7,7 +7,7 @@
   padding: 0 130px;
 }
 
-.categories__wrapper {
+.categorias__container {
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
@@ -16,25 +16,25 @@
   scrollbar-color: #f1a795 transparent; /* Cor da barra de rolagem */
 }
 
-.categories__wrapper::-webkit-scrollbar {
+.categorias__container::-webkit-scrollbar {
   height: 5px;
 }
 
-.categories__wrapper::-webkit-scrollbar-track {
+.categorias__container::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.categories__wrapper::-webkit-scrollbar-thumb {
+.categorias__container::-webkit-scrollbar-thumb {
   background-color: #f1a795;
   border-radius: 10px;
 }
 
-.categories__menu {
+.categorias__menu {
   display: flex;
   gap: 50px;
 }
 
-.category {
+.categoria {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -42,12 +42,12 @@
   cursor: pointer;
 }
 
-.category__text {
+.categoria__texto {
   font-weight: bold;
   font-size: 1.2rem;
 }
 
-.category__icon {
+.categoria__icone {
   display: flex;
   align-items: center;
   justify-content: center;
