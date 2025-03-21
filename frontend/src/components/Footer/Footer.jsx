@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import { FaRegImage } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io5";
 import { IoLogoFacebook } from "react-icons/io5";
 
@@ -9,7 +8,11 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer__conteudo">
         <div className="footer__logo">
-          <FaRegImage className="footer__logo__imagem" />
+          <img
+            src="src/assets/img/logoBelleEssence.png"
+            alt="Logo Belle Essence"
+            className="footer__logo__image"
+          />
         </div>
 
         <div className="footer__redes">

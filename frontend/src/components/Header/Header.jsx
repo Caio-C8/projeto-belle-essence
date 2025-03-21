@@ -5,16 +5,22 @@ import { IoBagOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
-import { FaRegImage } from "react-icons/fa6";
-import { PiCircleHalfFill } from "react-icons/pi";
+import { Link } from "react-router-dom";
+// import { PiCircleHalfFill } from "react-icons/pi";
 
 const Header = () => {
   return (
     <>
       <header className="header">
-        <div className="header__logo">
-          <FaRegImage className="header__logo__imagem" />
-        </div>
+        <Link to="/">
+          <div className="header__logo">
+            <img
+              src="src/assets/img/logoBelleEssenceSimplificada.png"
+              alt="Logo Belle Essence Simplificada"
+              className="header__logo__imagem"
+            />
+          </div>
+        </Link>
 
         <div className="header__barra-pesquisa">
           <input
