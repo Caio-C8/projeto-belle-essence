@@ -19,8 +19,12 @@ const Footer = () => {
           <p className="footer__redes__titulo">Redes Sociais</p>
 
           <div className="footer__redes__icones">
-            <IoLogoInstagram className="footer__redes__icone" />
-            <IoLogoFacebook className="footer__redes__icone" />
+            <a href="" target="_blank">
+              <IoLogoInstagram className="footer__redes__icone" />
+            </a>
+            <a href="" target="_blank">
+              <IoLogoFacebook className="footer__redes__icone" />
+            </a>
           </div>
         </div>
       </div>

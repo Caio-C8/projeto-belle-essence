@@ -55,6 +55,11 @@
   height: 30px;
   color: #1c1c1c;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.header__opcoes__icone:hover {
+  transform: scale(1.1);
 }
 
 .header__opcoes__notificacao {
