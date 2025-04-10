@@ -1,0 +1,4 @@
+{
+  "watch": ["api", "routes"],
+  "ext": "js,json"
+}
