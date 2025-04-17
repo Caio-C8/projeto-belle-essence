@@ -7,7 +7,6 @@ router.post("/", async (req, res) => {
   const { email, senha } = req.body;
 
   try {
-    // Busca o admin pelo email
     const resultAdministrador = await pool.query(
       "SELECT * FROM administradores WHERE email_adm = $1",
       [email]
@@ -47,3 +46,45 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
+// Validar usuários no FrontEnd
+
+// import React, { useState } from "react";
+
+// const [email, setEmail] = useState("");
+// const [senha, setSenha] = useState("");
+
+// const login = async (e) => {
+//   e.preventDefault();
+
+//   const usuario = { email, senha };
+
+//   const res = await fetch("http://localhost:3000/login", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(usuario),
+//   });
+
+//   const texto = await res.text();
+//   alert(texto);
+// };
+
+// return (
+//   <form onSubmit={login}>
+//     <label>Email:</label>
+//     <input
+//       value={email}
+//       type="email"
+//       onChange={(e) => setEmail(e.target.value)}
+//     />
+
+//     <label>senha:</label>
+//     <input
+//       value={senha}
+//       type="password"
+//       onChange={(e) => setSenha(e.target.value)}
+//     />
+
+//     <button type="submit">login</button>
+//   </form>
+// );
