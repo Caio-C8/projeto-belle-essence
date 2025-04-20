@@ -1,34 +1,39 @@
 import React from "react";
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Header from "./components/Header/Header";
-// import Footer from "./components/Footer/Footer";
-// import Home from "./pages/Home/Home";
-// import Carrinho from "./pages/Carrinho/Carrinho";
-// import Pesquisa from "./pages/Pesquisa/Pesquisa";
-// import Favoritos from "./pages/Favoritos/Favoritos";
-import FormCadastroAdm from "./components/FormCadastroAdm/FormCadastroAdm";
-import LoginAdm from "./components/LoginAdm/LoginAdm";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Favoritos from "./paginas/Favoritos/Favoritos";
+import Carrinho from "./paginas/Carrinho/Carrinho";
+import FormCadastro from "./componentes/FormCadastro/FormCadastro";
+import Login from "./componentes/Login/Login";
+import RotaPrivada from "./componentes/RotaPrivada/RotaPrivada";
 
 const App = () => {
   return (
-    <>
-      <FormCadastroAdm />
-      <LoginAdm />
-    </>
-  );
-  // <BrowserRouter>
-  //   <Header />
-  //   <main>
-  //     <Routes>
-  //       <Route path="/" element={<Home />} />
-  //       <Route path="/pesquisa" element={<Pesquisa />} />
-  //       <Route path="/carrinho" element={<Carrinho />} />
-  //       <Route path="/favoritos" element={<Favoritos />} />
-  //     </Routes>
-  //   </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/cadastro" element={<FormCadastro />} />
 
-  //   <Footer />
-  // </BrowserRouter>
+        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/carrinho"
+          element={
+            <RotaPrivada>
+              <Carrinho />
+            </RotaPrivada>
+          }
+        />
+
+        <Route
+          path="/lista-favoritos"
+          element={
+            <RotaPrivada>
+              <Favoritos />
+            </RotaPrivada>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;

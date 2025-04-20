@@ -1,7 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const pool = require("../connect");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const secret = process.env.JWT_SECRET;
 
 router.post("/", async (req, res) => {
   const { email, senha } = req.body;
@@ -30,15 +33,26 @@ router.post("/", async (req, res) => {
       return res.status(401).send("E-mail ou senha incorretos.");
     }
 
-    // Compara a senha fornecida com a senha criptografada
     const senhaConfere = await bcrypt.compare(senha, senhaCriptografada);
 
     if (!senhaConfere) {
       return res.status(401).send("E-mail ou senha incorretos.");
     }
 
-    // Aqui você pode gerar um token de autenticação (ex: JWT) se quiser
-    res.status(200).send("Login realizado com sucesso!");
+    const token = jwt.sign(
+      {
+        id: usuario.id_adm || usuario.id_cliente,
+        email: usuario.email_adm || usuario.email,
+        tipo: usuario.senha_adm ? "admin" : "cliente",
+      },
+      secret,
+      { expiresIn: "10m" }
+    );
+
+    res.status(200).json({
+      mensagem: "Login realizado com sucesso!",
+      token,
+    });
   } catch (err) {
     console.error("Erro no login:", err);
     res.status(500).send("Erro no servidor.");

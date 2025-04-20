@@ -32,6 +32,28 @@ const listarPorId = (tabela, colunaId) => {
   };
 };
 
+const listarUnicoPorUsuario = (tabela, colunaUsuario) => {
+  return async (req, res) => {
+    const idUsuario = req.usuario.id;
+
+    try {
+      const result = await pool.query(
+        `SELECT * FROM ${tabela} WHERE ${colunaUsuario} = $1`,
+        [idUsuario]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).send(`${tabela} não encontrado.`);
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error(`Erro ao buscar ${tabela}:`, error);
+      res.status(500).send("Erro no servidor.");
+    }
+  };
+};
+
 const listarProdutosCategorias = () => {
   return async (req, res) => {
     try {
@@ -187,6 +209,7 @@ const listarProdutosOcasioesPorId = () => {
 module.exports = {
   listarTodos,
   listarPorId,
+  listarUnicoPorUsuario,
   listarProdutosCategorias,
   listarProdutosCategoriasPorId,
   listarProdutosOcasioes,

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -16,7 +17,7 @@ app.listen(PORT, () => {
 
 // Rota cadastrar usuários
 const cadastradoUsuariosRoutes = require("../routes/cadastroUsuarios");
-app.use("/usuarios", cadastradoUsuariosRoutes);
+app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
 
 // Rota validar usuários
 const validarUsuarios = require("../routes/validarUsuarios");

@@ -1,4 +1,4 @@
 {
-  "watch": ["api", "routes", "db"],
+  "watch": ["api", "routes", "db", "middlewares"],
   "ext": "js,json"
 }
