@@ -30,13 +30,13 @@ router.post("/", async (req, res) => {
       usuario = resultCliente.rows[0];
       senhaCriptografada = usuario.senha;
     } else {
-      return res.status(401).send("E-mail ou senha incorretos.");
+      return res.status(401).json({ mensagem: "E-mail ou senha incorretos." });
     }
 
     const senhaConfere = await bcrypt.compare(senha, senhaCriptografada);
 
     if (!senhaConfere) {
-      return res.status(401).send("E-mail ou senha incorretos.");
+      return res.status(401).json({ mensagem: "E-mail ou senha incorretos." });
     }
 
     const token = jwt.sign(
@@ -60,45 +60,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
-// Validar usuários no FrontEnd
-
-// import React, { useState } from "react";
-
-// const [email, setEmail] = useState("");
-// const [senha, setSenha] = useState("");
-
-// const login = async (e) => {
-//   e.preventDefault();
-
-//   const usuario = { email, senha };
-
-//   const res = await fetch("http://localhost:3000/login", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(usuario),
-//   });
-
-//   const texto = await res.text();
-//   alert(texto);
-// };
-
-// return (
-//   <form onSubmit={login}>
-//     <label>Email:</label>
-//     <input
-//       value={email}
-//       type="email"
-//       onChange={(e) => setEmail(e.target.value)}
-//     />
-
-//     <label>senha:</label>
-//     <input
-//       value={senha}
-//       type="password"
-//       onChange={(e) => setSenha(e.target.value)}
-//     />
-
-//     <button type="submit">login</button>
-//   </form>
-// );

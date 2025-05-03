@@ -1,17 +1,39 @@
 import React, { useState } from "react";
+import { useMask } from "@react-input/mask";
 import "./FormCadastro.css";
+import { validarCamposCadastro } from "../../utilidades/validadores";
 
 const FormCadastroAdm = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
-  const [celular, setCelualr] = useState("");
+  const [celular, setCelular] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [cpf, setCpf] = useState("");
+  const maskCelular = useMask({
+    mask: "(__) _____-____",
+    replacement: { _: /\d/ },
+  });
+  const maskCpf = useMask({
+    mask: "___.___.___-__",
+    replacement: { _: /\d/ },
+  });
 
-  const handleSubmit = async (e) => {
+  const cadastrarUsuario = async (e) => {
     e.preventDefault();
+
+    const erro = validarCamposCadastro({
+      email,
+      senha,
+      nome,
+      sobrenome,
+      celular,
+      dataNascimento,
+      cpf,
+    });
+
+    if (erro) return alert(erro);
 
     const usuario = {
       email,
@@ -36,7 +58,7 @@ const FormCadastroAdm = () => {
         setSenha("");
         setNome("");
         setSobrenome("");
-        setCelualr("");
+        setCelular("");
         setDataNascimento("");
         setCpf("");
       } else {
@@ -49,12 +71,14 @@ const FormCadastroAdm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={cadastrarUsuario}>
       <div>
         <label>Email:</label>
         <input
           value={email}
-          type="email"
+          type="text"
+          inputMode="email"
+          autoComplete="email"
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
@@ -64,6 +88,7 @@ const FormCadastroAdm = () => {
         <input
           value={senha}
           type="password"
+          autoComplete="off"
           onChange={(e) => setSenha(e.target.value)}
         />
       </div>
@@ -73,6 +98,7 @@ const FormCadastroAdm = () => {
         <input
           value={nome}
           type="text"
+          autoComplete="off"
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
@@ -82,6 +108,7 @@ const FormCadastroAdm = () => {
         <input
           value={sobrenome}
           type="text"
+          autoComplete="off"
           onChange={(e) => setSobrenome(e.target.value)}
         />
       </div>
@@ -89,10 +116,11 @@ const FormCadastroAdm = () => {
       <div>
         <label>Celular:</label>
         <input
+          ref={maskCelular}
           value={celular}
           type="text"
-          maxLength={20}
-          onChange={(e) => setCelualr(e.target.value)}
+          autoComplete="off"
+          onChange={(e) => setCelular(e.target.value)}
         />
       </div>
 
@@ -101,6 +129,8 @@ const FormCadastroAdm = () => {
         <input
           value={dataNascimento}
           type="date"
+          min="1900-01-01"
+          autoComplete="off"
           onChange={(e) => setDataNascimento(e.target.value)}
         />
       </div>
@@ -108,15 +138,16 @@ const FormCadastroAdm = () => {
       <div>
         <label>CPF:</label>
         <input
+          ref={maskCpf}
           value={cpf}
           type="text"
-          maxLength={14}
+          autoComplete="off"
           onChange={(e) => setCpf(e.target.value)}
         />
       </div>
 
       <div>
-        <button type="submit">Cadastrar Administrador</button>
+        <button type="submit">Cadastrar</button>
       </div>
     </form>
   );

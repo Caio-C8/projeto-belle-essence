@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./paginas/Home/Home";
 import Favoritos from "./paginas/Favoritos/Favoritos";
 import Carrinho from "./paginas/Carrinho/Carrinho";
 import FormCadastro from "./componentes/FormCadastro/FormCadastro";
@@ -10,6 +11,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
+
         <Route path="/cadastro" element={<FormCadastro />} />
 
         <Route path="/login" element={<Login />} />

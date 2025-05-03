@@ -10,7 +10,6 @@ router.post("/", async (req, res) => {
   try {
     const senhaCriptografada = await bcrypt.hash(senha, 10);
 
-    // 1. Cadastrar cliente
     const resultCliente = await pool.query(
       `INSERT INTO clientes (email, senha, nome, sobrenome, celular, data_nascimento, cpf)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -20,12 +19,10 @@ router.post("/", async (req, res) => {
 
     const idCliente = resultCliente.rows[0].id_cliente;
 
-    // 2. Criar carrinho
     await pool.query(`INSERT INTO carrinhos (id_cliente) VALUES ($1)`, [
       idCliente,
     ]);
 
-    // 3. Criar lista de favoritos
     await pool.query(`INSERT INTO listas_favoritos (id_cliente) VALUES ($1)`, [
       idCliente,
     ]);

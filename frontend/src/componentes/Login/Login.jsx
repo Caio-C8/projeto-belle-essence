@@ -28,25 +28,25 @@ const Login = () => {
     }
   };
 
-  const testarToken = async () => {
-    const token = localStorage.getItem("token");
+  // const testarToken = async () => {
+  //   const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:3000/teste", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  //   const res = await fetch("http://localhost:3000/teste", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    if (res.ok) {
-      const dados = await res.json();
-      console.log("✅ Token válido, resposta:", dados);
-      alert("Token válido! Veja o console.");
-    } else {
-      const erro = await res.text();
-      console.error("❌ Erro:", erro);
-      alert("Token inválido ou expirado.");
-    }
-  };
+  //   if (res.ok) {
+  //     const dados = await res.json();
+  //     console.log("✅ Token válido, resposta:", dados);
+  //     alert("Token válido! Veja o console.");
+  //   } else {
+  //     const erro = await res.text();
+  //     console.error("❌ Erro:", erro);
+  //     alert("Token inválido ou expirado.");
+  //   }
+  // };
 
   return (
     <>
@@ -74,9 +74,9 @@ const Login = () => {
         </div>
       </form>
 
-      <button type="button" onClick={testarToken}>
+      {/* <button type="button" onClick={testarToken}>
         Testar Token
-      </button>
+      </button> */}
     </>
   );
 };
