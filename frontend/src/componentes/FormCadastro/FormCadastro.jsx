@@ -3,7 +3,7 @@ import { useMask } from "@react-input/mask";
 import "./FormCadastro.css";
 import { validarCamposCadastro } from "../../utilidades/validadores";
 
-const FormCadastroAdm = () => {
+const FormCadastro = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
@@ -19,6 +19,53 @@ const FormCadastroAdm = () => {
     mask: "___.___.___-__",
     replacement: { _: /\d/ },
   });
+  const [cep, setCep] = useState("");
+  const [logradouro, setLogradouro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [pontoReferencia, setPontoReferencia] = useState("");
+  const [tipo, setTipo] = useState("");
+  const maskCep = useMask({
+    mask: "_____-___",
+    replacement: { _: /\d/ },
+  });
+  const maskNumero = useMask({
+    mask: "__________",
+    replacement: { _: /\d/ },
+  });
+
+  const estadosSiglas = [
+    "AC",
+    "AL",
+    "AM",
+    "AP",
+    "BA",
+    "CE",
+    "DF",
+    "ES",
+    "GO",
+    "MA",
+    "MG",
+    "MS",
+    "MT",
+    "PA",
+    "PB",
+    "PE",
+    "PI",
+    "PR",
+    "RJ",
+    "RN",
+    "RO",
+    "RR",
+    "RS",
+    "SC",
+    "SE",
+    "SP",
+    "TO",
+  ];
 
   const cadastrarUsuario = async (e) => {
     e.preventDefault();
@@ -31,6 +78,15 @@ const FormCadastroAdm = () => {
       celular,
       dataNascimento,
       cpf,
+      cep,
+      logradouro,
+      numero,
+      bairro,
+      cidade,
+      estado,
+      complemento,
+      pontoReferencia,
+      tipo,
     });
 
     if (erro) return alert(erro);
@@ -45,14 +101,26 @@ const FormCadastroAdm = () => {
       cpf,
     };
 
+    const endereco = {
+      cep,
+      logradouro,
+      numero,
+      bairro,
+      cidade,
+      estado,
+      complemento,
+      pontoReferencia,
+      tipo,
+    };
+
     try {
-      const response = await fetch("http://localhost:3000/cadastro-usuarios", {
+      const res = await fetch("http://localhost:3000/cadastro-usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify({ usuario, endereco }),
       });
 
-      if (response.ok) {
+      if (res.ok) {
         alert("Usuário cadastrado com sucesso!");
         setEmail("");
         setSenha("");
@@ -61,8 +129,19 @@ const FormCadastroAdm = () => {
         setCelular("");
         setDataNascimento("");
         setCpf("");
+        setCep("");
+        setLogradouro("");
+        setNumero("");
+        setBairro("");
+        setCidade("");
+        setEstado("");
+        setComplemento("");
+        setPontoReferencia("");
+        setTipo("");
       } else {
-        alert("Erro ao cadastrar usuário");
+        const { mensagem } = await res.json();
+        if (mensagem) return alert(`Erro ao cadastrar usuário. ${mensagem}`);
+        alert("Erro ao cadastrar usuário.");
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -147,10 +226,96 @@ const FormCadastroAdm = () => {
       </div>
 
       <div>
+        <label>CEP:</label>
+        <input
+          ref={maskCep}
+          value={cep}
+          type="text"
+          onChange={(e) => setCep(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Tipo:</label>
+        <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+          <option value="">Selecione</option>
+          <option value="Residencial">Residencial</option>
+          <option value="Comercial">Comercial</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Logradouro:</label>
+        <input
+          value={logradouro}
+          type="text"
+          onChange={(e) => setLogradouro(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Número:</label>
+        <input
+          ref={maskNumero}
+          value={numero}
+          type="text"
+          onChange={(e) => setNumero(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Complemento:</label>
+        <input
+          value={complemento}
+          type="text"
+          onChange={(e) => setComplemento(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Bairro:</label>
+        <input
+          value={bairro}
+          type="text"
+          onChange={(e) => setBairro(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Ponto de Referência:</label>
+        <input
+          value={pontoReferencia}
+          type="text"
+          onChange={(e) => setPontoReferencia(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Estado:</label>
+        <select value={estado} onChange={(e) => setEstado(e.target.value)}>
+          <option value="">Selecione</option>
+          {estadosSiglas.map((sigla, index) => (
+            <option key={index} value={sigla}>
+              {sigla}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label>Cidade:</label>
+        <input
+          value={cidade}
+          type="text"
+          onChange={(e) => setCidade(e.target.value)}
+        />
+      </div>
+
+      <div>
         <button type="submit">Cadastrar</button>
       </div>
     </form>
   );
 };
 
-export default FormCadastroAdm;
+export default FormCadastro;

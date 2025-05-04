@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 });
 
 // Rota cadastrar usuários
-const cadastradoUsuariosRoutes = require("../routes/cadastroUsuarios");
+const cadastradoUsuariosRoutes = require("../routes/post/cadastroUsuarios");
 app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
 
 // Rota validar usuários

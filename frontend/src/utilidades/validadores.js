@@ -70,7 +70,7 @@ function validaEmail(email) {
 }
 
 function validaSenha(senha) {
-  const regex = /^(?=.*[0-9])(?=.*[\W_]).{8,}$/;
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   if (!regex.test(senha)) return false;
 
   return true;
@@ -95,6 +95,21 @@ function validaDataNascimento(dataStr) {
   return true;
 }
 
+function validaCep(cep) {
+  const cepFormatado = cep.replace("-", "");
+
+  if (cepFormatado.length !== 8) return false;
+  if (isNaN(cepFormatado)) return false;
+
+  return true;
+}
+
+function validaNumeroEndereco(numero) {
+  if (isNaN(numero)) return false;
+
+  return true;
+}
+
 export function validarCamposCadastro({
   email,
   senha,
@@ -103,6 +118,15 @@ export function validarCamposCadastro({
   celular,
   dataNascimento,
   cpf,
+  cep,
+  logradouro,
+  numero,
+  bairro,
+  cidade,
+  estado,
+  complemento,
+  pontoReferencia,
+  tipo,
 }) {
   if (
     !email ||
@@ -111,7 +135,16 @@ export function validarCamposCadastro({
     !sobrenome ||
     !celular ||
     !dataNascimento ||
-    !cpf
+    !cpf ||
+    !cep ||
+    !logradouro ||
+    !numero ||
+    !bairro ||
+    !cidade ||
+    !estado ||
+    !complemento ||
+    !pontoReferencia ||
+    !tipo
   ) {
     return "Todos os campos devem ser preenchidos.";
   }
@@ -119,7 +152,7 @@ export function validarCamposCadastro({
     return "E-mail inválido.";
   }
   if (!validaSenha(senha)) {
-    return "Senha deve conter no mínimo 8 caracteres, 1 símbolo e 1 número.";
+    return "Senha deve conter no mínimo 8 caracteres, 1 letra, 1 símbolo e 1 número.";
   }
   if (!validaNomeSobrenome(nome, sobrenome)) {
     return "Nome ou Sobrenome inválidos.";
@@ -133,6 +166,12 @@ export function validarCamposCadastro({
   if (!validaCpf(cpf)) {
     return "CPF inválido.";
   }
+  if (!validaCep(cep)) {
+    return "CEP inválido.";
+  }
+  if (!validaNumeroEndereco(numero)) {
+    return "Número de endereço inválido.";
+  }
 
-  return null; // Tudo certo!
+  return null;
 }

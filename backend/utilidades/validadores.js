@@ -1,4 +1,4 @@
-export function validaCpf(cpf) {
+function validaCpf(cpf) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   const strCPF = String(cpf).replace(/[^\d]/g, "");
 
@@ -30,7 +30,7 @@ export function validaCpf(cpf) {
   return true;
 }
 
-export function validaNumeroCelular(telefone) {
+function validaNumeroCelular(telefone) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   telefone = telefone.replace(/\D/g, "");
 
@@ -62,3 +62,120 @@ export function validaNumeroCelular(telefone) {
   // Se todas as verificações passaram, o número de celular é válido.
   return true;
 }
+
+function validaEmail(email) {
+  if (!email.includes("@")) return false;
+
+  return true;
+}
+
+function validaSenha(senha) {
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+  if (!regex.test(senha)) return false;
+
+  return true;
+}
+
+function validaNomeSobrenome(nome, sobrenome) {
+  const regex = /^[A-Za-zÀ-ÿ\s]+$/;
+  if (!regex.test(nome) || !regex.test(sobrenome)) return false;
+
+  return true;
+}
+
+function validaDataNascimento(dataStr) {
+  const data = new Date(dataStr);
+  const hoje = new Date();
+
+  const cemAnosAtras = new Date();
+  cemAnosAtras.setFullYear(hoje.getFullYear() - 100);
+
+  if (!(data <= hoje) || !(data >= cemAnosAtras)) return false;
+
+  return true;
+}
+
+function validaCep(cep) {
+  const cepFormatado = cep.replace("-", "");
+
+  if (cepFormatado.length !== 8) return false;
+  if (isNaN(cepFormatado)) return false;
+
+  return true;
+}
+
+function validaNumeroEndereco(numero) {
+  if (isNaN(numero)) return false;
+
+  return true;
+}
+
+function validarCamposCadastro({
+  email,
+  senha,
+  nome,
+  sobrenome,
+  celular,
+  dataNascimento,
+  cpf,
+  cep,
+  logradouro,
+  numero,
+  bairro,
+  cidade,
+  estado,
+  complemento,
+  pontoReferencia,
+  tipo,
+}) {
+  if (
+    !email ||
+    !senha ||
+    !nome ||
+    !sobrenome ||
+    !celular ||
+    !dataNascimento ||
+    !cpf ||
+    !cep ||
+    !logradouro ||
+    !numero ||
+    !bairro ||
+    !cidade ||
+    !estado ||
+    !complemento ||
+    !pontoReferencia ||
+    !tipo
+  ) {
+    return "Todos os campos devem ser preenchidos.";
+  }
+  if (!validaEmail(email)) {
+    return "E-mail inválido.";
+  }
+  if (!validaSenha(senha)) {
+    return "Senha deve conter no mínimo 8 caracteres, 1 letra, 1 símbolo e 1 número.";
+  }
+  if (!validaNomeSobrenome(nome, sobrenome)) {
+    return "Nome ou Sobrenome inválidos.";
+  }
+  if (!validaNumeroCelular(celular)) {
+    return "Número de celular inválido.";
+  }
+  if (!validaDataNascimento(dataNascimento)) {
+    return "Data de nascimento inválida.";
+  }
+  if (!validaCpf(cpf)) {
+    return "CPF inválido.";
+  }
+  if (!validaCep(cep)) {
+    return "CEP inválido.";
+  }
+  if (!validaNumeroEndereco(numero)) {
+    return "Número de endereço inválido.";
+  }
+
+  return null;
+}
+
+module.exports = {
+  validarCamposCadastro,
+};
