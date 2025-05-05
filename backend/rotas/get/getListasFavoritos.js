@@ -6,7 +6,7 @@ const { listarUnicoPorUsuario } = require("../../db/controladores");
 router.get(
   "/",
   verificarToken,
-  listarUnicoPorUsuario("carrinhos", "id_carrinho")
+  listarUnicoPorUsuario("listas_favoritos", "id_cliente")
 );
 
 module.exports = router;

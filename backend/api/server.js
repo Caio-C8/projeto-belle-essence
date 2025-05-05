@@ -8,78 +8,58 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("API rodando com PostgreSQL!");
+  res.send("API rodando!");
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 
+const cadastradoUsuariosRoutes = require("../rotas/post/cadastroUsuarios");
+const listasFavoritosRoutes = require("../rotas/get/getListasFavoritos");
+const carrinhosRoutes = require("../rotas/get/getCarrinhos");
+const validarUsuariosRoutes = require("../rotas/validarUsuarios");
+const produtosRoutes = require("../rotas/get/getProdutos");
+// const enderecosRoutes = require("../rotas/get/getEnderecos");
+// const clientesRoutes = require("../rotas/get/getClientes");
+// const ocasioesRoutes = require("../rotas/get/getOcasioes");
+// const categoriasRoutes = require("../rotas/get/getCategorias");
+// const ocasioesProdutosRoutes = require("../rotas/get/getOcasioesProdutos");
+// const categoriasProdutosRoutes = require("../rotas/get/getCategoriasProdutos");
+// const pedidosRoutes = require("../rotas/get/getPedidos");
+
 // Rota cadastrar usuários
-const cadastradoUsuariosRoutes = require("../routes/post/cadastroUsuarios");
 app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
 
 // Rota validar usuários
-const validarUsuarios = require("../routes/validarUsuarios");
-app.use("/login", validarUsuarios);
-
-// Rota listar produtos
-const produtosRoutes = require("../routes/get/getProdutos");
-app.use("/produtos", produtosRoutes);
-
-// Rota listar categorias de produtos
-const categoriasProdutosRoutes = require("../routes/get/getCategoriasProdutos");
-app.use("/categorias-produtos", categoriasProdutosRoutes);
-
-// Rota listar ocasiões de produtos
-const ocasioesProdutosRoutes = require("../routes/get/getOcasioesProdutos");
-app.use("/ocasioes-produtos", ocasioesProdutosRoutes);
-
-// Rota listar categorias
-const categoriasRoutes = require("../routes/get/getCategorias");
-app.use("/categorias", categoriasRoutes);
-
-// Rota listar ocasiões
-const ocasioesRoutes = require("../routes/get/getOcasioes");
-app.use("/ocasioes", ocasioesRoutes);
+app.use("/login", validarUsuariosRoutes);
 
 // Rota listar carrinhos
-const carrinhosRoutes = require("../routes/get/getCarrinhos");
 app.use("/carrinhos", carrinhosRoutes);
 
-// Rota listar clientes
-const clientesRoutes = require("../routes/get/getClientes");
-app.use("/clientes", clientesRoutes);
-
-// Rota listar endereços
-const enderecosRoutes = require("../routes/get/getEnderecos");
-app.use("/enderecos", enderecosRoutes);
-
 // Rota listar listas de favoritos
-const listasFavoritosRoutes = require("../routes/get/getListasFavoritos");
 app.use("/listas-favoritos", listasFavoritosRoutes);
 
-// Rota listar pedidos
-const pedidosRoutes = require("../routes/get/getPedidos");
-app.use("/pedidos", pedidosRoutes);
+// Rota listar produtos
+app.use("/produtos", produtosRoutes);
 
-// import React, { useState, useEffect } from "react";
-// import { fetchApi } from "../api/api";
+// // Rota listar categorias de produtos
+// app.use("/categorias-produtos", categoriasProdutosRoutes);
 
-// const Componente = () => {
-//   const [itensTabela, setItensTabela] = useState([]);
+// // Rota listar ocasiões de produtos
+// app.use("/ocasioes-produtos", ocasioesProdutosRoutes);
 
-//   useEffect(() => {
-//     const carregarDados = async () => {
-//       const dadosRequisitados = await fetchApi("nome_da_tabela");
-//
-//       setItensTabela(dadosRequisitados);
-//     };
+// // Rota listar categorias
+// app.use("/categorias", categoriasRoutes);
 
-//     carregarDados();
-//   }, []);
+// // Rota listar ocasiões
+// app.use("/ocasioes", ocasioesRoutes);
 
-//   return (
-//     //código HTML
-//   );
-// };
+// // Rota listar clientes
+// app.use("/clientes", clientesRoutes);
+
+// // Rota listar endereços
+// app.use("/enderecos", enderecosRoutes);
+
+// // Rota listar pedidos
+// app.use("/pedidos", pedidosRoutes);

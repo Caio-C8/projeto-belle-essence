@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
         tipo: usuario.senha_adm ? "admin" : "cliente",
       },
       secret,
-      { expiresIn: "10m" }
+      { expiresIn: "2h" }
     );
 
     res.status(200).json({

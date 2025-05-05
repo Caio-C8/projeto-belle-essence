@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAutenticacao } from "../../contexto/AutenticarContexto";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
+  const { login: loginContexto } = useAutenticacao(); // usa o login do contexto
 
   const login = async (e) => {
     e.preventDefault();
@@ -21,63 +23,43 @@ const Login = () => {
 
     if (res.ok) {
       localStorage.setItem("token", dados.token);
+
+      // ⚠️ Importante: atualiza o contexto
+      loginContexto(dados.token);
+
       alert(dados.mensagem);
-      navigate("/carrinho");
+      navigate("/");
     } else {
       alert(dados.mensagem);
     }
   };
 
-  // const testarToken = async () => {
-  //   const token = localStorage.getItem("token");
-
-  //   const res = await fetch("http://localhost:3000/teste", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   if (res.ok) {
-  //     const dados = await res.json();
-  //     console.log("✅ Token válido, resposta:", dados);
-  //     alert("Token válido! Veja o console.");
-  //   } else {
-  //     const erro = await res.text();
-  //     console.error("❌ Erro:", erro);
-  //     alert("Token inválido ou expirado.");
-  //   }
-  // };
-
   return (
-    <>
-      <form onSubmit={login}>
-        <div>
-          <label>Email:</label>
-          <input
-            value={email}
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+    <form onSubmit={login}>
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          value={email}
+          autoComplete="off"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label>senha:</label>
-          <input
-            value={senha}
-            type="password"
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </div>
+      <div>
+        <label>senha:</label>
+        <input
+          type="password"
+          value={senha}
+          autoComplete="off"
+          onChange={(e) => setSenha(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <button type="submit">login</button>
-        </div>
-      </form>
-
-      {/* <button type="button" onClick={testarToken}>
-        Testar Token
-      </button> */}
-    </>
+      <div>
+        <button type="submit">login</button>
+      </div>
+    </form>
   );
 };
 
