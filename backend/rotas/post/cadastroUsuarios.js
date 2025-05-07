@@ -49,15 +49,19 @@ router.post("/", async (req, res) => {
   if (verificarDuplicados.rows.length > 0) {
     const duplicado = verificarDuplicados.rows[0];
     if (duplicado.email === email) {
-      return res.status(409).json({ mensagem: "E-mail já cadastrado" });
+      return res
+        .status(409)
+        .json({ mensagem: "E-mail informado já é cadastrado" });
     }
     if (duplicado.celular === celular) {
       return res
         .status(409)
-        .json({ mensagem: "Número de celular já cadastrado" });
+        .json({ mensagem: "Número de celular informado já é cadastrado" });
     }
     if (duplicado.cpf === cpf) {
-      return res.status(409).json({ mensagem: "CPF já cadastrado" });
+      return res
+        .status(409)
+        .json({ mensagem: "CPF informado já é cadastrado" });
     }
   }
 
@@ -100,8 +104,8 @@ router.post("/", async (req, res) => {
     ]);
 
     res.status(201).send("Usuário cadastrado com sucesso!");
-  } catch (err) {
-    console.error("Erro ao cadastrar usuário:", err);
+  } catch (error) {
+    console.error("Erro ao cadastrar usuário:", error);
     res.status(500).send("Erro no servidor");
   }
 });

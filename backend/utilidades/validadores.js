@@ -1,4 +1,4 @@
-function validaCpf(cpf) {
+function validarCpf(cpf) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   const strCPF = String(cpf).replace(/[^\d]/g, "");
 
@@ -30,7 +30,7 @@ function validaCpf(cpf) {
   return true;
 }
 
-function validaNumeroCelular(telefone) {
+function validarNumeroCelular(telefone) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   telefone = telefone.replace(/\D/g, "");
 
@@ -63,27 +63,27 @@ function validaNumeroCelular(telefone) {
   return true;
 }
 
-function validaEmail(email) {
+function validarEmail(email) {
   if (!email.includes("@")) return false;
 
   return true;
 }
 
-function validaSenha(senha) {
+function validarSenha(senha) {
   const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   if (!regex.test(senha)) return false;
 
   return true;
 }
 
-function validaNomeSobrenome(nome, sobrenome) {
+function validarNomeSobrenome(nome, sobrenome) {
   const regex = /^[A-Za-zÀ-ÿ\s]+$/;
   if (!regex.test(nome) || !regex.test(sobrenome)) return false;
 
   return true;
 }
 
-function validaDataNascimento(dataStr) {
+function validarDataNascimento(dataStr) {
   const data = new Date(dataStr);
   const hoje = new Date();
 
@@ -95,7 +95,7 @@ function validaDataNascimento(dataStr) {
   return true;
 }
 
-function validaCep(cep) {
+function validarCep(cep) {
   const cepFormatado = cep.replace("-", "");
 
   if (cepFormatado.length !== 8) return false;
@@ -104,7 +104,7 @@ function validaCep(cep) {
   return true;
 }
 
-function validaNumeroEndereco(numero) {
+function validarNumeroEndereco(numero) {
   if (isNaN(numero)) return false;
 
   return true;
@@ -148,29 +148,70 @@ function validarCamposCadastro({
   ) {
     return "Todos os campos devem ser preenchidos.";
   }
-  if (!validaEmail(email)) {
+  if (!validarEmail(email)) {
     return "E-mail inválido.";
   }
-  if (!validaSenha(senha)) {
+  if (!validarSenha(senha)) {
     return "Senha deve conter no mínimo 8 caracteres, 1 letra, 1 símbolo e 1 número.";
   }
-  if (!validaNomeSobrenome(nome, sobrenome)) {
+  if (!validarNomeSobrenome(nome, sobrenome)) {
     return "Nome ou Sobrenome inválidos.";
   }
-  if (!validaNumeroCelular(celular)) {
+  if (!validarNumeroCelular(celular)) {
     return "Número de celular inválido.";
   }
-  if (!validaDataNascimento(dataNascimento)) {
+  if (!validarDataNascimento(dataNascimento)) {
     return "Data de nascimento inválida.";
   }
-  if (!validaCpf(cpf)) {
+  if (!validarCpf(cpf)) {
     return "CPF inválido.";
   }
-  if (!validaCep(cep)) {
+  if (!validarCep(cep)) {
     return "CEP inválido.";
   }
-  if (!validaNumeroEndereco(numero)) {
+  if (!validarNumeroEndereco(numero)) {
     return "Número de endereço inválido.";
+  }
+
+  return null;
+}
+
+function validarCamposAlterarDadosUsuario(
+  email,
+  senha,
+  confirmarSenha,
+  nome,
+  sobrenome,
+  celular,
+  dataNascimento
+) {
+  if (email !== null) {
+    if (!validarEmail(email)) {
+      return "E-mail inválido.";
+    }
+  }
+  if (senha !== null && confirmarSenha !== null) {
+    if (!validarSenha(senha)) {
+      return "Senha deve conter no mínimo 8 caracteres, 1 letra, 1 símbolo e 1 número.";
+    }
+    if (senha !== confirmarSenha) {
+      return "As senhas digitadas são diferentes.";
+    }
+  }
+  if (nome !== null && sobrenome !== null) {
+    if (!validarNomeSobrenome(nome, sobrenome)) {
+      return "Nome ou Sobrenome inválidos.";
+    }
+  }
+  if (celular !== null) {
+    if (!validarNumeroCelular(celular)) {
+      return "Número de celular inválido.";
+    }
+  }
+  if (dataNascimento !== null) {
+    if (!validarDataNascimento(dataNascimento)) {
+      return "Data de nascimento inválida.";
+    }
   }
 
   return null;
@@ -178,4 +219,5 @@ function validarCamposCadastro({
 
 module.exports = {
   validarCamposCadastro,
+  validarCamposAlterarDadosUsuario,
 };

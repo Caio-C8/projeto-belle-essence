@@ -1,12 +1,28 @@
 export const fetchApi = async (endpoint) => {
   try {
-    const response = await fetch(`http://localhost:3000/${endpoint}`);
+    const res = await fetch(`http://localhost:3000/${endpoint}`);
 
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
+    if (!res.ok) {
+      throw new Error(`Erro HTTP: ${res.status}`);
     }
 
-    const dados = await response.json();
+    const dados = await res.json();
+    return dados;
+  } catch (error) {
+    console.error(`Erro ao buscar /${endpoint}:`, error);
+    return null;
+  }
+};
+
+export const fetchApiPorId = async (endpoint, id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/${endpoint}/${id}`);
+
+    if (!res.ok) {
+      throw new Error(`Erro HTTP: ${res.status}`);
+    }
+
+    const dados = await res.json();
     return dados;
   } catch (error) {
     console.error(`Erro ao buscar /${endpoint}:`, error);

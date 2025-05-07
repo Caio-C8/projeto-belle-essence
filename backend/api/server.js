@@ -20,8 +20,9 @@ const listasFavoritosRoutes = require("../rotas/get/getListasFavoritos");
 const carrinhosRoutes = require("../rotas/get/getCarrinhos");
 const validarUsuariosRoutes = require("../rotas/validarUsuarios");
 const produtosRoutes = require("../rotas/get/getProdutos");
-// const enderecosRoutes = require("../rotas/get/getEnderecos");
-// const clientesRoutes = require("../rotas/get/getClientes");
+const enderecosRoutes = require("../rotas/get/getEnderecos");
+const clientesRoutes = require("../rotas/get/getClientes");
+const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
 // const ocasioesRoutes = require("../rotas/get/getOcasioes");
 // const categoriasRoutes = require("../rotas/get/getCategorias");
 // const ocasioesProdutosRoutes = require("../rotas/get/getOcasioesProdutos");
@@ -30,6 +31,9 @@ const produtosRoutes = require("../rotas/get/getProdutos");
 
 // Rota cadastrar usuários
 app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
+
+// Rota alterar dados de usuários
+app.use("/atualizar-usuario", alterarDadosUsuarioRoutes);
 
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);
@@ -55,11 +59,11 @@ app.use("/produtos", produtosRoutes);
 // // Rota listar ocasiões
 // app.use("/ocasioes", ocasioesRoutes);
 
-// // Rota listar clientes
-// app.use("/clientes", clientesRoutes);
+// Rota listar clientes
+app.use("/clientes", clientesRoutes);
 
-// // Rota listar endereços
-// app.use("/enderecos", enderecosRoutes);
+// Rota listar endereços
+app.use("/enderecos", enderecosRoutes);
 
 // // Rota listar pedidos
 // app.use("/pedidos", pedidosRoutes);

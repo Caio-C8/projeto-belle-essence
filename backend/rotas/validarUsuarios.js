@@ -53,8 +53,8 @@ router.post("/", async (req, res) => {
       mensagem: "Login realizado com sucesso!",
       token,
     });
-  } catch (err) {
-    console.error("Erro no login:", err);
+  } catch (error) {
+    console.error("Erro no login:", error);
     res.status(500).send("Erro no servidor.");
   }
 });
