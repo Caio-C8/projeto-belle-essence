@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DadosPerfil from "../../componentes/DadosPerfil/DadosPerfil";
-import EnderecosPerfil from "../../componentes/EnderecosPerfil/EnderecosPerfil";
+import DadosPerfil from "./componentes/DadosPerfil";
+import EnderecosPerfil from "./componentes/EnderecosPerfil";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
 import { fetchApiPorId } from "../../../api/requisicoes";
 

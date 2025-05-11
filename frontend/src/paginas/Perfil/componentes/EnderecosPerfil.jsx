@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./EnderecosPerfil.css";
-import Modal from "../Modal/Modal";
+import "../Perfil.css";
+import Modal from "../../../componentes/Modal/Modal";
 import { useMask } from "@react-input/mask";
-import { fetchApiPorId } from "../../../api/requisicoes";
-import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { validarCamposAlterarEndereco } from "../../utilidades/validadores";
+import { fetchApiPorId } from "../../../../api/requisicoes";
+import { useAutenticacao } from "../../../contexto/AutenticarContexto";
+import { validarCamposAlterarEndereco } from "../../../utilidades/validadores";
 
 const EnderecosPerfil = ({ nome, sobrenome }) => {
   const { usuario } = useAutenticacao();

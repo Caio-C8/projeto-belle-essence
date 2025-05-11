@@ -252,6 +252,8 @@ function validarCamposAlterarEndereco(
 }
 
 module.exports = {
+  validarSenha,
+  validarEmail,
   validarCamposCadastro,
   validarCamposAlterarDadosUsuario,
   validarCamposAlterarEndereco,

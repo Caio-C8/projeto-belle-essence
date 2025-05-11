@@ -61,19 +61,3 @@
 .header__opcoes__icone:hover {
   transform: scale(1.1);
 }
-
-.header__opcoes__notificacao {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
-  width: 15px;
-  height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid #000;
-}

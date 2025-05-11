@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./DadosPerfil.css";
-import Modal from "../Modal/Modal";
+import "../Perfil.css";
+import Modal from "../../../componentes/Modal/Modal";
 import { useMask } from "@react-input/mask";
-import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { validarCamposAlterarDadosUsuario } from "../../utilidades/validadores";
+import { useAutenticacao } from "../../../contexto/AutenticarContexto";
+import { validarCamposAlterarDadosUsuario } from "../../../utilidades/validadores";
 
 const DadosPerfil = ({ cliente, setCliente }) => {
   const {

@@ -1,12 +1,11 @@
 import React from "react";
 import "./Header.css";
+import { Link } from "react-router-dom";
 import Categorias from "../Categorias/Categorias";
 import { IoBagOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
-import { Link } from "react-router-dom";
-// import { PiCircleHalfFill } from "react-icons/pi";
 
 const Header = () => {
   return (
@@ -32,24 +31,23 @@ const Header = () => {
         </div>
 
         <div className="header__opcoes">
-          {/* Botão para trocar tema (escuro/claro) */}
-          {/* <div className="header__opcoes__item">
-            <PiCircleHalfFill className="header__opcoes__icone" />
-          </div> */}
+          <Link to={"/perfil"}>
+            <div className="header__opcoes__item">
+              <IoPersonOutline className="header__opcoes__icone" />
+            </div>
+          </Link>
 
-          <div className="header__opcoes__item">
-            <IoPersonOutline className="header__opcoes__icone" />
-          </div>
+          <Link to={"/lista-favoritos"}>
+            <div className="header__opcoes__item">
+              <IoHeartOutline className="header__opcoes__icone" />
+            </div>
+          </Link>
 
-          <div className="header__opcoes__item">
-            <IoHeartOutline className="header__opcoes__icone" />
-            <span className="header__opcoes__notificacao">0</span>
-          </div>
-
-          <div className="header__opcoes__item">
-            <IoBagOutline className="header__opcoes__icone" />
-            <span className="header__opcoes__notificacao">0</span>
-          </div>
+          <Link to={"/carrinho"}>
+            <div className="header__opcoes__item">
+              <IoBagOutline className="header__opcoes__icone" />
+            </div>
+          </Link>
         </div>
       </header>
 

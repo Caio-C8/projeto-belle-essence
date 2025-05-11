@@ -16,8 +16,10 @@ const buscarTodosPorId = async (tabela, colunaId, id) => {
 };
 
 const buscarPorId = async (tabela, colunaId, id) => {
-  const query = `SELECT * FROM ${tabela} WHERE ${colunaId} = $1`;
-  const resultado = await pool.query(query, [id]);
+  const resultado = await pool.query(
+    `SELECT * FROM ${tabela} WHERE ${colunaId} = $1`,
+    [id]
+  );
   return resultado.rows[0];
 };
 

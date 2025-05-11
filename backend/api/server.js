@@ -26,6 +26,7 @@ const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
 const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
 const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
+const alterarSenhaRoutes = require("../rotas/put/alterarSenha");
 // const ocasioesRoutes = require("../rotas/get/getOcasioes");
 // const categoriasRoutes = require("../rotas/get/getCategorias");
 // const ocasioesProdutosRoutes = require("../rotas/get/getOcasioesProdutos");
@@ -49,6 +50,9 @@ app.use("/cadastrar-endereco", cadastrarEnderecoRoutes);
 
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);
+
+// Rota alterar senha de usuários
+app.use("/alterar-senha", alterarSenhaRoutes);
 
 // Rota listar carrinhos
 app.use("/carrinhos", carrinhosRoutes);

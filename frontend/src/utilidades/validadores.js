@@ -1,4 +1,4 @@
-function validarCpf(cpf) {
+export function validarCpf(cpf) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   const strCPF = String(cpf).replace(/[^\d]/g, "");
 
@@ -30,7 +30,7 @@ function validarCpf(cpf) {
   return true;
 }
 
-function validarNumeroCelular(telefone) {
+export function validarNumeroCelular(telefone) {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   telefone = telefone.replace(/\D/g, "");
 
@@ -63,27 +63,27 @@ function validarNumeroCelular(telefone) {
   return true;
 }
 
-function validarEmail(email) {
+export function validarEmail(email) {
   if (!email.includes("@")) return false;
 
   return true;
 }
 
-function validarSenha(senha) {
+export function validarSenha(senha) {
   const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   if (!regex.test(senha)) return false;
 
   return true;
 }
 
-function validarNomeSobrenome(nome, sobrenome) {
+export function validarNomeSobrenome(nome, sobrenome) {
   const regex = /^[A-Za-zÀ-ÿ\s]+$/;
   if (!regex.test(nome) || !regex.test(sobrenome)) return false;
 
   return true;
 }
 
-function validarDataNascimento(dataStr) {
+export function validarDataNascimento(dataStr) {
   const data = new Date(dataStr);
   const hoje = new Date();
 
@@ -95,7 +95,7 @@ function validarDataNascimento(dataStr) {
   return true;
 }
 
-function validarCep(cep) {
+export function validarCep(cep) {
   const cepFormatado = cep.replace("-", "");
 
   if (cepFormatado.length !== 8) return false;
@@ -104,7 +104,7 @@ function validarCep(cep) {
   return true;
 }
 
-function validarNumeroEndereco(numero) {
+export function validarNumeroEndereco(numero) {
   if (isNaN(numero)) return false;
 
   return true;
