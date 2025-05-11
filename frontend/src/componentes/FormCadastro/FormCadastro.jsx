@@ -155,6 +155,7 @@ const FormCadastro = () => {
         <label>Email:</label>
         <input
           value={email}
+          placeholder="Seu e-mail"
           type="text"
           inputMode="email"
           autoComplete="email"
@@ -166,6 +167,7 @@ const FormCadastro = () => {
         <label>Senha:</label>
         <input
           value={senha}
+          placeholder="Sua senha"
           type="password"
           autoComplete="off"
           onChange={(e) => setSenha(e.target.value)}
@@ -176,6 +178,7 @@ const FormCadastro = () => {
         <label>Nome:</label>
         <input
           value={nome}
+          placeholder="Seu nome"
           type="text"
           autoComplete="off"
           onChange={(e) => setNome(e.target.value)}
@@ -186,6 +189,7 @@ const FormCadastro = () => {
         <label>Sobernome:</label>
         <input
           value={sobrenome}
+          placeholder="Seu sobrenome"
           type="text"
           autoComplete="off"
           onChange={(e) => setSobrenome(e.target.value)}
@@ -197,6 +201,7 @@ const FormCadastro = () => {
         <input
           ref={maskCelular}
           value={celular}
+          placeholder="(00) 90000-0000"
           type="text"
           autoComplete="off"
           onChange={(e) => setCelular(e.target.value)}
@@ -219,6 +224,7 @@ const FormCadastro = () => {
         <input
           ref={maskCpf}
           value={cpf}
+          placeholder="000.000.000-00"
           type="text"
           autoComplete="off"
           onChange={(e) => setCpf(e.target.value)}
@@ -230,6 +236,7 @@ const FormCadastro = () => {
         <input
           ref={maskCep}
           value={cep}
+          placeholder="00000-000"
           type="text"
           onChange={(e) => setCep(e.target.value)}
         />
@@ -248,6 +255,7 @@ const FormCadastro = () => {
         <label>Logradouro:</label>
         <input
           value={logradouro}
+          placeholder="Rua, avenida, etc."
           type="text"
           onChange={(e) => setLogradouro(e.target.value)}
         />
@@ -258,6 +266,7 @@ const FormCadastro = () => {
         <input
           ref={maskNumero}
           value={numero}
+          placeholder="Número"
           type="text"
           onChange={(e) => setNumero(e.target.value)}
         />
@@ -267,6 +276,7 @@ const FormCadastro = () => {
         <label>Complemento:</label>
         <input
           value={complemento}
+          placeholder="Apto, bloco, etc."
           type="text"
           onChange={(e) => setComplemento(e.target.value)}
         />
@@ -276,6 +286,7 @@ const FormCadastro = () => {
         <label>Bairro:</label>
         <input
           value={bairro}
+          placeholder="Seu bairro"
           type="text"
           onChange={(e) => setBairro(e.target.value)}
         />
@@ -285,6 +296,7 @@ const FormCadastro = () => {
         <label>Ponto de Referência:</label>
         <input
           value={pontoReferencia}
+          placeholder="Próximo à..."
           type="text"
           onChange={(e) => setPontoReferencia(e.target.value)}
         />
@@ -306,6 +318,7 @@ const FormCadastro = () => {
         <label>Cidade:</label>
         <input
           value={cidade}
+          placeholder="Sua cidade"
           type="text"
           onChange={(e) => setCidade(e.target.value)}
         />

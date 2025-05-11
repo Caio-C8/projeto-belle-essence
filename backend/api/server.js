@@ -15,7 +15,7 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 
-const cadastradoUsuariosRoutes = require("../rotas/post/cadastroUsuarios");
+const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const listasFavoritosRoutes = require("../rotas/get/getListasFavoritos");
 const carrinhosRoutes = require("../rotas/get/getCarrinhos");
 const validarUsuariosRoutes = require("../rotas/validarUsuarios");
@@ -23,6 +23,9 @@ const produtosRoutes = require("../rotas/get/getProdutos");
 const enderecosRoutes = require("../rotas/get/getEnderecos");
 const clientesRoutes = require("../rotas/get/getClientes");
 const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
+const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
+const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
+const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
 // const ocasioesRoutes = require("../rotas/get/getOcasioes");
 // const categoriasRoutes = require("../rotas/get/getCategorias");
 // const ocasioesProdutosRoutes = require("../rotas/get/getOcasioesProdutos");
@@ -34,6 +37,15 @@ app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
 
 // Rota alterar dados de usuários
 app.use("/atualizar-usuario", alterarDadosUsuarioRoutes);
+
+// Rota alterar endereços de usuários
+app.use("/atualizar-endereco", atualizarDadosEnderecoRoutes);
+
+// Rota deletar endereçoes de usuários
+app.use("/deletar-endereco", deletarEndedrecoRoutes);
+
+//Rota cadastrar novos endereços de usuários
+app.use("/cadastrar-endereco", cadastrarEnderecoRoutes);
 
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);

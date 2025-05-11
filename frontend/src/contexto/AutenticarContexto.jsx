@@ -40,6 +40,11 @@ export const ProvedorAutenticacao = ({ children }) => {
   };
 
   const logout = () => {
+    const confirmar = window.confirm(
+      "Tem certeza que deseja encerrar a sessão?"
+    );
+    if (!confirmar) return;
+
     localStorage.removeItem("token");
     setUsuario(null);
   };

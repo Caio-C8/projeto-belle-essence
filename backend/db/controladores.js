@@ -1,10 +1,24 @@
-const { buscarTodos, buscarPorId } = require("./queries");
+const { buscarTodos, buscarPorId, buscarTodosPorId } = require("./queries");
 const pool = require("../connect");
 
 const listarTodos = (tabela, ordem) => {
   return async (req, res) => {
     try {
       const resultado = await buscarTodos(tabela, ordem);
+      res.json(resultado);
+    } catch (error) {
+      console.error(`Erro ao buscar registros de ${tabela}:`, error);
+      res.status(500).send("Erro no servidor");
+    }
+  };
+};
+
+const listarTodosPorId = (tabela, colunaId) => {
+  return async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const resultado = await buscarTodosPorId(tabela, colunaId, id);
       res.json(resultado);
     } catch (error) {
       console.error(`Erro ao buscar registros de ${tabela}:`, error);
@@ -214,4 +228,5 @@ module.exports = {
   listarProdutosCategoriasPorId,
   listarProdutosOcasioes,
   listarProdutosOcasioesPorId,
+  listarTodosPorId,
 };

@@ -28,19 +28,11 @@ router.put("/:id", async (req, res) => {
     dataNascimento
   );
 
-  if (erro) return res.status(400).json({ mensagem: erro });
+  if (erro) return res.status(409).json({ mensagem: erro });
 
   try {
-    if (
-      !email &&
-      !senha &&
-      !nome &&
-      !sobrenome &&
-      !celular &&
-      !dataNascimento
-    ) {
+    if (!email && !senha && !nome && !sobrenome && !celular && !dataNascimento)
       return res.status(409).json({ mensagem: "Preencha todos os campos." });
-    }
 
     const verificarDuplicados = await pool.query(
       "SELECT email, celular FROM clientes WHERE (email = $1 OR celular = $2) AND id_cliente != $3",
@@ -49,16 +41,15 @@ router.put("/:id", async (req, res) => {
 
     if (verificarDuplicados.rows.length > 0) {
       const duplicado = verificarDuplicados.rows[0];
-      if (duplicado.email === email) {
+      if (duplicado.email === email)
         return res
           .status(409)
           .json({ mensagem: "E-mail informado já é cadastrado" });
-      }
-      if (duplicado.celular === celular) {
+
+      if (duplicado.celular === celular)
         return res
           .status(409)
           .json({ mensagem: "Número de celular informado já é cadastrado" });
-      }
     }
 
     const dadosCadastrados = await pool.query(

@@ -42,12 +42,14 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         return [
           {
             label: "Nome",
+            placeholder: "Seu nome",
             name: "nome",
             value: nome,
             onChange: (e) => setNome(e.target.value),
           },
           {
             label: "Sobrenome",
+            placeholder: "Seu sobrenome",
             name: "sobrenome",
             value: sobrenome,
             onChange: (e) => setSobrenome(e.target.value),
@@ -57,6 +59,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         return [
           {
             label: "Celular",
+            placeholder: "(00) 90000-0000",
             mask: maskCelular,
             name: "celular",
             value: celular,
@@ -77,6 +80,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         return [
           {
             label: "E-mail",
+            placeholder: "Seu e-mail",
             name: "email",
             type: "email",
             value: email,
@@ -87,6 +91,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         return [
           {
             label: "Nova Senha",
+            placeholder: "Sua senha",
             name: "senha",
             type: "password",
             value: senha,
@@ -94,6 +99,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
           },
           {
             label: "Confirmar Senha",
+            placeholder: "Confirme sua senha",
             name: "confirmarSenha",
             type: "password",
             value: confirmarSenha,

@@ -216,3 +216,37 @@ export function validarCamposAlterarDadosUsuario(
 
   return null;
 }
+
+export function validarCamposAlterarEndereco(
+  logradouro,
+  numero,
+  bairro,
+  cep,
+  cidade,
+  estado,
+  tipo,
+  complemento,
+  pontoReferencia
+) {
+  if (
+    !logradouro ||
+    !numero ||
+    !bairro ||
+    !cep ||
+    !cidade ||
+    !estado ||
+    !tipo ||
+    !complemento ||
+    !pontoReferencia
+  ) {
+    return "Preencha todos os campo.";
+  }
+  if (!validarCep(cep)) {
+    return "CEP inválido.";
+  }
+  if (!validarNumeroEndereco(numero)) {
+    return "Número de endereço inválido.";
+  }
+
+  return null;
+}

@@ -40,20 +40,34 @@ const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
           </button>
         </div>
         <form className="modal-body">
-          {campos.map((campo) => (
-            <div key={campo.name} className="modal-campo">
-              <label>
-                {`${campo.label}: `}
+          {campos.map((campo, index) =>
+            campo.type === "select" ? (
+              <div key={index}>
+                <label>{`${campo.label}: `}</label>
+                <select value={campo.value} onChange={campo.onChange}>
+                  <option value="">Selecione</option>
+                  {campo.options?.map((opcao, index) => (
+                    <option key={index} value={opcao}>
+                      {opcao}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div key={index}>
+                <label>{`${campo.label}: `}</label>
                 <input
                   type={campo.type || "text"}
-                  mask={campo.mask || null}
+                  placeholder={campo.placeholder}
                   name={campo.name}
                   value={campo.value}
                   onChange={campo.onChange}
+                  ref={campo.mask || null}
+                  autoComplete="off"
                 />
-              </label>
-            </div>
-          ))}
+              </div>
+            )
+          )}
         </form>
         <div className="modal-footer">
           <button onClick={vericarCamposESalvar}>Salvar</button>
