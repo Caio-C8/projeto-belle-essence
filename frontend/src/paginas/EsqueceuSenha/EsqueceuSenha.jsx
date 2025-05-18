@@ -1,27 +1,16 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./EsqueceuSenha.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Input from "../../componentes/Campos/Input";
+import InputSenha from "../../componentes/Campos/InputSenha";
 import { validarEmail, validarSenha } from "../../utilidades/validadores";
 
 const EsqueceuSenha = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [aparecerSenha, setAparecerSenha] = useState(false);
-  const [aparecerConfirmarSenha, setAparecerConfirmarSenha] = useState(false);
   const navigate = useNavigate();
-
-  const mostrarSenha = () => {
-    setAparecerSenha((valorAnterior) => !valorAnterior);
-  };
-
-  const mostrarConfirmarSenha = () => {
-    setAparecerConfirmarSenha((valorAnterior) => !valorAnterior);
-  };
 
   const alterarSenha = async (e) => {
     e.preventDefault();
@@ -66,57 +55,27 @@ const EsqueceuSenha = () => {
     <form onSubmit={alterarSenha} className="card shadow mx-auto">
       <h2 className="text-center">Alterar Senha</h2>
 
-      <div className="mb-3">
-        <label className="form-label">E-mail</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="off"
-          className="form-control"
-          placeholder="Seu e-mail"
-        />
-      </div>
+      <Input
+        label="E-mail"
+        type="email"
+        placeholder="Seu e-mail"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-      <div className="mb-3">
-        <label className="form-label">Senha</label>
-        <div className="input-group">
-          <input
-            type={aparecerSenha ? "text" : "password"}
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            autoComplete="off"
-            className="form-control"
-            placeholder="Sua senha"
-          />
-          <span className="input-group-text" onClick={mostrarSenha}>
-            <i>
-              <FontAwesomeIcon icon={aparecerSenha ? faEyeSlash : faEye} />
-            </i>
-          </span>
-        </div>
-      </div>
+      <InputSenha
+        label="Senha"
+        placeholder="Sua nova senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+      />
 
-      <div className="mb-3">
-        <label className="form-label">Confirmar senha</label>
-        <div className="input-group">
-          <input
-            type={aparecerConfirmarSenha ? "text" : "password"}
-            value={confirmarSenha}
-            onChange={(e) => setConfirmarSenha(e.target.value)}
-            autoComplete="off"
-            className="form-control"
-            placeholder="Confirme sua senha"
-          />
-          <span className="input-group-text" onClick={mostrarConfirmarSenha}>
-            <i>
-              <FontAwesomeIcon
-                icon={aparecerConfirmarSenha ? faEyeSlash : faEye}
-              />
-            </i>
-          </span>
-        </div>
-      </div>
+      <InputSenha
+        label="Confirmar senha"
+        placeholder="Confirme sua nova senha"
+        value={confirmarSenha}
+        onChange={(e) => setConfirmarSenha(e.target.value)}
+      />
 
       <div className="d-grid">
         <button type="submit" className="btn btn-primary">
@@ -126,7 +85,9 @@ const EsqueceuSenha = () => {
 
       <div className="text-center mt-3">
         <small>
-          <Link to={"/login"}>Voltar para login</Link>
+          <Link to="/login" className="link">
+            Voltar para login
+          </Link>
         </small>
       </div>
     </form>

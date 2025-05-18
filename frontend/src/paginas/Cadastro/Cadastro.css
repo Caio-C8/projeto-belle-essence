@@ -38,26 +38,6 @@ body {
   }
 }
 
-.btn-primary {
-  background-color: #ffb4a2;
-  border-color: #ffb4a2;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  color: #1c1c1c;
-}
-
-.btn-primary:hover {
-  background-color: #ffb4a2;
-  border-color: #ffb4a2;
-  color: #1c1c1c;
-  transform: scale(1.03);
-}
-
-.btn-primary:active {
-  color: #1c1c1c !important;
-  background-color: #ffffff !important;
-  border-color: #ffb4a2 !important;
-}
-
 .input-group-text {
   background-color: #f8f9fa;
   border-left: 0;

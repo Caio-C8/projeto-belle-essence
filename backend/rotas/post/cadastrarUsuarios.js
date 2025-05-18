@@ -6,8 +6,17 @@ const { validarCamposCadastro } = require("../../utilidades/validadores");
 
 router.post("/", async (req, res) => {
   const { usuario, endereco } = req.body;
-  const { email, senha, nome, sobrenome, celular, dataNascimento, cpf } =
-    usuario;
+  const {
+    email,
+    senha,
+    confirmarSenha,
+    nome,
+    sobrenome,
+    celular,
+    dataNascimento,
+    cpf,
+  } = usuario;
+
   const {
     cep,
     logradouro,
@@ -34,38 +43,41 @@ router.post("/", async (req, res) => {
     bairro,
     cidade,
     estado,
-    complemento,
-    pontoReferencia,
     tipo,
   });
 
-  if (erro) return res.status(400).send(erro);
+  if (erro) res.status(400).json({ mensagem: erro });
 
-  const verificarDuplicados = await pool.query(
-    `SELECT email, celular, cpf FROM clientes WHERE email = $1 OR celular = $2 OR cpf = $3`,
-    [email, celular, cpf]
-  );
-
-  if (verificarDuplicados.rows.length > 0) {
-    const duplicado = verificarDuplicados.rows[0];
-    if (duplicado.email === email) {
-      return res
-        .status(409)
-        .json({ mensagem: "E-mail informado já é cadastrado" });
-    }
-    if (duplicado.celular === celular) {
-      return res
-        .status(409)
-        .json({ mensagem: "Número de celular informado já é cadastrado" });
-    }
-    if (duplicado.cpf === cpf) {
-      return res
-        .status(409)
-        .json({ mensagem: "CPF informado já é cadastrado" });
-    }
-  }
+  if (senha !== confirmarSenha)
+    return res
+      .status(400)
+      .json({ mensagem: "As senhas digitadas são diferentes." });
 
   try {
+    const verificarDuplicados = await pool.query(
+      `SELECT email, celular, cpf FROM clientes WHERE email = $1 OR celular = $2 OR cpf = $3`,
+      [email, celular, cpf]
+    );
+
+    if (verificarDuplicados.rows.length > 0) {
+      const duplicado = verificarDuplicados.rows[0];
+      if (duplicado.email === email) {
+        return res
+          .status(409)
+          .json({ mensagem: "E-mail informado já é cadastrado" });
+      }
+      if (duplicado.celular === celular) {
+        return res
+          .status(409)
+          .json({ mensagem: "Número de celular informado já é cadastrado" });
+      }
+      if (duplicado.cpf === cpf) {
+        return res
+          .status(409)
+          .json({ mensagem: "CPF informado já é cadastrado" });
+      }
+    }
+
     const senhaCriptografada = await bcrypt.hash(senha, 10);
 
     const resultCliente = await pool.query(
@@ -103,7 +115,7 @@ router.post("/", async (req, res) => {
       idCliente,
     ]);
 
-    res.status(201).send("Usuário cadastrado com sucesso!");
+    res.status(201).json({ mensagem: "Usuário cadastrado com sucesso!" });
   } catch (error) {
     console.error("Erro ao cadastrar usuário:", error);
     res.status(500).send("Erro no servidor");

@@ -30,9 +30,7 @@ router.post("/", async (req, res) => {
     cep,
     cidade,
     estado,
-    tipo,
-    complemento,
-    pontoReferencia
+    tipo
   );
 
   if (erro) return res.status(409).json({ mensagem: erro });

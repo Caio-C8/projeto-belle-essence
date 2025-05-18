@@ -124,8 +124,6 @@ export function validarCamposCadastro({
   bairro,
   cidade,
   estado,
-  complemento,
-  pontoReferencia,
   tipo,
 }) {
   if (
@@ -142,8 +140,6 @@ export function validarCamposCadastro({
     !bairro ||
     !cidade ||
     !estado ||
-    !complemento ||
-    !pontoReferencia ||
     !tipo
   ) {
     return "Todos os campos devem ser preenchidos.";

@@ -124,8 +124,6 @@ function validarCamposCadastro({
   bairro,
   cidade,
   estado,
-  complemento,
-  pontoReferencia,
   tipo,
 }) {
   if (
@@ -142,8 +140,6 @@ function validarCamposCadastro({
     !bairro ||
     !cidade ||
     !estado ||
-    !complemento ||
-    !pontoReferencia ||
     !tipo
   ) {
     return "Todos os campos devem ser preenchidos.";
@@ -224,9 +220,7 @@ function validarCamposAlterarEndereco(
   cep,
   cidade,
   estado,
-  tipo,
-  complemento,
-  pontoReferencia
+  tipo
 ) {
   if (
     !logradouro ||
@@ -235,9 +229,7 @@ function validarCamposAlterarEndereco(
     !cep ||
     !cidade ||
     !estado ||
-    !tipo ||
-    !complemento ||
-    !pontoReferencia
+    !tipo
   ) {
     return "Preencha todos os campo.";
   }

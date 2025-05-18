@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Input from "../../componentes/Campos/Input";
+import InputSenha from "../../componentes/Campos/InputSenha";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [aparecerSenha, setAparecerSenha] = useState(false);
   const navigate = useNavigate();
   const { login: loginContexto } = useAutenticacao();
 
@@ -53,37 +51,23 @@ const Login = () => {
     <form onSubmit={login} className="card shadow mx-auto">
       <h2 className="text-center">Acessar Conta</h2>
 
-      <div className="mb-3">
-        <label className="form-label">Email:</label>
-        <input
-          type="email"
-          placeholder="Seu e-mail"
-          value={email}
-          autoComplete="off"
-          onChange={(e) => setEmail(e.target.value)}
-          className="form-control"
-        />
-      </div>
+      <Input
+        label="E-mail:"
+        type="email"
+        placeholder="Seu e-mail"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className=""
+        inputRef={null}
+      />
 
-      <div className="mb-3">
-        <label className="form-label">Senha:</label>
-        <div className="input-group">
-          <input
-            type={aparecerSenha ? "text" : "password"}
-            placeholder="Sua senha"
-            value={senha}
-            autoComplete="off"
-            onChange={(e) => setSenha(e.target.value)}
-            className="form-control"
-            id="input-senha"
-          />
-          <span className="input-group-text" onClick={mostrarSenha}>
-            <i id="icon">
-              <FontAwesomeIcon icon={aparecerSenha ? faEyeSlash : faEye} />
-            </i>
-          </span>
-        </div>
-      </div>
+      <InputSenha
+        label="Senha:"
+        placeholder="Sua senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+        className=""
+      />
 
       <div className="d-grid">
         <button type="submit" className="btn btn-primary">
@@ -93,11 +77,16 @@ const Login = () => {
 
       <div className="text-center mt-3">
         <small>
-          <Link to={"/alterar-senha"}>Esqueceu sua senha?</Link>
+          <Link to={"/alterar-senha"} className="link">
+            Esqueceu sua senha?
+          </Link>
         </small>
         <br />
         <small>
-          Não tem uma conta? <Link to={"/cadastro"}>Cadastre-se</Link>
+          Não tem uma conta?{" "}
+          <Link to={"/cadastro"} className="link">
+            Cadastre-se
+          </Link>
         </small>
       </div>
     </form>

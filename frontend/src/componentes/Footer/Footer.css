@@ -1,52 +1,19 @@
-.footer {
-  width: 100%;
-  background: #f5fffa;
-  padding: 15px 40px;
-  text-align: center;
-  border-top: 1px solid #1c1c1c30;
-}
-
-.footer__conteudo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer__logo__imagem {
-  width: auto;
-  height: 100px;
-}
-
-.footer__redes {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.footer__redes__titulo {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.footer__redes__icones {
-  display: flex;
-  gap: 30px;
-  justify-content: flex-start;
-}
-
-.footer__redes__icone {
-  height: 100px;
+.footer-icon {
   width: 100px;
-  background: #f5fffa;
+  height: 100px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  color: #1c1c1c;
 }
 
-.footer__redes__icone:hover {
+.footer-icon:hover {
   transform: scale(1.05);
 }
 
-.footer__endereco {
-  margin-top: 10px;
+@media (max-width: 768px) {
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

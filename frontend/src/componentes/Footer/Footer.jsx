@@ -1,36 +1,47 @@
 import React from "react";
 import "./Footer.css";
-import { IoLogoInstagram } from "react-icons/io5";
-import { IoLogoFacebook } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { IoLogoInstagram, IoLogoFacebook } from "react-icons/io5";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="footer__conteudo">
-        <div className="footer__logo">
-          <img
-            src="src/assets/img/logoBelleEssence.png"
-            alt="Logo Belle Essence"
-            className="footer__logo__image"
-          />
-        </div>
+    <footer className="bg-light border-top py-4 px-3 text-center text-md-start">
+      <div className="container-fluid">
+        {/* Conteúdo principal */}
+        <div className="row align-items-center justify-content-between gy-4">
+          {/* Logo - ocupa linha inteira no mobile, lateral no desktop */}
+          <div className="col-12 col-md-4 text-center text-md-start">
+            <div className="logo">
+              <img
+                src="src/assets/img/logoBelleEssence.png"
+                alt="Logo Belle Essence"
+                style={{ height: "100px" }}
+              />
+            </div>
+          </div>
 
-        <div className="footer__redes">
-          <p className="footer__redes__titulo">Redes Sociais</p>
-
-          <div className="footer__redes__icones">
-            <a href="" target="_blank">
-              <IoLogoInstagram className="footer__redes__icone" />
-            </a>
-            <a href="" target="_blank">
-              <IoLogoFacebook className="footer__redes__icone" />
-            </a>
+          {/* Redes Sociais */}
+          <div className="col-12 col-md-4 text-center text-md-end">
+            <p className="fw-bold fs-5 mb-2">Redes Sociais</p>
+            <div className="d-flex justify-content-center justify-content-md-end gap-4">
+              <Link to="#">
+                <IoLogoInstagram className="footer-icon" />
+              </Link>
+              <Link to="#">
+                <IoLogoFacebook className="footer-icon" />
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="footer__endereco">
-        <p>Rua Romualdo Mendonça, 805 - João Pineiro, MG - (38) 98801-6588</p>
+        {/* Endereço */}
+        <div className="row mt-4">
+          <div className="col-12 text-center">
+            <p className="mb-0">
+              Rua Romualdo Mendonça, 805 - João Pinheiro, MG - (38) 98801-6588
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );

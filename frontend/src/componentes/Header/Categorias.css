@@ -1,0 +1,29 @@
+.categorias-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.categorias-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categorias-scroll::-webkit-scrollbar-thumb {
+  background-color: #f1a795;
+  border-radius: 10px;
+}
+
+/* Para Firefox */
+.categorias-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #f1a795 transparent;
+}
+
+.categoria-item:hover {
+  color: #000;
+  opacity: 0.8;
+}
+
+.categoria:hover {
+  text-decoration: underline;
+  text-decoration-color: #000;
+  opacity: 0.8;
+}
