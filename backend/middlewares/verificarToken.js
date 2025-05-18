@@ -1,12 +1,17 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const responder = require("../utilidades/responder");
 const secret = process.env.JWT_SECRET;
 
 function verificarToken(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).send("Acesso negado. Token não fornecido.");
+    return responder(res, {
+      status: 401,
+      sucesso: false,
+      message: "Acesso negado. Token não fornecido.",
+    });
   }
 
   const token = authHeader.replace("Bearer ", "").trim();
@@ -15,9 +20,13 @@ function verificarToken(req, res, next) {
     const decoded = jwt.verify(token, secret);
     req.usuario = decoded;
     next();
-  } catch (err) {
-    console.error("Erro ao verificar token:", err.message);
-    return res.status(401).send("Token inválido.");
+  } catch (error) {
+    console.error("Erro ao verificar token:", error.message);
+    return responder(res, {
+      status: 401,
+      sucesso: false,
+      message: "Token inválido.",
+    });
   }
 }
 

@@ -17,7 +17,11 @@ const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
   };
 
   const vericarCamposESalvar = () => {
+    const ignorarCampos = ["complemento", "ponto de referencia"];
+
     const campoVazio = campos.some((campo) => {
+      if (ignorarCampos.includes(campo.name)) return false;
+
       return (
         campo.value === null || campo.value === "" || campo.value === undefined
       );

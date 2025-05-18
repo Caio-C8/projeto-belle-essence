@@ -12,10 +12,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { login: loginContexto } = useAutenticacao();
 
-  const mostrarSenha = () => {
-    setAparecerSenha((valorAnterior) => !valorAnterior);
-  };
-
   const login = async (e) => {
     e.preventDefault();
 
@@ -29,12 +25,12 @@ const Login = () => {
         body: JSON.stringify(usuario),
       });
 
-      const { token, mensagem } = await res.json();
+      const { mensagem, dados } = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", dados);
 
-        loginContexto(token);
+        loginContexto(dados);
 
         alert(mensagem);
         navigate("/");

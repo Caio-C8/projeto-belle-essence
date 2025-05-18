@@ -1,14 +1,26 @@
-const { buscarTodos, buscarPorId, buscarTodosPorId } = require("./queries");
+const {
+  buscarTodos,
+  buscarPorColuna,
+  buscarTodosPorColuna,
+} = require("./queries");
 const pool = require("../connect");
+const responder = require("../utilidades/responder");
 
 const listarTodos = (tabela, ordem) => {
   return async (req, res) => {
     try {
       const resultado = await buscarTodos(tabela, ordem);
-      res.json(resultado);
+      return responder(res, {
+        mensagem: "Dados encontrados.",
+        dados: resultado,
+      });
     } catch (error) {
       console.error(`Erro ao buscar registros de ${tabela}:`, error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -18,11 +30,18 @@ const listarTodosPorId = (tabela, colunaId) => {
     const { id } = req.params;
 
     try {
-      const resultado = await buscarTodosPorId(tabela, colunaId, id);
-      res.json(resultado);
+      const resultado = await buscarTodosPorColuna(tabela, colunaId, id);
+      return responder(res, {
+        mensagem: "Dados encontrados.",
+        dados: resultado,
+      });
     } catch (error) {
       console.error(`Erro ao buscar registros de ${tabela}:`, error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -32,16 +51,27 @@ const listarPorId = (tabela, colunaId) => {
     const { id } = req.params;
 
     try {
-      const resultado = await buscarPorId(tabela, colunaId, id);
+      const resultado = await buscarPorColuna(tabela, colunaId, id);
 
       if (!resultado) {
-        return res.status(404).send(`${tabela.slice(0, -1)} não encontrado`);
+        return responder(res, {
+          status: 404,
+          sucesso: false,
+          mensagem: `${tabela.slice(0, -1)} não encontrado`,
+        });
       }
 
-      res.json(resultado);
+      return responder(res, {
+        mensagem: "Registro encontrado.",
+        dados: resultado,
+      });
     } catch (error) {
       console.error(`Erro ao buscar ${tabela} por ID:`, error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -51,19 +81,31 @@ const listarUnicoPorUsuario = (tabela, colunaUsuario) => {
     const idUsuario = req.usuario.id;
 
     try {
-      const result = await pool.query(
-        `SELECT * FROM ${tabela} WHERE ${colunaUsuario} = $1`,
-        [idUsuario]
+      const resultado = await buscarTodosPorColuna(
+        tabela,
+        colunaUsuario,
+        idUsuario
       );
 
-      if (result.rows.length === 0) {
-        return res.status(404).send(`${tabela} não encontrado.`);
+      if (resultado.length === 0) {
+        return responder(res, {
+          status: 404,
+          sucesso: false,
+          mensagem: `${tabela} não encontrado.`,
+        });
       }
 
-      res.json(result.rows[0]);
+      return responder(res, {
+        mensagem: "Registro encontrado.",
+        dados: resultado[0],
+      });
     } catch (error) {
       console.error(`Erro ao buscar ${tabela}:`, error);
-      res.status(500).send("Erro no servidor.");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor.",
+      });
     }
   };
 };
@@ -98,10 +140,17 @@ const listarProdutosCategorias = () => {
         return acc;
       }, []);
 
-      res.json(agrupado);
+      return responder(res, {
+        mensagem: "Produtos com categorias listados.",
+        dados: agrupado,
+      });
     } catch (error) {
       console.error("Erro ao buscar produtos com categorias:", error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -112,20 +161,24 @@ const listarProdutosCategoriasPorId = () => {
 
     try {
       const query = `
-      SELECT 
-        p.id_produto,
-        p.nome,
-        c.categoria
-      FROM categorias_produto cp
-      JOIN produtos p ON cp.id_produto = p.id_produto
-      JOIN categorias c ON cp.id_categoria = c.id_categoria
-      WHERE p.id_produto = $1
-    `;
+        SELECT 
+          p.id_produto,
+          p.nome,
+          c.categoria
+        FROM categorias_produto cp
+        JOIN produtos p ON cp.id_produto = p.id_produto
+        JOIN categorias c ON cp.id_categoria = c.id_categoria
+        WHERE p.id_produto = $1
+      `;
 
       const result = await pool.query(query, [id]);
 
       if (result.rows.length === 0) {
-        return res.status(404).send("Produto não encontrado");
+        return responder(res, {
+          status: 404,
+          sucesso: false,
+          mensagem: "Produto não encontrado",
+        });
       }
 
       const categorias = result.rows.map((row) => row.categoria);
@@ -136,10 +189,17 @@ const listarProdutosCategoriasPorId = () => {
         categorias,
       };
 
-      res.json(produto);
+      return responder(res, {
+        mensagem: "Produto com categorias encontrado.",
+        dados: produto,
+      });
     } catch (error) {
       console.error("Erro ao buscar produto por ID com categorias:", error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -174,10 +234,17 @@ const listarProdutosOcasioes = () => {
         return acc;
       }, []);
 
-      res.json(agrupado);
+      return responder(res, {
+        mensagem: "Produtos com ocasiões listados.",
+        dados: agrupado,
+      });
     } catch (error) {
       console.error("Erro ao buscar produtos com ocasiões:", error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };
@@ -201,7 +268,11 @@ const listarProdutosOcasioesPorId = () => {
       const result = await pool.query(query, [id]);
 
       if (result.rows.length === 0) {
-        return res.status(404).send("Produto não encontrado");
+        return responder(res, {
+          status: 404,
+          sucesso: false,
+          mensagem: "Produto não encontrado",
+        });
       }
 
       const ocasioes = result.rows.map((row) => row.ocasiao);
@@ -212,10 +283,17 @@ const listarProdutosOcasioesPorId = () => {
         ocasioes,
       };
 
-      res.json(produto);
+      return responder(res, {
+        mensagem: "Produto com ocasiões encontrado.",
+        dados: produto,
+      });
     } catch (error) {
       console.error("Erro ao buscar produto por ID com ocasiões:", error);
-      res.status(500).send("Erro no servidor");
+      return responder(res, {
+        status: 500,
+        sucesso: false,
+        mensagem: "Erro no servidor",
+      });
     }
   };
 };

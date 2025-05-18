@@ -1,10 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../../connect");
 const bcrypt = require("bcrypt");
+const {
+  verificarDuplicadosCliente,
+  buscarClienteCompletoPorId,
+} = require("../../db/queriesClientes");
+const {
+  atualizarColunaPorId,
+  atualizarColunasPorId,
+} = require("../../db/queries");
 const {
   validarCamposAlterarDadosUsuario,
 } = require("../../utilidades/validadores");
+const responder = require("../../utilidades/responder");
 
 router.put("/:id", async (req, res) => {
   const idCliente = req.params.id;
@@ -27,117 +35,146 @@ router.put("/:id", async (req, res) => {
     celular,
     dataNascimento
   );
-
-  if (erro) return res.status(409).json({ mensagem: erro });
+  if (erro)
+    return responder(res, {
+      status: 400,
+      sucesso: false,
+      mensagem: erro,
+    });
 
   try {
     if (!email && !senha && !nome && !sobrenome && !celular && !dataNascimento)
-      return res.status(409).json({ mensagem: "Preencha todos os campos." });
+      return responder(res, {
+        status: 400,
+        sucesso: false,
+        mensagem: "Preencha todos os campos.",
+      });
 
-    const verificarDuplicados = await pool.query(
-      "SELECT email, celular FROM clientes WHERE (email = $1 OR celular = $2) AND id_cliente != $3",
-      [email, celular, idCliente]
+    const duplicado = await verificarDuplicadosCliente(
+      email,
+      celular,
+      idCliente
     );
-
-    if (verificarDuplicados.rows.length > 0) {
-      const duplicado = verificarDuplicados.rows[0];
+    if (duplicado) {
       if (duplicado.email === email)
-        return res
-          .status(409)
-          .json({ mensagem: "E-mail informado já é cadastrado" });
+        return responder(res, {
+          status: 409,
+          sucesso: false,
+          mensagem: "E-mail informado já é cadastrado",
+        });
 
       if (duplicado.celular === celular)
-        return res
-          .status(409)
-          .json({ mensagem: "Número de celular informado já é cadastrado" });
+        return responder(res, {
+          status: 409,
+          sucesso: false,
+          mensagem: "Número de celular informado já é cadastrado",
+        });
     }
 
-    const dadosCadastrados = await pool.query(
-      "SELECT email, senha, nome, sobrenome, celular, data_nascimento FROM clientes WHERE id_cliente = $1",
-      [idCliente]
-    );
+    const usuario = await buscarClienteCompletoPorId(idCliente);
+    if (usuario.email === email)
+      return responder(res, {
+        status: 409,
+        sucesso: false,
+        mensagem: "E-mail não pode ser igual ao cadastrado.",
+      });
 
-    const usuarioCadastrado = dadosCadastrados.rows[0];
-    const senhaCadastrada = usuarioCadastrado.senha;
-
-    if (usuarioCadastrado.email === email)
-      return res
-        .status(409)
-        .json({ mensagem: "E-mail não pode ser igual ao cadastrado." });
-    if (
-      usuarioCadastrado.nome === nome ||
-      usuarioCadastrado.sobrenome === sobrenome
-    )
-      return res.status(409).json({
+    if (usuario.nome === nome || usuario.sobrenome === sobrenome)
+      return responder(res, {
+        status: 409,
+        sucesso: false,
         mensagem: "Nome ou sobrenome não podem ser iguais aos cadastrados.",
       });
-    if (usuarioCadastrado.celular === celular)
-      return res
-        .status(409)
-        .json({ mensagem: "Celular não pode ser igual ao cadastrado." });
-    if (usuarioCadastrado.dataNascimento === dataNascimento)
-      return res.status(409).json({
-        mensagem: "Data de nascimento não pode ser igual a cadastrada.",
+
+    if (usuario.celular === celular)
+      return responder(res, {
+        status: 409,
+        sucesso: false,
+        mensagem: "Celular não pode ser igual ao cadastrado.",
+      });
+
+    if (usuario.data_nascimento === dataNascimento)
+      return responder(res, {
+        status: 409,
+        sucesso: false,
+        mensagem: "Data de nascimento não pode ser igual à cadastrada.",
       });
 
     if (email !== null) {
-      await pool.query(`UPDATE clientes SET email = $1 WHERE id_cliente = $2`, [
+      await atualizarColunaPorId("clientes", "email", "id_cliente", [
         email,
         idCliente,
       ]);
-
-      return res.status(200).json({ mensagem: "E-mail alterado." });
+      return responder(res, {
+        mensagem: "E-mail alterado.",
+      });
     }
 
     if (senha !== null && confirmarSenha !== null) {
-      const senhaConfere = await bcrypt.compare(senha, senhaCadastrada);
+      const senhaConfere = await bcrypt.compare(senha, usuario.senha);
       if (senhaConfere)
-        return res
-          .status(409)
-          .json({ mensagem: "Senha não pode ser igual a cadastrada." });
+        return responder(res, {
+          status: 409,
+          sucesso: false,
+          mensagem: "Senha não pode ser igual à cadastrada.",
+        });
+
       if (senha !== confirmarSenha)
-        return res
-          .status(409)
-          .json({ mensagem: "As senhas digitadas são diferentes." });
+        return responder(res, {
+          status: 409,
+          sucesso: false,
+          mensagem: "As senhas digitadas são diferentes.",
+        });
 
       const senhaCriptografada = await bcrypt.hash(senha, 10);
-      await pool.query(`UPDATE clientes SET senha = $1 WHERE id_cliente = $2`, [
+      await atualizarColunaPorId("clientes", "senha", "id_cliente", [
         senhaCriptografada,
         idCliente,
       ]);
-
-      return res.status(200).json({ mensagem: "Senha alterada." });
+      return responder(res, {
+        mensagem: "Senha alterada.",
+      });
     }
 
     if (nome !== null && sobrenome !== null) {
-      await pool.query(
-        `UPDATE clientes SET nome = $1, sobrenome = $2 WHERE id_cliente = $3`,
-        [nome, sobrenome, idCliente]
+      await atualizarColunasPorId(
+        "clientes",
+        { nome, sobrenome },
+        "id_cliente",
+        idCliente
       );
-
-      return res.status(200).json({ mensagem: "Nome e sobrenome alterados." });
+      return responder(res, {
+        mensagem: "Nome e sobrenome alterados.",
+      });
     }
 
     if (celular !== null) {
-      await pool.query(
-        `UPDATE clientes SET celular = $1 WHERE id_cliente = $2`,
-        [celular, idCliente]
-      );
-
-      return res.status(200).json({ mensagem: "Celular alterado." });
+      await atualizarColunaPorId("clientes", "celular", "id_cliente", [
+        celular,
+        idCliente,
+      ]);
+      return responder(res, {
+        mensagem: "Celular alterado.",
+      });
     }
 
     if (dataNascimento !== null) {
-      await pool.query(
-        `UPDATE clientes SET data_nascimento = $1 WHERE id_cliente = $2`,
-        [dataNascimento, idCliente]
-      );
+      await atualizarColunaPorId("clientes", "data_nascimento", "id_cliente", [
+        dataNascimento,
+        idCliente,
+      ]);
 
-      return res.status(200).json({ mensagem: "Data de nascimento alterada." });
+      return responder(res, {
+        mensagem: "Data de nascimento alterada.",
+      });
     }
   } catch (error) {
     console.error("Erro ao alterar dados: ", error);
-    res.status(500).send("Erro no servidor");
+    return responder(res, {
+      status: 500,
+      sucesso: false,
+      mensagem: "Erro no servidor",
+    });
   }
 });
 

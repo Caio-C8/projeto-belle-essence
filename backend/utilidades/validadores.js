@@ -231,7 +231,7 @@ function validarCamposAlterarEndereco(
     !estado ||
     !tipo
   ) {
-    return "Preencha todos os campo.";
+    return "Preencha todos os campos.";
   }
   if (!validarCep(cep)) {
     return "CEP inválido.";

@@ -220,9 +220,7 @@ export function validarCamposAlterarEndereco(
   cep,
   cidade,
   estado,
-  tipo,
-  complemento,
-  pontoReferencia
+  tipo
 ) {
   if (
     !logradouro ||
@@ -231,11 +229,9 @@ export function validarCamposAlterarEndereco(
     !cep ||
     !cidade ||
     !estado ||
-    !tipo ||
-    !complemento ||
-    !pontoReferencia
+    !tipo
   ) {
-    return "Preencha todos os campo.";
+    return "Preencha todos os campos.";
   }
   if (!validarCep(cep)) {
     return "CEP inválido.";

@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   validarCamposAlterarEndereco,
 } = require("../../utilidades/validadores");
-const { buscarPorId, atualizarDadosPorId } = require("../../db/queries");
+const { buscarPorColuna, atualizarColunaPorId } = require("../../db/queries");
+const responder = require("../../utilidades/responder");
 
 router.put("/:id", async (req, res) => {
   const idEndereco = req.params.id;
@@ -31,10 +32,15 @@ router.put("/:id", async (req, res) => {
     pontoReferencia
   );
 
-  if (erro) return res.status(409).json({ mensagem: erro });
+  if (erro)
+    return responder(res, {
+      status: 400,
+      sucesso: false,
+      mensagem: erro,
+    });
 
   try {
-    const enderecoCadastrado = await buscarPorId(
+    const enderecoCadastrado = await buscarPorColuna(
       "enderecos",
       "id_endereco",
       idEndereco
@@ -61,33 +67,35 @@ router.put("/:id", async (req, res) => {
       complemento === complementoCadastrado &&
       pontoReferencia === pontoReferenciaCadastrado
     )
-      return res
-        .status(409)
-        .json({ mensagem: "Altere algum dos campos para salvar." });
+      return responder(res, {
+        status: 400,
+        sucesso: false,
+        mensagem: "Altere algum dos campos para salvar.",
+      });
 
     if (logradouro !== logradouroCadastrado) {
-      await atualizarDadosPorId("enderecos", "logradouro", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "logradouro", "id_endereco", [
         logradouro,
         idEndereco,
       ]);
     }
 
     if (numero !== numeroCadastrado) {
-      await atualizarDadosPorId("enderecos", "numero", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "numero", "id_endereco", [
         numero,
         idEndereco,
       ]);
     }
 
     if (complemento !== complementoCadastrado) {
-      await atualizarDadosPorId("enderecos", "complemento", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "complemento", "id_endereco", [
         complemento,
         idEndereco,
       ]);
     }
 
     if (pontoReferencia !== pontoReferenciaCadastrado) {
-      await atualizarDadosPorId(
+      await atualizarColunaPorId(
         "enderecos",
         "ponto_referencia",
         "id_endereco",
@@ -96,46 +104,50 @@ router.put("/:id", async (req, res) => {
     }
 
     if (bairro !== bairroCadastrado) {
-      await atualizarDadosPorId("enderecos", "bairro", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "bairro", "id_endereco", [
         bairro,
         idEndereco,
       ]);
     }
 
     if (cep !== cepCadastrado) {
-      await atualizarDadosPorId("enderecos", "cep", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "cep", "id_endereco", [
         cep,
         idEndereco,
       ]);
     }
 
     if (cidade !== cidadeCadastrada) {
-      await atualizarDadosPorId("enderecos", "cidade", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "cidade", "id_endereco", [
         cidade,
         idEndereco,
       ]);
     }
 
     if (estado !== estadoCadastrado) {
-      await atualizarDadosPorId("enderecos", "estado", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "estado", "id_endereco", [
         estado,
         idEndereco,
       ]);
     }
 
     if (tipo !== tipoCadastrado) {
-      await atualizarDadosPorId("enderecos", "tipo", "id_endereco", [
+      await atualizarColunaPorId("enderecos", "tipo", "id_endereco", [
         tipo,
         idEndereco,
       ]);
     }
 
-    return res
-      .status(200)
-      .json({ mensagem: "Endereço atualizado com sucesso!" });
+    return responder(res, {
+      mensagem: "Endereço atualizado com sucesso!",
+    });
   } catch (error) {
     console.error("Erro ao alterar dados: ", error);
-    res.status(500).send("Erro no servidor");
+    return responder(res, {
+      status: 500,
+      sucesso: false,
+      mensagem: "Erro no servidor",
+    });
   }
 });
 
