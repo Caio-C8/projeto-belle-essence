@@ -14,6 +14,8 @@ import Login from "./paginas/Login/Login";
 import Header from "./componentes/Header/Header";
 import Footer from "./componentes/Footer/Footer";
 import EsqueceuSenha from "./paginas/EsqueceuSenha/EsqueceuSenha";
+import Produto from "./paginas/Produto/Produto";
+import Pesquisa from "./paginas/Pesquisa/Pesquisa";
 
 const App = () => {
   return (
@@ -29,6 +31,10 @@ const App = () => {
             <Route path="/login" element={<Login />} />
 
             <Route path="/alterar-senha" element={<EsqueceuSenha />} />
+
+            <Route path="/produto/:id" element={<Produto />} />
+
+            <Route path="/pesquisa" element={<Pesquisa />} />
 
             <Route
               path="/carrinho"

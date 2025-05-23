@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="col-12 col-md-4 text-center text-md-start">
             <div className="logo">
               <img
-                src="src/assets/img/logoBelleEssence.png"
+                src="../../src/assets/img/logoBelleEssence.png"
                 alt="Logo Belle Essence"
                 style={{ height: "100px" }}
               />

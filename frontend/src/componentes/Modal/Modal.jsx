@@ -1,4 +1,9 @@
 import React, { useEffect } from "react";
+import Select from "../../componentes/Campos/Select";
+import Input from "../../componentes/Campos/Input";
+import InputSenha from "../../componentes/Campos/InputSenha";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./Modal.css";
 
 const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
@@ -40,42 +45,47 @@ const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
         <div className="modal-header">
           <h2>{titulo}</h2>
           <button onClick={fechar} className="btn-fechar">
-            X
+            <FontAwesomeIcon icon={faXmark} style={{ fontSize: "1.7rem" }} />
           </button>
         </div>
         <form className="modal-body">
           {campos.map((campo, index) =>
             campo.type === "select" ? (
-              <div key={index}>
-                <label>{`${campo.label}: `}</label>
-                <select value={campo.value} onChange={campo.onChange}>
-                  <option value="">Selecione</option>
-                  {campo.options?.map((opcao, index) => (
-                    <option key={index} value={opcao}>
-                      {opcao}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label={campo.label}
+                value={campo.value}
+                onChange={campo.onChange}
+                options={campo.options}
+                className=""
+              />
+            ) : campo.type === "password" ? (
+              <InputSenha
+                label={campo.label}
+                placeholder={campo.placeholder}
+                value={campo.value}
+                onChange={campo.onChange}
+                className=""
+              />
             ) : (
-              <div key={index}>
-                <label>{`${campo.label}: `}</label>
-                <input
-                  type={campo.type || "text"}
-                  placeholder={campo.placeholder}
-                  name={campo.name}
-                  value={campo.value}
-                  onChange={campo.onChange}
-                  ref={campo.mask || null}
-                  autoComplete="off"
-                />
-              </div>
+              <Input
+                label={campo.label}
+                type={campo.type || "text"}
+                placeholder={campo.placeholder}
+                value={campo.value}
+                onChange={campo.onChange}
+                className=""
+                inputRef={campo.mask || null}
+              />
             )
           )}
         </form>
         <div className="modal-footer">
-          <button onClick={vericarCamposESalvar}>Salvar</button>
-          <button onClick={fechar}>Cancelar</button>
+          <button className="btn btn-primary" onClick={vericarCamposESalvar}>
+            Salvar
+          </button>
+          <button className="btn btn-cancelar" onClick={fechar}>
+            Cancelar
+          </button>
         </div>
       </div>
     </div>

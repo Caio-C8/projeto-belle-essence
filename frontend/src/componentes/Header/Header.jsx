@@ -17,7 +17,7 @@ const Header = () => {
             <div className="logo col-12 col-md-3 text-center text-md-start mb-2 mb-md-0">
               <Link to="/">
                 <img
-                  src="src/assets/img/logoBelleEssenceSimplificada.png"
+                  src="../../src/assets/img/logoBelleEssenceSimplificada.png"
                   alt="Logo Belle Essence Simplificada"
                   style={{ height: "100px" }}
                 />

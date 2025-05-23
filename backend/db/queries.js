@@ -45,8 +45,21 @@ const atualizarColunasPorId = async (tabela, campos, colunaId, valorId) => {
   await pool.query(query, valores);
 };
 
-const deletarItemPorId = async (tabela, colunaId, id) => {
+const deletarItemPorColuna = async (tabela, colunaId, id) => {
   await pool.query(`DELETE FROM ${tabela} WHERE ${colunaId} = $1`, [id]);
+};
+
+const deletarItensPorColuna = async (tabela, condicoes) => {
+  const colunas = Object.keys(condicoes);
+  const valores = Object.values(condicoes);
+
+  const where = colunas
+    .map((coluna, index) => `${coluna} = $${index + 1}`)
+    .join(" AND ");
+
+  const query = `DELETE FROM ${tabela} WHERE ${where}`;
+
+  await pool.query(query, valores);
 };
 
 const inserirRegistro = async (tabela, dados) => {
@@ -69,7 +82,8 @@ module.exports = {
   buscarTodosPorColuna,
   buscarPorColuna,
   atualizarColunaPorId,
-  deletarItemPorId,
+  deletarItemPorColuna,
   inserirRegistro,
   atualizarColunasPorId,
+  deletarItensPorColuna,
 };

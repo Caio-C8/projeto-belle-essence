@@ -1,44 +1,55 @@
 import React, { useState, useEffect } from "react";
+import { fetchApiPorId } from "../../../api/requisicoes";
+import { useAutenticacao } from "../../contexto/AutenticarContexto";
+import CardProduto from "../../componentes/CardProduto/CardProduto";
 
 const Favoritos = () => {
-  const [favoritos, setFavoritos] = useState(null);
-  const [mensagem, setMensagem] = useState("");
+  const [itensFavoritos, setItensFavoritos] = useState([]);
+  const { usuario } = useAutenticacao();
+  const idUsuario = usuario.id;
 
   useEffect(() => {
-    const fetchFavoritos = async () => {
-      const token = localStorage.getItem("token");
+    const carregarDados = async () => {
+      const dadosRequisitados = await fetchApiPorId(
+        "itens-lista-favoritos",
+        idUsuario
+      );
 
-      try {
-        const res = await fetch("http://localhost:3000/listas-favoritos", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const produtosDetalhados = await Promise.all(
+        dadosRequisitados.map(async (item) => {
+          const produto = await fetchApiPorId("produtos", item.id_produto);
+          return produto;
+        })
+      );
 
-        if (res.ok) {
-          const dados = await res.json();
-          setFavoritos(dados);
-        } else {
-          const texto = await res.text();
-          setMensagem(texto || "Erro ao buscar favoritos.");
-        }
-      } catch (err) {
-        console.error("Erro:", err);
-        setMensagem("Erro de conexão com o servidor.");
-      }
+      setItensFavoritos(produtosDetalhados);
     };
 
-    fetchFavoritos();
-  }, []);
+    carregarDados();
+  }, [idUsuario]);
+
+  const idsFavoritos = itensFavoritos.map((produto) => produto.id_produto);
 
   return (
-    <div>
-      <h1>Minha Lista de Favoritos</h1>
-      {mensagem && <p>{mensagem}</p>}
-      {favoritos && (
-        <div>
-          <p>ID da lista: {favoritos.id_lista_favoritos}</p>
-        </div>
+    <div className="d-flex flex-wrap">
+      {itensFavoritos.length === 0 ? (
+        <h1>Você não possui itens salvos na sua lista de favoritos.</h1>
+      ) : (
+        itensFavoritos.map((item, index) => (
+          <CardProduto
+            key={index}
+            produto={item}
+            isFavorito={true}
+            atualizarFavoritos={(novosFavoritos) => {
+              const atualizados = itensFavoritos.filter((produto) =>
+                novosFavoritos.includes(produto.id_produto)
+              );
+              setItensFavoritos(atualizados);
+            }}
+            favoritos={idsFavoritos}
+            isPaginaFavoritos={true}
+          />
+        ))
       )}
     </div>
   );

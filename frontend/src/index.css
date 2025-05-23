@@ -2,7 +2,7 @@
 /* ---------- RESET CSS ---------- */
 
 * {
-  margin: 0;
+  margin: 0 !important;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
@@ -119,6 +119,26 @@ main {
   color: #1c1c1c !important;
   background-color: #ffffff !important;
   border-color: #ffb4a2 !important;
+}
+
+.btn-cancelar {
+  background-color: #ff0000;
+  border-color: #ff0000;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #ffffff;
+}
+
+.btn-cancelar:hover {
+  background-color: #ff0000;
+  border-color: #ff0000;
+  color: #1c1c1c;
+  transform: scale(1.03);
+}
+
+.btn-cancelar:active {
+  color: #1c1c1c !important;
+  background-color: #ffffff !important;
+  border-color: #ff0000 !important;
 }
 
 @media (max-width: 768px) {

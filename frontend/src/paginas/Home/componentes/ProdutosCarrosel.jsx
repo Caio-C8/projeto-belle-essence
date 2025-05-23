@@ -1,19 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProdutosCarrossel.css";
 import { Link } from "react-router-dom";
-import CardProduto from "../CardProduto/CardProduto";
+import CardProduto from "../../../componentes/CardProduto/CardProduto";
+import { useAutenticacao } from "../../../contexto/AutenticarContexto";
+import { fetchApiPorId } from "../../../../api/requisicoes";
 
 const ProdutosCarrossel = ({ titulo, produtos }) => {
+  const { usuario } = useAutenticacao();
+  const [favoritos, setFavoritos] = useState([]);
   const [indiceInicial, setIndiceInicial] = useState(0);
   const itensPorPagina = 4;
+
+  useEffect(() => {
+    const carregarFavoritos = async () => {
+      if (usuario) {
+        const idUsuario = usuario.id;
+        const dados = await fetchApiPorId("itens-lista-favoritos", idUsuario);
+        const idsProdutosFavoritos = dados.map((item) => item.id_produto);
+        setFavoritos(idsProdutosFavoritos);
+      }
+    };
+
+    carregarFavoritos();
+  }, [usuario]);
 
   const totalItens = produtos.length;
   const mostrarControles = totalItens > itensPorPagina;
 
-  // calcula todos os índices possíveis para início
   const indicesInicioValidos = [];
   for (let i = 0; i < totalItens; i += itensPorPagina) {
-    // inclui páginas com interseção se for necessário
     if (i + itensPorPagina > totalItens && totalItens > itensPorPagina) {
       const ultimo = totalItens - itensPorPagina;
       if (!indicesInicioValidos.includes(ultimo)) {
@@ -56,7 +71,13 @@ const ProdutosCarrossel = ({ titulo, produtos }) => {
       <div className="position-relative">
         <div className="d-flex transition-wrapper">
           {produtosVisiveis.map((produto, index) => (
-            <CardProduto produto={produto} index={index} />
+            <CardProduto
+              key={index}
+              produto={produto}
+              isFavorito={favoritos.includes(produto.id_produto)}
+              atualizarFavoritos={setFavoritos}
+              favoritos={favoritos}
+            />
           ))}
         </div>
 

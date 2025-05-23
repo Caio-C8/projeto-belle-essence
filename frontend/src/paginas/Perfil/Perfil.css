@@ -1,27 +1,17 @@
-.dados-perfil div {
-  display: flex;
-  gap: 10px;
+.menu-link {
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.dados-perfil {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+.menu-link:hover {
+  background-color: #f0f0f0;
 }
 
-.enderecos {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 200px;
-}
-
-.endereco {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 20px;
-  border: 1px solid #000;
-  padding: 10px;
+.menu-link.ativo {
+  background-color: #ffe4e1;
+  color: #e36c6c;
+  font-weight: bold;
 }

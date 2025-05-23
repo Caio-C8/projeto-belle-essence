@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { buscarPorColuna, deletarItemPorId } = require("../../db/queries");
+const { buscarPorColuna, deletarItemPorColuna } = require("../../db/queries");
 const responder = require("../../utilidades/responder");
 
 router.delete("/:id", async (req, res) => {
@@ -21,7 +21,7 @@ router.delete("/:id", async (req, res) => {
       });
     }
 
-    await deletarItemPorId("enderecos", "id_endereco", idEndereco);
+    await deletarItemPorColuna("enderecos", "id_endereco", idEndereco);
 
     return responder(res, {
       mensagem: "Endereço excluído com sucesso!",
