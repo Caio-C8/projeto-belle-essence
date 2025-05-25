@@ -1,44 +1,49 @@
 import React, { useEffect, useState } from "react";
+import { useAutenticacao } from "../../contexto/AutenticarContexto";
+import { fetchApiPorId } from "../../../api/requisicoes";
+import CardProdutoCarrinho from "./componentes/CardProdutoCarrinho";
 
 const Carrinho = () => {
-  const [carrinho, setCarrinho] = useState(null);
-  const [mensagem, setMensagem] = useState("");
+  const [produtosCarrinho, setProdutosCarrinho] = useState([]);
+  const { usuario } = useAutenticacao();
+  const idUsuario = usuario.id;
 
   useEffect(() => {
-    const fetchCarrinho = async () => {
-      const token = localStorage.getItem("token");
+    const carregarDados = async () => {
+      const itensCarrinho = await fetchApiPorId("itens-carrinho", idUsuario);
 
-      try {
-        const res = await fetch("http://localhost:3000/carrinhos", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const produtosDetalhados = await Promise.all(
+        itensCarrinho.map(async (item) => {
+          const produto = await fetchApiPorId("produtos", item.id_produto);
+          return { ...produto, qtde: item.qtde };
+        })
+      );
 
-        if (res.ok) {
-          const dados = await res.json();
-          setCarrinho(dados);
-        } else {
-          const texto = await res.text();
-          setMensagem(texto || "Erro ao buscar carrinho.");
-        }
-      } catch (err) {
-        console.error("Erro:", err);
-        setMensagem("Erro de conexão com o servidor.");
-      }
+      setProdutosCarrinho(produtosDetalhados);
     };
 
-    fetchCarrinho();
-  }, []);
+    carregarDados();
+  }, [idUsuario]);
+
+  const atualizarProdutosCarrinho = (idProduto) => {
+    setProdutosCarrinho((produtos) =>
+      produtos.filter((produto) => produto.id_produto !== idProduto)
+    );
+  };
 
   return (
-    <div>
-      <h1>Meu Carrinho</h1>
-      {mensagem && <p>{mensagem}</p>}
-      {carrinho && (
-        <div>
-          <p>ID do Carrinho: {carrinho.id_carrinho}</p>
-        </div>
+    <div className="d-flex flex-column gap-4">
+      <h1>Produtos na Sacola</h1>
+      {produtosCarrinho.length === 0 ? (
+        <h1>Você não possui produtos na sua sacola.</h1>
+      ) : (
+        produtosCarrinho.map((produto, index) => (
+          <CardProdutoCarrinho
+            key={index}
+            produto={produto}
+            atualizarProdutosCarrinho={atualizarProdutosCarrinho}
+          />
+        ))
       )}
     </div>
   );

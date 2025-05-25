@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
       mensagem: "Produto adicionado na lista de favoritos.",
     });
   } catch (error) {
-    console.error("Erro ao cadastrar usuário:", error);
+    console.error("Erro ao adiocionar produto na lista de favoritos:", error);
     return responder(res, {
       status: 500,
       sucesso: false,

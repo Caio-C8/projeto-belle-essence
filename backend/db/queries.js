@@ -45,6 +45,31 @@ const atualizarColunasPorId = async (tabela, campos, colunaId, valorId) => {
   await pool.query(query, valores);
 };
 
+const atualizarColunasPorCondicoes = async (tabela, condicoes, novosDados) => {
+  const colunasCondicao = Object.keys(condicoes);
+  const valoresCondicao = Object.values(condicoes);
+  const colunasUpdate = Object.keys(novosDados);
+  const valoresUpdate = Object.values(novosDados);
+
+  const setString = colunasUpdate
+    .map((coluna, index) => `${coluna} = $${index + 1}`)
+    .join(", ");
+
+  const whereString = colunasCondicao
+    .map((coluna, index) => `${coluna} = $${colunasUpdate.length + index + 1}`)
+    .join(" AND ");
+
+  const query = `
+    UPDATE ${tabela}
+    SET ${setString}
+    WHERE ${whereString}
+  `;
+
+  const valores = [...valoresUpdate, ...valoresCondicao];
+
+  await pool.query(query, valores);
+};
+
 const deletarItemPorColuna = async (tabela, colunaId, id) => {
   await pool.query(`DELETE FROM ${tabela} WHERE ${colunaId} = $1`, [id]);
 };
@@ -86,4 +111,5 @@ module.exports = {
   inserirRegistro,
   atualizarColunasPorId,
   deletarItensPorColuna,
+  atualizarColunasPorCondicoes,
 };

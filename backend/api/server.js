@@ -17,28 +17,41 @@ app.listen(PORT, () => {
 
 const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
 const desfavoritarProdutosRoutes = require("../rotas/delete/desfavoritarProdutos");
+const retirarProdutosCarrinhoRoutes = require("../rotas/delete/retirarProdutosCarrinho");
 
-const carrinhosRoutes = require("../rotas/get/getCarrinhos");
+const carrinhosRoutes = require("../rotas/get/getItensCarrinho");
 const produtosRoutes = require("../rotas/get/getProdutos");
 const enderecosRoutes = require("../rotas/get/getEnderecos");
 const clientesRoutes = require("../rotas/get/getClientes");
 const itensListaFavoritosRoutes = require("../rotas/get/getItensListaFavoritos");
+const itensCarrinhosRoutes = require("../rotas/get/getItensCarrinho");
 
 const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
 const favoritarProdutosRoutes = require("../rotas/post/favoritarProduto");
+const colocarProdutoCarrinhoRoutes = require("../rotas/post/colocarProdutoCarrinho");
 
 const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
 const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
 const alterarSenhaRoutes = require("../rotas/put/alterarSenha");
+const atualizarQuantidadeCarrinhoRoutes = require("../rotas/put/atualizarQuantidadeCarrinho");
 
 const validarUsuariosRoutes = require("../rotas/validarUsuarios");
+
+// --- DELETE --- //
 
 // Rota deletar endereçoes de usuários
 app.use("/deletar-endereco", deletarEndedrecoRoutes);
 
 // Rota para desfavoritar produtos
 app.use("/desfavoritar-produto", desfavoritarProdutosRoutes);
+
+// Rota para retirar produtos do carrinho
+app.use("/retirar-produtos-carrinho", retirarProdutosCarrinhoRoutes);
+
+// --- DELETE --- //
+
+// --- GET --- //
 
 // Rota listar carrinhos
 app.use("/carrinhos", carrinhosRoutes);
@@ -55,6 +68,13 @@ app.use("/clientes", clientesRoutes);
 // Rota listar itens da lista de favoritos
 app.use("/itens-lista-favoritos", itensListaFavoritosRoutes);
 
+// Rota listar itens do carrinho
+app.use("/itens-carrinho", itensCarrinhosRoutes);
+
+// --- GET --- //
+
+// --- POST --- //
+
 // Rota cadastrar usuários
 app.use("/cadastro-usuarios", cadastradoUsuariosRoutes);
 
@@ -64,6 +84,13 @@ app.use("/cadastrar-endereco", cadastrarEnderecoRoutes);
 // Rota para favoritar produtos
 app.use("/favoritar-produto", favoritarProdutosRoutes);
 
+// Rota para colocar produtos no carrinho
+app.use("/colocar-produtos-carrinho", colocarProdutoCarrinhoRoutes);
+
+// --- POST --- //
+
+// --- PUT --- //
+
 // Rota alterar dados de usuários
 app.use("/atualizar-usuario", alterarDadosUsuarioRoutes);
 
@@ -72,6 +99,11 @@ app.use("/atualizar-endereco", atualizarDadosEnderecoRoutes);
 
 // Rota alterar senha de usuários
 app.use("/alterar-senha", alterarSenhaRoutes);
+
+// Rota para alterar quantidade de produtos no carrinho
+app.use("/atualizar-quantidade", atualizarQuantidadeCarrinhoRoutes);
+
+// --- PUT --- //
 
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);

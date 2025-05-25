@@ -75,8 +75,6 @@ const CardProduto = ({
         `http://localhost:3000/desfavoritar-produto/${idUsuario}/${idProduto}`,
         {
           method: "DELETE",
-          headers: {},
-          body: null,
         }
       );
 
@@ -86,6 +84,45 @@ const CardProduto = ({
         alert(mensagem);
 
         atualizarFavoritos(favoritos.filter((id) => id !== idProduto));
+      } else {
+        alert(mensagem);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro de conexão com o servidor.");
+    }
+  };
+
+  const colocarCarrinho = async () => {
+    const idProduto = produto.id_produto;
+
+    if (!usuario) {
+      alert("Para colocar um produto na sacola você precisa estar logado.");
+      return navigation("/login");
+    }
+
+    const idUsuario = usuario.id;
+
+    try {
+      const res = await fetch(
+        "http://localhost:3000/colocar-produtos-carrinho",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idProduto, idUsuario }),
+        }
+      );
+
+      const { mensagem } = await res.json();
+
+      if (res.ok) {
+        const confirmar = window.confirm(
+          `${mensagem} Deseja finalizar compra?`
+        );
+
+        if (!confirmar) return;
+
+        navigation("/carrinho");
       } else {
         alert(mensagem);
       }
@@ -149,7 +186,10 @@ const CardProduto = ({
         </Link>
 
         <div className="mt-auto">
-          <button className="btn btn-primary w-100 rounded-pill btn-comprar">
+          <button
+            onClick={colocarCarrinho}
+            className="btn btn-primary w-100 rounded-pill btn-comprar"
+          >
             Comprar Agora
           </button>
         </div>
