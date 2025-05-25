@@ -5,6 +5,9 @@ import { useMask } from "@react-input/mask";
 import { fetchApiPorId } from "../../../../api/requisicoes";
 import { useAutenticacao } from "../../../contexto/AutenticarContexto";
 import { validarCamposAlterarEndereco } from "../../../utilidades/validadores";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenClip } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 const EnderecosPerfil = ({ nome, sobrenome }) => {
   const { usuario } = useAutenticacao();
@@ -214,104 +217,133 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
   };
 
   return (
-    <div className="enderecos">
-      {enderecos.length > 0 ? (
-        enderecos.map((endereco, index) => (
-          <div key={index} className="endereco">
-            <div>{`${endereco.logradouro}, ${endereco.numero}`}</div>
-            <div>{`${endereco.bairro} - CEP ${endereco.cep} - ${endereco.cidade} - ${endereco.estado}`}</div>
-            <div>{`${endereco.tipo} - ${nome} ${sobrenome}`}</div>
-            <div>{endereco.complemento}</div>
-            <div>{endereco.ponto_referencia}</div>
-            <button onClick={() => abrirModalParaEdicao(endereco)}>
-              Alterar
-            </button>
-            <button onClick={() => excluirEndereco(endereco.id_endereco)}>
-              Excluir
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>Nenhum endereço cadastrado.</p>
-      )}
+    <div>
+      <h1 className="fw-bold mb-2">Endereços</h1>
 
-      <button onClick={abrirModalParaCadastro}>Cadastrar novo endereço</button>
+      <div>
+        {enderecos.length > 0 ? (
+          enderecos.map((endereco, index) => (
+            <div
+              key={index}
+              className="d-flex justify-content-between border rounded p-3 mb-3"
+            >
+              <div>
+                <h3>{`${endereco.logradouro}, ${endereco.numero}`}</h3>
+                <p>{`${endereco.bairro} - CEP ${endereco.cep} - ${endereco.cidade} - ${endereco.estado}`}</p>
+                <p>{`${endereco.tipo} - ${nome} ${sobrenome}`}</p>
+                <p>
+                  {endereco.complemento && endereco.ponto_referencia
+                    ? `${endereco.complemento} - ${endereco.ponto_referencia}`
+                    : endereco.complemento && !endereco.ponto_referencia
+                    ? `${endereco.complemento}`
+                    : `${endereco.ponto_referencia}`}
+                </p>
+              </div>
 
-      <Modal
-        titulo={modoEdicao ? "Alterar Endereço" : "Cadastrar Endereço"}
-        aberto={mostrarModal}
-        fechar={fecharModal}
-        salvar={salvar}
-        campos={[
-          {
-            label: "Logradouro",
-            placeholder: "Rua, avenida, etc.",
-            name: "logradouro",
-            value: logradouro,
-            onChange: (e) => setLogradouro(e.target.value),
-          },
-          {
-            label: "Número",
-            placeholder: "Número",
-            name: "numero",
-            value: numero,
-            onChange: (e) => setNumero(e.target.value),
-            mask: maskNumero,
-          },
-          {
-            label: "Bairro",
-            placeholder: "Seu bairro",
-            name: "bairro",
-            value: bairro,
-            onChange: (e) => setBairro(e.target.value),
-          },
-          {
-            label: "CEP",
-            placeholder: "00000-000",
-            name: "cep",
-            value: cep,
-            onChange: (e) => setCep(e.target.value),
-            mask: maskCep,
-          },
-          {
-            label: "Cidade",
-            placeholder: "Sua cidade",
-            name: "cidade",
-            value: cidade,
-            onChange: (e) => setCidade(e.target.value),
-          },
-          {
-            label: "Estado",
-            name: "estado",
-            value: estado,
-            onChange: (e) => setEstado(e.target.value),
-            type: "select",
-            options: estadosSiglas,
-          },
-          {
-            label: "Tipo",
-            name: "tipo",
-            value: tipo,
-            onChange: (e) => setTipo(e.target.value),
-            type: "select",
-            options: ["Residencial", "Comercial"],
-          },
-          {
-            label: "Complemento",
-            placeholder: "Apto, bloco, etc.",
-            name: "complemento",
-            value: complemento,
-            onChange: (e) => setComplemento(e.target.value),
-          },
-          {
-            label: "Ponto de Referência",
-            placeholder: "Próximo à...",
-            name: "ponto de referencia",
-            value: pontoReferencia,
-            onChange: (e) => setPontoReferencia(e.target.value),
-          },
-        ]}
-      />
+              <div className="d-flex flex-column gap-4">
+                <button onClick={() => abrirModalParaEdicao(endereco)}>
+                  <FontAwesomeIcon
+                    icon={faPenClip}
+                    className="icon"
+                    style={{ color: "#FFB4A2", fontSize: "1.5rem" }}
+                  />
+                </button>
+                <button onClick={() => excluirEndereco(endereco.id_endereco)}>
+                  <FontAwesomeIcon
+                    icon={faTrashCan}
+                    className="icon"
+                    style={{ color: "#cccccc", fontSize: "1.5rem" }}
+                  />
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>Nenhum endereço cadastrado.</p>
+        )}
+
+        <div className="w-100 d-flex align-items-center justify-content-center">
+          <button className="btn btn-primary " onClick={abrirModalParaCadastro}>
+            Cadastrar novo endereço
+          </button>
+        </div>
+
+        <Modal
+          titulo={modoEdicao ? "Alterar Endereço" : "Cadastrar Endereço"}
+          aberto={mostrarModal}
+          fechar={fecharModal}
+          salvar={salvar}
+          campos={[
+            {
+              label: "Logradouro",
+              placeholder: "Rua, avenida, etc.",
+              name: "logradouro",
+              value: logradouro,
+              onChange: (e) => setLogradouro(e.target.value),
+            },
+            {
+              label: "Número",
+              placeholder: "Número",
+              name: "numero",
+              value: numero,
+              onChange: (e) => setNumero(e.target.value),
+              mask: maskNumero,
+            },
+            {
+              label: "Bairro",
+              placeholder: "Seu bairro",
+              name: "bairro",
+              value: bairro,
+              onChange: (e) => setBairro(e.target.value),
+            },
+            {
+              label: "CEP",
+              placeholder: "00000-000",
+              name: "cep",
+              value: cep,
+              onChange: (e) => setCep(e.target.value),
+              mask: maskCep,
+            },
+            {
+              label: "Cidade",
+              placeholder: "Sua cidade",
+              name: "cidade",
+              value: cidade,
+              onChange: (e) => setCidade(e.target.value),
+            },
+            {
+              label: "Estado",
+              name: "estado",
+              value: estado,
+              onChange: (e) => setEstado(e.target.value),
+              type: "select",
+              options: estadosSiglas,
+            },
+            {
+              label: "Tipo",
+              name: "tipo",
+              value: tipo,
+              onChange: (e) => setTipo(e.target.value),
+              type: "select",
+              options: ["Residencial", "Comercial"],
+            },
+            {
+              label: "Complemento",
+              placeholder: "Apto, bloco, etc.",
+              name: "complemento",
+              value: complemento,
+              onChange: (e) => setComplemento(e.target.value),
+            },
+            {
+              label: "Ponto de Referência",
+              placeholder: "Próximo à...",
+              name: "ponto de referencia",
+              value: pontoReferencia,
+              onChange: (e) => setPontoReferencia(e.target.value),
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 };

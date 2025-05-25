@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DadosPerfil from "./componentes/DadosPerfil";
 import EnderecosPerfil from "./componentes/EnderecosPerfil";
+import Sidebar from "./componentes/SideBar";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
 import { fetchApiPorId } from "../../../api/requisicoes";
 
@@ -20,22 +21,21 @@ const Perfil = () => {
   }, []);
 
   return (
-    <div>
-      <nav>
-        <button onClick={() => setPagina("dados")}>Dados</button>
-        <button onClick={() => setPagina("enderecos")}>Endereços</button>
-        <button onClick={() => setPagina("pedidos")}>Pedidos</button>
-        <button onClick={logout}>Sair</button>
-      </nav>
-
-      <div>
-        {pagina === "dados" && (
-          <DadosPerfil cliente={cliente} setCliente={setCliente} />
-        )}
-        {pagina === "enderecos" && (
-          <EnderecosPerfil nome={cliente.nome} sobrenome={cliente.sobrenome} />
-        )}
-        {/* {pagina === "pedidos" && <PedidosPerfil />} */}
+    <div className="container">
+      <div className="row">
+        <div className="col-md-3">
+          <Sidebar pagina={pagina} setPagina={setPagina} logout={logout} />
+        </div>
+        <div className="col-md-9">
+          {pagina === "dados" && <DadosPerfil cliente={cliente} />}
+          {pagina === "enderecos" && (
+            <EnderecosPerfil
+              nome={cliente.nome}
+              sobrenome={cliente.sobrenome}
+            />
+          )}
+          {/* {pagina === "pedidos" && <PedidosPerfil />} */}
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import "../Perfil.css";
-import Modal from "../../../componentes/Modal/Modal";
+import "./DadosPerfil.css";
 import { useMask } from "@react-input/mask";
 import { useAutenticacao } from "../../../contexto/AutenticarContexto";
+import Modal from "../../../componentes/Modal/Modal";
 import { validarCamposAlterarDadosUsuario } from "../../../utilidades/validadores";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenClip } from "@fortawesome/free-solid-svg-icons";
 
 const DadosPerfil = ({ cliente, setCliente }) => {
   const {
@@ -14,13 +16,17 @@ const DadosPerfil = ({ cliente, setCliente }) => {
     data_nascimento: dataNascimentoPerfil,
     cpf: cpfPerfil,
   } = cliente;
+
   const { usuario } = useAutenticacao();
+
   const maskCelular = useMask({
     mask: "(__) _____-____",
     replacement: { _: /\d/ },
   });
+
   const [mostrarModal, setMostrarModal] = useState(false);
   const [tipoModal, setTipoModal] = useState("");
+
   const [email, setEmail] = useState(null);
   const [senha, setSenha] = useState(null);
   const [confirmarSenha, setConfirmarSenha] = useState(null);
@@ -76,7 +82,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
             onChange: (e) => setDataNascimento(e.target.value),
           },
         ];
-      case "email":
+      case "e-mail":
         return [
           {
             label: "E-mail",
@@ -139,9 +145,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         `http://localhost:3000/atualizar-usuario/${usuario.id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dadosAlterados),
         }
       );
@@ -150,6 +154,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
 
       if (res.ok) {
         alert(mensagem.mensagem);
+
         setCliente((anterior) => ({
           ...anterior,
           ...(email && { email }),
@@ -158,6 +163,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
           ...(celular && { celular }),
           ...(dataNascimento && { data_nascimento: dataNascimento }),
         }));
+
         setEmail(null);
         setSenha(null);
         setConfirmarSenha(null);
@@ -176,35 +182,101 @@ const DadosPerfil = ({ cliente, setCliente }) => {
   };
 
   return (
-    <div className="dados-perfil">
-      <div>
-        {`Nome completo: ${nomePerfil} ${sobrenomePerfil}`}{" "}
-        <button onClick={() => abrirModal("nome")}>Alterar nome</button>
-      </div>
-      <div>
-        Celular: {celularPerfil}{" "}
-        <button onClick={() => abrirModal("celular")}>Alterar celular</button>
-      </div>
-      <div>
-        Data de nascimento: {dataNascimentoPerfil}{" "}
-        <button onClick={() => abrirModal("data")}>
-          Alterar data de nascimento
-        </button>
-      </div>
-      <div>CPF: {cpfPerfil}</div>
-      <div>
-        E-mail: {emailPerfil}
-        <button onClick={() => abrirModal("email")}>Alterar e-mail</button>
-        <button onClick={() => abrirModal("senha")}>Alterar senha</button>
-      </div>
+    <div>
+      <h1 className="fw-bold mb-2">Seus Dados</h1>
 
-      <Modal
-        titulo={`Alterar ${tipoModal}`}
-        aberto={mostrarModal}
-        fechar={fecharModal}
-        salvar={salvar}
-        campos={camposPorTipo()}
-      />
+      <div className="rounded border bg-white p-4 d-flex flex-column gap-2">
+        <div className="row divisoria mb-2">
+          <h5>Dados Pessoais</h5>
+        </div>
+
+        <div className="mb-2">
+          <h6 className="mb-1">Nome Completo</h6>
+          <div className="d-flex justify-content-between align-items-center campo-dado">
+            <p>{`${nomePerfil} ${sobrenomePerfil}`}</p>
+            <button onClick={() => abrirModal("nome")}>
+              <FontAwesomeIcon
+                style={{ color: "#FFB4A2", fontSize: "1.3rem" }}
+                className="icon"
+                icon={faPenClip}
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-2">
+          <h6 className="mb-1">Data de Nascimento</h6>
+          <div className="d-flex justify-content-between align-items-center campo-dado">
+            <p>{dataNascimentoPerfil}</p>
+            <button onClick={() => abrirModal("data")}>
+              <FontAwesomeIcon
+                style={{ color: "#FFB4A2", fontSize: "1.3rem" }}
+                className="icon"
+                icon={faPenClip}
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-2">
+          <h6 className="mb-1">Celular</h6>
+          <div className="d-flex justify-content-between align-items-center campo-dado">
+            <p>{celularPerfil}</p>
+            <button onClick={() => abrirModal("celular")}>
+              <FontAwesomeIcon
+                style={{ color: "#FFB4A2", fontSize: "1.3rem" }}
+                className="icon"
+                icon={faPenClip}
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <h6 className="mb-1">CPF</h6>
+          <div className="d-flex justify-content-between align-items-center campo-dado">
+            <p>{cpfPerfil}</p>
+          </div>
+        </div>
+
+        <div className="row divisoria mb-2">
+          <h5>Dados de Acesso</h5>
+        </div>
+
+        <div className="mb-2">
+          <h6 className="mb-1">E-mail</h6>
+          <div className="d-flex justify-content-between align-items-center campo-dado">
+            <p>{emailPerfil}</p>
+          </div>
+        </div>
+
+        <div
+          className="d-flex justify-content-between px-2"
+          style={{ width: "500px" }}
+        >
+          <button
+            className="btn btn-primary"
+            onClick={() => abrirModal("e-mail")}
+          >
+            Alterar e-mail
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => abrirModal("senha")}
+          >
+            Alterar senha
+          </button>
+          <button className="btn btn-cancelar">Excluir conta</button>
+        </div>
+
+        <Modal
+          titulo={`Alterar ${tipoModal}`}
+          aberto={mostrarModal}
+          fechar={fecharModal}
+          salvar={salvar}
+          campos={camposPorTipo()}
+        />
+      </div>
     </div>
   );
 };

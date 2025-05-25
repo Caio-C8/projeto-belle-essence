@@ -1,0 +1,13 @@
+.campo-dado {
+  border: 1px solid #cccccc;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.icon {
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.13);
+}

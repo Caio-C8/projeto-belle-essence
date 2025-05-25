@@ -49,35 +49,48 @@ const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
           </button>
         </div>
         <form className="modal-body">
-          {campos.map((campo, index) =>
-            campo.type === "select" ? (
-              <Select
-                label={campo.label}
-                value={campo.value}
-                onChange={campo.onChange}
-                options={campo.options}
-                className=""
-              />
-            ) : campo.type === "password" ? (
-              <InputSenha
-                label={campo.label}
-                placeholder={campo.placeholder}
-                value={campo.value}
-                onChange={campo.onChange}
-                className=""
-              />
-            ) : (
-              <Input
-                label={campo.label}
-                type={campo.type || "text"}
-                placeholder={campo.placeholder}
-                value={campo.value}
-                onChange={campo.onChange}
-                className=""
-                inputRef={campo.mask || null}
-              />
-            )
-          )}
+          <div className="row g-3">
+            {campos.map((campo, index) => {
+              if (campo.type === "select") {
+                return (
+                  <Select
+                    key={index}
+                    label={campo.label}
+                    value={campo.value}
+                    onChange={campo.onChange}
+                    options={campo.options}
+                    className={"col-md-12"}
+                  />
+                );
+              }
+
+              if (campo.type === "password") {
+                return (
+                  <InputSenha
+                    key={index}
+                    label={campo.label}
+                    placeholder={campo.placeholder}
+                    value={campo.value}
+                    onChange={campo.onChange}
+                    className={"col-md-12"}
+                  />
+                );
+              }
+
+              return (
+                <Input
+                  key={index}
+                  label={campo.label}
+                  type={campo.type || "text"}
+                  placeholder={campo.placeholder}
+                  value={campo.value}
+                  onChange={campo.onChange}
+                  className={"col-md-12"}
+                  inputRef={campo.mask || null}
+                />
+              );
+            })}
+          </div>
         </form>
         <div className="modal-footer">
           <button className="btn btn-primary" onClick={vericarCamposESalvar}>
