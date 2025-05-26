@@ -121,7 +121,7 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
 
     if (erro) return alert(erro);
 
-    const dados = {
+    const dadosBody = {
       logradouro,
       numero,
       bairro,
@@ -144,10 +144,10 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
       const res = await fetch(url, {
         method: metodo,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados),
+        body: JSON.stringify(dadosBody),
       });
 
-      const { mensagem, endereco } = await res.json();
+      const { mensagem, dados } = await res.json();
 
       if (res.ok) {
         alert(mensagem || "Endereço salvo com sucesso!");
@@ -173,7 +173,7 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
             )
           );
         } else {
-          setEnderecos((enderecosAtuais) => [...enderecosAtuais, endereco]);
+          setEnderecos((enderecosAtuais) => [...enderecosAtuais, dados]);
         }
 
         fecharModal();

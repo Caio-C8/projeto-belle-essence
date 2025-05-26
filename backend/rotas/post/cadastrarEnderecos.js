@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     });
 
   try {
-    await inserirRegistro("enderecos", {
+    const enderecoCadastrado = await inserirRegistro("enderecos", {
       id_cliente: idCliente,
       logradouro,
       numero,
@@ -62,6 +62,7 @@ router.post("/", async (req, res) => {
     return responder(res, {
       status: 201,
       mensagem: "Endereço cadastrado com sucesso!",
+      dados: enderecoCadastrado,
     });
   } catch (error) {
     console.error("Erro ao cadastrar endereço:", error);

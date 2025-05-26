@@ -1,3 +1,4 @@
+import { faL } from "@fortawesome/free-solid-svg-icons";
 import { createContext, useState, useEffect, useContext } from "react";
 
 const AutenticacaoContexto = createContext();
@@ -39,11 +40,16 @@ export const ProvedorAutenticacao = ({ children }) => {
     });
   };
 
-  const logout = () => {
-    const confirmar = window.confirm(
-      "Tem certeza que deseja encerrar a sessão?"
-    );
-    if (!confirmar) return;
+  const logout = (pularConfirmar = false) => {
+    const isDeletar =
+      typeof pularConfirmar === "boolean" ? pularConfirmar : false;
+
+    if (!isDeletar) {
+      const confirmar = window.confirm(
+        "Tem certeza que deseja encerrar a sessão?"
+      );
+      if (!confirmar) return;
+    }
 
     localStorage.removeItem("token");
     setUsuario(null);

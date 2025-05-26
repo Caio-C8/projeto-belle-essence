@@ -27,7 +27,9 @@ const Perfil = () => {
           <Sidebar pagina={pagina} setPagina={setPagina} logout={logout} />
         </div>
         <div className="col-md-9">
-          {pagina === "dados" && <DadosPerfil cliente={cliente} />}
+          {pagina === "dados" && (
+            <DadosPerfil cliente={cliente} setCliente={setCliente} />
+          )}
           {pagina === "enderecos" && (
             <EnderecosPerfil
               nome={cliente.nome}

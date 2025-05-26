@@ -35,7 +35,7 @@ const Sidebar = ({ pagina, setPagina, logout }) => {
         Endereços
       </button>
 
-      <button className="menu-item" onClick={logout}>
+      <button className="menu-item" onClick={() => logout()}>
         <FontAwesomeIcon icon={faArrowRightFromBracket} rotation={180} />
         Sair
       </button>

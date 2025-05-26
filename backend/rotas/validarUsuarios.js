@@ -29,7 +29,6 @@ router.post("/", async (req, res) => {
       usuario = cliente;
       senhaCriptografada = usuario.senha;
     } else {
-      console.log(senha);
       return responder(res, {
         status: 401,
         sucesso: false,

@@ -18,6 +18,7 @@ app.listen(PORT, () => {
 const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
 const desfavoritarProdutosRoutes = require("../rotas/delete/desfavoritarProdutos");
 const retirarProdutosCarrinhoRoutes = require("../rotas/delete/retirarProdutosCarrinho");
+const deletarContasRoutes = require("../rotas/delete/deletarConta");
 
 const carrinhosRoutes = require("../rotas/get/getItensCarrinho");
 const produtosRoutes = require("../rotas/get/getProdutos");
@@ -48,6 +49,9 @@ app.use("/desfavoritar-produto", desfavoritarProdutosRoutes);
 
 // Rota para retirar produtos do carrinho
 app.use("/retirar-produtos-carrinho", retirarProdutosCarrinhoRoutes);
+
+// Rota para deletar contas
+app.use("/deletar-conta", deletarContasRoutes);
 
 // --- DELETE --- //
 

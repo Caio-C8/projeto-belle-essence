@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./DadosPerfil.css";
+import { useNavigate } from "react-router-dom";
 import { useMask } from "@react-input/mask";
 import { useAutenticacao } from "../../../contexto/AutenticarContexto";
 import Modal from "../../../componentes/Modal/Modal";
 import { validarCamposAlterarDadosUsuario } from "../../../utilidades/validadores";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
+import { formatarData } from "../../../utilidades/formatarData";
+import { mascararCpf } from "../../../utilidades/mascararCpf";
 
 const DadosPerfil = ({ cliente, setCliente }) => {
   const {
@@ -17,7 +20,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
     cpf: cpfPerfil,
   } = cliente;
 
-  const { usuario } = useAutenticacao();
+  const { usuario, logout } = useAutenticacao();
 
   const maskCelular = useMask({
     mask: "(__) _____-____",
@@ -34,6 +37,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
   const [sobrenome, setSobrenome] = useState(null);
   const [celular, setCelular] = useState(null);
   const [dataNascimento, setDataNascimento] = useState(null);
+  const navigate = useNavigate();
 
   const abrirModal = (tipo) => {
     setTipoModal(tipo);
@@ -41,6 +45,36 @@ const DadosPerfil = ({ cliente, setCliente }) => {
   };
 
   const fecharModal = () => setMostrarModal(false);
+
+  const excluirConta = async () => {
+    const confirmar = window.confirm("Tem certeza que deseja excluir conta?");
+
+    if (!confirmar) return;
+
+    const idUsuario = usuario.id;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/deletar-conta/${idUsuario}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const { mensagem } = await res.json();
+
+      if (res.ok) {
+        alert(mensagem);
+        logout(true);
+        navigate("/");
+      } else {
+        alert(mensagem);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro de conexão com o servidor");
+    }
+  };
 
   const camposPorTipo = () => {
     switch (tipoModal) {
@@ -207,7 +241,11 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         <div className="mb-2">
           <h6 className="mb-1">Data de Nascimento</h6>
           <div className="d-flex justify-content-between align-items-center campo-dado">
-            <p>{dataNascimentoPerfil}</p>
+            <p>
+              {dataNascimentoPerfil
+                ? formatarData(dataNascimentoPerfil)
+                : "Data não informada"}
+            </p>
             <button onClick={() => abrirModal("data")}>
               <FontAwesomeIcon
                 style={{ color: "#FFB4A2", fontSize: "1.3rem" }}
@@ -235,7 +273,7 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         <div className="mb-4">
           <h6 className="mb-1">CPF</h6>
           <div className="d-flex justify-content-between align-items-center campo-dado">
-            <p>{cpfPerfil}</p>
+            <p>{cpfPerfil ? mascararCpf(cpfPerfil) : "CPF não informado"}</p>
           </div>
         </div>
 
@@ -266,7 +304,9 @@ const DadosPerfil = ({ cliente, setCliente }) => {
           >
             Alterar senha
           </button>
-          <button className="btn btn-cancelar">Excluir conta</button>
+          <button className="btn btn-cancelar" onClick={excluirConta}>
+            Excluir conta
+          </button>
         </div>
 
         <Modal
