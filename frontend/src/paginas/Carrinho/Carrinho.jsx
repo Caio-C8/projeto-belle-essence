@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
 import { fetchApiPorId } from "../../../api/requisicoes";
 import CardProdutoCarrinho from "./componentes/CardProdutoCarrinho";
@@ -45,6 +46,10 @@ const Carrinho = () => {
           />
         ))
       )}
+
+      <Link to="/checkout">
+        <button className="btn btn-primary">Realizar Pedido</button>
+      </Link>
     </div>
   );
 };

@@ -1,104 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./CardProduto.css";
+import { useAutenticacao } from "../../contexto/AutenticarContexto";
+import { useFavoritos } from "../../contexto/FavoritosContexto";
+import { formatarPreco } from "../../utilidades/formatarPreco";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons";
 import {
   faHeart as faHeartSolid,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { formatarPreco } from "../../utilidades/formatarPreco";
-import { useAutenticacao } from "../../contexto/AutenticarContexto";
 
-const CardProduto = ({
-  produto,
-  isFavorito,
-  atualizarFavoritos,
-  favoritos,
-  isPaginaFavoritos = false,
-}) => {
-  const [favorito, setFavorito] = useState(isFavorito);
+const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
   const { usuario } = useAutenticacao();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
+  const { favoritos, toggleFavorito } = useFavoritos();
 
-  useEffect(() => {
-    setFavorito(isFavorito);
-  }, [isFavorito]);
+  const isFavorito = favoritos.includes(produto.id_produto);
 
-  const toggleFavorito = async () => {
-    const idProduto = produto.id_produto;
-
+  const handleFavoritar = async () => {
     if (!usuario) {
-      alert("Para favoritar um produto você precisa estar logado.");
-      return navigation("/login");
+      alert("Você precisa estar logado para favoritar um produto.");
+      return navigate("/login");
     }
 
-    const idUsuario = usuario.id;
-
-    try {
-      const url = favorito
-        ? `http://localhost:3000/desfavoritar-produto/${idUsuario}/${idProduto}`
-        : "http://localhost:3000/favoritar-produto";
-
-      const res = await fetch(url, {
-        method: favorito ? "DELETE" : "POST",
-        headers: favorito ? {} : { "Content-Type": "application/json" },
-        body: favorito ? null : JSON.stringify({ idProduto, idUsuario }),
-      });
-
-      const { mensagem } = await res.json();
-
-      if (res.ok) {
-        alert(mensagem);
-        setFavorito(!favorito);
-
-        if (favorito) {
-          atualizarFavoritos(favoritos.filter((id) => id !== idProduto));
-        } else {
-          atualizarFavoritos([...favoritos, idProduto]);
-        }
-      } else {
-        alert(mensagem);
-      }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro de conexão com o servidor.");
-    }
-  };
-
-  const desfavoritar = async () => {
-    const idProduto = produto.id_produto;
-    const idUsuario = usuario.id;
-
-    try {
-      const res = await fetch(
-        `http://localhost:3000/desfavoritar-produto/${idUsuario}/${idProduto}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      const { mensagem } = await res.json();
-
-      if (res.ok) {
-        alert(mensagem);
-
-        atualizarFavoritos(favoritos.filter((id) => id !== idProduto));
-      } else {
-        alert(mensagem);
-      }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro de conexão com o servidor.");
-    }
+    await toggleFavorito(produto.id_produto);
   };
 
   const colocarCarrinho = async () => {
     const idProduto = produto.id_produto;
 
     if (!usuario) {
-      alert("Para colocar um produto na sacola você precisa estar logado.");
-      return navigation("/login");
+      alert("Você precisa estar logado para comprar.");
+      return navigate("/login");
     }
 
     const idUsuario = usuario.id;
@@ -119,10 +53,7 @@ const CardProduto = ({
         const confirmar = window.confirm(
           `${mensagem} Deseja finalizar compra?`
         );
-
-        if (!confirmar) return;
-
-        navigation("/carrinho");
+        if (confirmar) navigate("/carrinho");
       } else {
         alert(mensagem);
       }
@@ -134,17 +65,19 @@ const CardProduto = ({
 
   return (
     <div className="col-12 col-sm-6 col-md-3 px-2">
-      <div className="card produto ">
+      <div className="card produto">
         {isPaginaFavoritos ? (
-          <div className="x-icon" onClick={desfavoritar}>
+          <div className="x-icon" onClick={handleFavoritar}>
             <FontAwesomeIcon icon={faXmark} />
           </div>
         ) : (
           <div
-            className={favorito ? "heart-icon ativo" : "heart-icon"}
-            onClick={toggleFavorito}
+            className={isFavorito ? "heart-icon ativo" : "heart-icon"}
+            onClick={handleFavoritar}
           >
-            <FontAwesomeIcon icon={favorito ? faHeartSolid : faHeart} />
+            <FontAwesomeIcon
+              icon={isFavorito ? faHeartSolid : faHeartOutline}
+            />
           </div>
         )}
 
@@ -175,11 +108,9 @@ const CardProduto = ({
                   </p>
                 </>
               ) : (
-                <>
-                  <p className="fw-bold preco-principal">
-                    {formatarPreco(produto.preco)}
-                  </p>
-                </>
+                <p className="fw-bold preco-principal">
+                  {formatarPreco(produto.preco)}
+                </p>
               )}
             </div>
           </div>

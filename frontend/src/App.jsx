@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
@@ -14,58 +14,64 @@ import Login from "./paginas/Login/Login";
 import Header from "./componentes/Header/Header";
 import Footer from "./componentes/Footer/Footer";
 import EsqueceuSenha from "./paginas/EsqueceuSenha/EsqueceuSenha";
-import Produto from "./paginas/Produto/Produto";
+import Produto from "./paginas/ProdutoDetalhado/ProdutoDetalhado";
 import Pesquisa from "./paginas/Pesquisa/Pesquisa";
+import Checkout from "./paginas/Checkout/Checkout";
+import { ProvedorFavoritos } from "./contexto/FavoritosContexto";
 
 const App = () => {
   return (
     <ProvedorAutenticacao>
-      <BrowserRouter>
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
+      <ProvedorFavoritos>
+        <BrowserRouter>
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-            <Route path="/cadastro" element={<FormCadastro />} />
+              <Route path="/cadastro" element={<FormCadastro />} />
 
-            <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
 
-            <Route path="/alterar-senha" element={<EsqueceuSenha />} />
+              <Route path="/alterar-senha" element={<EsqueceuSenha />} />
 
-            <Route path="/produto/:id" element={<Produto />} />
+              <Route path="/produto/:id" element={<Produto />} />
 
-            <Route path="/pesquisa" element={<Pesquisa />} />
+              <Route path="/pesquisa" element={<Pesquisa />} />
 
-            <Route
-              path="/carrinho"
-              element={
-                <RotaProtegida tipo="cliente">
-                  <Carrinho />
-                </RotaProtegida>
-              }
-            />
+              <Route path="/checkout" element={<Checkout />} />
 
-            <Route
-              path="/lista-favoritos"
-              element={
-                <RotaProtegida tipo="cliente">
-                  <Favoritos />
-                </RotaProtegida>
-              }
-            />
+              <Route
+                path="/carrinho"
+                element={
+                  <RotaProtegida tipo="cliente">
+                    <Carrinho />
+                  </RotaProtegida>
+                }
+              />
 
-            <Route
-              path="/perfil"
-              element={
-                <RotaProtegida tipo="cliente">
-                  <Perfil />
-                </RotaProtegida>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </BrowserRouter>
+              <Route
+                path="/lista-favoritos"
+                element={
+                  <RotaProtegida tipo="cliente">
+                    <Favoritos />
+                  </RotaProtegida>
+                }
+              />
+
+              <Route
+                path="/perfil"
+                element={
+                  <RotaProtegida tipo="cliente">
+                    <Perfil />
+                  </RotaProtegida>
+                }
+              />
+            </Routes>
+          </main>
+          <Footer />
+        </BrowserRouter>
+      </ProvedorFavoritos>
     </ProvedorAutenticacao>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchApi } from "../../../api/requisicoes";
 import ImagensCarrossel from "./componentes/ImagensCarrossel";
-import ProdutosCarrossel from "./componentes/ProdutosCarrosel";
+import ProdutosCarrossel from "../../componentes/ProdutosCarrosel/ProdutosCarrossel";
 
 const Home = () => {
   const [produtos, setProdutos] = useState([]);

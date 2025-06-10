@@ -5,8 +5,8 @@ import {
   faTruck,
   faHouse,
   faArrowRightFromBracket,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 const Sidebar = ({ pagina, setPagina, logout }) => {
   return (

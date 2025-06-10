@@ -1,0 +1,33 @@
+.tag-indicativo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: #e56b6f;
+  color: #1c1c1c;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid #e56b6f;
+}
+
+.img-produto-detalhado {
+  width: 350px;
+  height: 350px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.divisor {
+  border-left: 1px solid #ccc;
+  height: 400px;
+}
+
+.icon-favorito {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #e56b6f;
+}
