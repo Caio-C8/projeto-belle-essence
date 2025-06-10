@@ -19,6 +19,7 @@ import Pesquisa from "./paginas/Pesquisa/Pesquisa";
 import Checkout from "./paginas/Checkout/Checkout";
 import { ProvedorFavoritos } from "./contexto/FavoritosContexto";
 import ScrollCima from "./utilidades/ScrollCima";
+import ResetAoTrocarPagina from "./utilidades/ResetAoTrocarPagina";
 
 const App = () => {
   return (
@@ -26,52 +27,54 @@ const App = () => {
       <ProvedorFavoritos>
         <BrowserRouter>
           <ScrollCima />
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
+          <ResetAoTrocarPagina>
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-              <Route path="/cadastro" element={<FormCadastro />} />
+                <Route path="/cadastro" element={<FormCadastro />} />
 
-              <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login />} />
 
-              <Route path="/alterar-senha" element={<EsqueceuSenha />} />
+                <Route path="/alterar-senha" element={<EsqueceuSenha />} />
 
-              <Route path="/produto/:id" element={<Produto />} />
+                <Route path="/produto/:id" element={<Produto />} />
 
-              <Route path="/pesquisa" element={<Pesquisa />} />
+                <Route path="/pesquisa" element={<Pesquisa />} />
 
-              <Route path="/checkout" element={<Checkout />} />
+                <Route path="/checkout" element={<Checkout />} />
 
-              <Route
-                path="/carrinho"
-                element={
-                  <RotaProtegida tipo="cliente">
-                    <Carrinho />
-                  </RotaProtegida>
-                }
-              />
+                <Route
+                  path="/carrinho"
+                  element={
+                    <RotaProtegida tipo="cliente">
+                      <Carrinho />
+                    </RotaProtegida>
+                  }
+                />
 
-              <Route
-                path="/lista-favoritos"
-                element={
-                  <RotaProtegida tipo="cliente">
-                    <Favoritos />
-                  </RotaProtegida>
-                }
-              />
+                <Route
+                  path="/lista-favoritos"
+                  element={
+                    <RotaProtegida tipo="cliente">
+                      <Favoritos />
+                    </RotaProtegida>
+                  }
+                />
 
-              <Route
-                path="/perfil"
-                element={
-                  <RotaProtegida tipo="cliente">
-                    <Perfil />
-                  </RotaProtegida>
-                }
-              />
-            </Routes>
-          </main>
-          <Footer />
+                <Route
+                  path="/perfil"
+                  element={
+                    <RotaProtegida tipo="cliente">
+                      <Perfil />
+                    </RotaProtegida>
+                  }
+                />
+              </Routes>
+            </main>
+            <Footer />
+          </ResetAoTrocarPagina>
         </BrowserRouter>
       </ProvedorFavoritos>
     </ProvedorAutenticacao>

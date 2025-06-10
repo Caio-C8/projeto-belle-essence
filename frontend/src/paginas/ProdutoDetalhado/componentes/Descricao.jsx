@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Descricao.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const Descricao = ({ produto }) => {
   const [abaSelecionada, setAbaSelecionada] = useState("descricao");
