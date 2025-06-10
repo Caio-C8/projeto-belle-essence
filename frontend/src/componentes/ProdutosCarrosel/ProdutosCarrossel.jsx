@@ -42,7 +42,7 @@ const ProdutosCarrossel = ({ titulo, produtos }) => {
 
   return (
     <div
-      className="container mt-5 py-4 px-4"
+      className="container py-4 px-4"
       style={{ border: "1px solid #1c1c1c", borderRadius: "10px" }}
     >
       <div className="d-flex justify-content-between align-items-center mb-3">

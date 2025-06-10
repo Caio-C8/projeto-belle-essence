@@ -24,7 +24,7 @@ const ProdutoDetalhado = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="d-flex flex-column gap-5">
       <Informacoes produto={produto} />
       <Descricao produto={produto} />
       <TabelaCaracteristicas produto={produto} />

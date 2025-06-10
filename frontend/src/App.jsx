@@ -18,12 +18,14 @@ import Produto from "./paginas/ProdutoDetalhado/ProdutoDetalhado";
 import Pesquisa from "./paginas/Pesquisa/Pesquisa";
 import Checkout from "./paginas/Checkout/Checkout";
 import { ProvedorFavoritos } from "./contexto/FavoritosContexto";
+import ScrollCima from "./utilidades/ScrollCima";
 
 const App = () => {
   return (
     <ProvedorAutenticacao>
       <ProvedorFavoritos>
         <BrowserRouter>
+          <ScrollCima />
           <Header />
           <main>
             <Routes>

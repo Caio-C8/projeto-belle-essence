@@ -17,7 +17,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="d-flex flex-column gap-5">
       <ImagensCarrossel />
       <ProdutosCarrossel titulo="Mais Vendidos" produtos={produtos} />
       <ProdutosCarrossel titulo="Promoções" produtos={produtos} />
