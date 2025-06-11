@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { fetchApiPorId } from "../../../api/requisicoes";
+import { useEnderecos } from "../../contexto/EnderecosContexto";
+import { useCarrinho } from "../../contexto/CarrinhoContexto";
+import { useCliente } from "../../contexto/ClienteContexto";
 
 const Checkout = () => {
   const { usuario } = useAutenticacao();
-  const idUsuario = usuario.id;
-  const [cliente, setCliente] = useState([]);
-  const [produtosCarrinho, setProdutosCarrinho] = useState([]);
-  const [enderecos, setEnderecos] = useState([]);
+  const { enderecos } = useEnderecos();
+  const { produtosCarrinho } = useCarrinho();
+  const { cliente } = useCliente();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
 
-  useEffect(() => {
-    const carregarDados = async () => {
-      const dadosEnderecos = await fetchApiPorId("enderecos", idUsuario);
-      const dadosCliente = await fetchApiPorId("clientes", idUsuario);
-      const itensCarrinho = await fetchApiPorId("itens-carrinho", idUsuario);
+  const encaminharWhatsapp = () => {
+    const confirmar = window.confirm(
+      "O seu pedido foi registrado. Deseja ser redirecionado para o Whatsapp para ser atendido?"
+    );
 
-      const produtosDetalhados = await Promise.all(
-        itensCarrinho.map(async (item) => {
-          const produto = await fetchApiPorId("produtos", item.id_produto);
-          return { ...produto, qtde: item.qtde };
-        })
-      );
+    if (!confirmar) return;
 
-      setProdutosCarrinho(produtosDetalhados);
+    const mensagem = encodeURIComponent(``);
+    const link = `https://wa.me/5538998249365`;
+    window.open(link, "_blank");
+  };
 
-      setEnderecos(dadosEnderecos || []);
-      setCliente(dadosCliente || []);
-    };
-
-    carregarDados();
-  });
+  const realizarPedido = () => {
+    encaminharWhatsapp();
+    alert(
+      "O seu pedido foi registrado com sucesso. Para ver seus pedidos, confira seu perfil."
+    );
+  };
 
   return (
     <div className="d-flex flex-column gap-5">
@@ -86,9 +83,9 @@ const Checkout = () => {
         )}
       </div>
 
-      <a href="https://wa.me/5538998249365" target="_blank">
-        <button className="btn btn-primary">Finalizar pedido</button>
-      </a>
+      <button className="btn btn-primary" onClick={realizarPedido}>
+        Finalizar pedido
+      </button>
     </div>
   );
 };

@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DadosPerfil from "./componentes/DadosPerfil";
 import EnderecosPerfil from "./componentes/EnderecosPerfil";
 import Sidebar from "./componentes/SideBar";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { fetchApiPorId } from "../../../api/requisicoes";
+import { useCliente } from "../../contexto/ClienteContexto";
 
 const Perfil = () => {
-  const { logout, usuario } = useAutenticacao();
+  const { logout } = useAutenticacao();
   const [pagina, setPagina] = useState("dados");
-  const [cliente, setCliente] = useState({});
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      const dadosRequisitados = await fetchApiPorId("clientes", usuario.id);
-
-      setCliente(dadosRequisitados);
-    };
-
-    carregarDados();
-  }, []);
+  const { cliente, setCliente } = useCliente();
 
   return (
     <div className="container">

@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../Perfil.css";
 import Modal from "../../../componentes/Modal/Modal";
 import { useMask } from "@react-input/mask";
-import { fetchApiPorId } from "../../../../api/requisicoes";
 import { useAutenticacao } from "../../../contexto/AutenticarContexto";
 import { validarCamposAlterarEndereco } from "../../../utilidades/validadores";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { useEnderecos } from "../../../contexto/EnderecosContexto";
 
 const EnderecosPerfil = ({ nome, sobrenome }) => {
   const { usuario } = useAutenticacao();
-  const [enderecos, setEnderecos] = useState([]);
+  const { enderecos, adicionarEndereco, atualizarEndereco, deletarEndereco } =
+    useEnderecos();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [modoEdicao, setModoEdicao] = useState(false);
 
-  // Campos do formulário
   const [logradouro, setLogradouro] = useState("");
   const [numero, setNumero] = useState("");
   const [bairro, setBairro] = useState("");
@@ -65,14 +65,6 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
     "SP",
     "TO",
   ];
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      const dados = await fetchApiPorId("enderecos", usuario.id);
-      setEnderecos(dados || []);
-    };
-    carregarDados();
-  }, []);
 
   const abrirModalParaEdicao = (endereco) => {
     setModoEdicao(true);
@@ -153,27 +145,15 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
         alert(mensagem || "Endereço salvo com sucesso!");
 
         if (modoEdicao) {
-          const dadosParaAtualizar = {
-            logradouro,
-            numero,
-            bairro,
-            cep,
-            cidade,
-            estado,
-            tipo,
-            complemento,
-            ponto_referencia: pontoReferencia, // mapeando corretamente
-          };
-
-          setEnderecos((enderecosAtuais) =>
-            enderecosAtuais.map((enderecoAtual) =>
-              enderecoAtual.id_endereco === enderecoSelecionado.id_endereco
-                ? { ...enderecoAtual, ...dadosParaAtualizar }
-                : enderecoAtual
-            )
-          );
+          atualizarEndereco(enderecoSelecionado.id_endereco, {
+            ...dados,
+            ponto_referencia: pontoReferencia,
+          });
         } else {
-          setEnderecos((enderecosAtuais) => [...enderecosAtuais, dados]);
+          adicionarEndereco({
+            ...dados,
+            ponto_referencia: pontoReferencia,
+          });
         }
 
         fecharModal();
@@ -202,11 +182,7 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
 
       if (res.ok) {
         alert(mensagem);
-        setEnderecos((enderecosAtuais) =>
-          enderecosAtuais.filter(
-            (enderecoAtual) => enderecoAtual.id_endereco !== idEndereco
-          )
-        );
+        deletarEndereco(idEndereco);
       } else {
         alert(`Erro ao excluir: ${mensagem}`);
       }
@@ -229,7 +205,7 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
             >
               <div>
                 <h3>{`${endereco.logradouro}, ${endereco.numero}`}</h3>
-                <p>{`${endereco.bairro} - CEP ${endereco.cep} - ${endereco.cidade} - ${endereco.estado}`}</p>
+                <p>{`${endereco.bairro} - ${endereco.cep} - ${endereco.cidade} - ${endereco.estado}`}</p>
                 <p>{`${endereco.tipo} - ${nome} ${sobrenome}`}</p>
                 <p>
                   {endereco.complemento && endereco.ponto_referencia

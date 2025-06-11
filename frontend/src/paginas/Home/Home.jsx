@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { fetchApi } from "../../../api/requisicoes";
+import React from "react";
 import ImagensCarrossel from "./componentes/ImagensCarrossel";
 import ProdutosCarrossel from "../../componentes/ProdutosCarrosel/ProdutosCarrossel";
+import { useProdutos } from "../../contexto/ProdutoContexto";
 
 const Home = () => {
-  const [produtos, setProdutos] = useState([]);
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      const dadosRequisitados = await fetchApi("produtos");
-
-      setProdutos(dadosRequisitados);
-    };
-
-    carregarDados();
-  }, []);
+  const { produtos } = useProdutos();
 
   return (
     <div className="d-flex flex-column gap-5">

@@ -1,36 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useAutenticacao } from "../../contexto/AutenticarContexto";
-import { fetchApiPorId } from "../../../api/requisicoes";
 import CardProdutoCarrinho from "./componentes/CardProdutoCarrinho";
+import { useCarrinho } from "../../contexto/CarrinhoContexto";
 
 const Carrinho = () => {
-  const [produtosCarrinho, setProdutosCarrinho] = useState([]);
-  const { usuario } = useAutenticacao();
-  const idUsuario = usuario.id;
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      const itensCarrinho = await fetchApiPorId("itens-carrinho", idUsuario);
-
-      const produtosDetalhados = await Promise.all(
-        itensCarrinho.map(async (item) => {
-          const produto = await fetchApiPorId("produtos", item.id_produto);
-          return { ...produto, qtde: item.qtde };
-        })
-      );
-
-      setProdutosCarrinho(produtosDetalhados);
-    };
-
-    carregarDados();
-  }, [idUsuario]);
-
-  const atualizarProdutosCarrinho = (idProduto) => {
-    setProdutosCarrinho((produtos) =>
-      produtos.filter((produto) => produto.id_produto !== idProduto)
-    );
-  };
+  const { produtosCarrinho, removerProduto } = useCarrinho();
 
   return (
     <div className="d-flex flex-column gap-4">
@@ -42,7 +16,7 @@ const Carrinho = () => {
           <CardProdutoCarrinho
             key={index}
             produto={produto}
-            atualizarProdutosCarrinho={atualizarProdutosCarrinho}
+            onRemover={() => removerProduto(produto.id_produto)}
           />
         ))
       )}

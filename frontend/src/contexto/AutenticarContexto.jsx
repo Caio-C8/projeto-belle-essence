@@ -1,4 +1,3 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import { createContext, useState, useEffect, useContext } from "react";
 
 const AutenticacaoContexto = createContext();

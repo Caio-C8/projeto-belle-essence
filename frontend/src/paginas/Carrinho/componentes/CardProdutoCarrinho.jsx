@@ -2,36 +2,11 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatarPreco } from "../../../utilidades/formatarPreco";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { useAutenticacao } from "../../../contexto/AutenticarContexto";
+import { useCarrinho } from "../../../contexto/CarrinhoContexto";
 
-const CardProdutoCarrinho = ({ produto, atualizarProdutosCarrinho }) => {
+const CardProdutoCarrinho = ({ produto, onRemover }) => {
   const [quantidade, setQuantidade] = useState(produto.qtde);
-  const { usuario } = useAutenticacao();
-
-  const atualizarQuantidade = async (novaQuantidade) => {
-    try {
-      const res = await fetch("http://localhost:3000/atualizar-quantidade", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idUsuario: usuario.id,
-          idProduto: produto.id_produto,
-          novaQuantidade: novaQuantidade,
-        }),
-      });
-
-      const dados = await res.json();
-
-      if (res.ok) {
-        console.log(dados.mensagem);
-      } else {
-        alert(dados.mensagem);
-      }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro ao atualizar quantidade.");
-    }
-  };
+  const { atualizarQuantidade } = useCarrinho();
 
   const aumentar = () => {
     if (quantidade < produto.qtde_estoque) {
@@ -46,33 +21,6 @@ const CardProdutoCarrinho = ({ produto, atualizarProdutosCarrinho }) => {
       const nova = quantidade - 1;
       atualizarQuantidade(nova);
       setQuantidade(nova);
-    }
-  };
-
-  const retirarProdutoCarrinho = async () => {
-    const idProduto = produto.id_produto;
-    const idUsuario = usuario.id;
-
-    try {
-      const res = await fetch(
-        `http://localhost:3000/retirar-produtos-carrinho/${idUsuario}/${idProduto}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      const { mensagem } = await res.json();
-
-      if (res.ok) {
-        alert(mensagem);
-
-        atualizarProdutosCarrinho(idProduto);
-      } else {
-        alert(mensagem);
-      }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro de conexão com o servidor.");
     }
   };
 
@@ -143,7 +91,7 @@ const CardProdutoCarrinho = ({ produto, atualizarProdutosCarrinho }) => {
       </div>
 
       <div className="p-4">
-        <button onClick={retirarProdutoCarrinho}>
+        <button onClick={onRemover}>
           <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "2rem" }} />
         </button>
       </div>

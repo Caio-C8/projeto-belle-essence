@@ -140,6 +140,17 @@ router.put("/:id", async (req, res) => {
 
     return responder(res, {
       mensagem: "Endereço atualizado com sucesso!",
+      dados: {
+        logradouro,
+        numero,
+        bairro,
+        cep,
+        cidade,
+        estado,
+        tipo,
+        complemento,
+        pontoReferencia,
+      },
     });
   } catch (error) {
     console.error("Erro ao alterar dados: ", error);
