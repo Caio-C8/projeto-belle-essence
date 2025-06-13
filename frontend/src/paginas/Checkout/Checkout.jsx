@@ -7,27 +7,73 @@ import { useCliente } from "../../contexto/ClienteContexto";
 const Checkout = () => {
   const { usuario } = useAutenticacao();
   const { enderecos } = useEnderecos();
-  const { produtosCarrinho } = useCarrinho();
+  const { idCarrinho, produtosCarrinho } = useCarrinho();
   const { cliente } = useCliente();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
 
   const encaminharWhatsapp = () => {
     const confirmar = window.confirm(
-      "O seu pedido foi registrado. Deseja ser redirecionado para o Whatsapp para ser atendido?"
+      "Deseja ser redirecionado para o Whatsapp para realizar o pagamento? (A entrega só será feita mediante pagamento)"
     );
 
     if (!confirmar) return;
 
-    const mensagem = encodeURIComponent(``);
-    const link = `https://wa.me/5538998249365`;
+    const mensagem = encodeURIComponent(
+      `Olá, fiz um pedido!\n\nNº do pedido: 1\n\nItens:\n- 1x Homem Cor.agio, Natura por R$ 199,90\n\nLocal de entrega: Rua, 001 - Bairro - Complemento, Ponto de Referência - Cidade, Estado\n\nTotal do pedido: R$ 199,90`
+    );
+    const link = `https://wa.me/5538998249365?text=${mensagem}`;
     window.open(link, "_blank");
   };
 
-  const realizarPedido = () => {
-    encaminharWhatsapp();
-    alert(
-      "O seu pedido foi registrado com sucesso. Para ver seus pedidos, confira seu perfil."
-    );
+  const realizarPedido = async (
+    idUsuario,
+    idEndereco,
+    idCarrinho,
+    produtosCarrinho
+  ) => {
+    if (!idEndereco) return alert("Selecione um endereço para entrega.");
+
+    const produtosPedido = produtosCarrinho.map((produto) => {
+      console.log("📦 Produto no carrinho:", produto);
+      const idProduto = produto.id_produto;
+      const qtde = produto.qtde;
+      const precoUnitario = produto.promocao
+        ? produto.preco_promocao
+        : produto.preco;
+      return { idProduto, qtde, precoUnitario };
+    });
+
+    console.log("🛒 Enviando para o backend:", {
+      idUsuario,
+      idEndereco,
+      idCarrinho,
+      produtosPedido,
+    });
+
+    try {
+      const res = await fetch("http://localhost:3000/realizar-pedido", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idUsuario,
+          idEndereco,
+          idCarrinho,
+          produtosPedido,
+        }),
+      });
+
+      const { mensagem } = await res.json();
+
+      if (res.ok) {
+        alert(mensagem);
+        encaminharWhatsapp();
+      } else {
+        alert(mensagem);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro de conexão com o servidor");
+    }
   };
 
   return (
@@ -83,7 +129,17 @@ const Checkout = () => {
         )}
       </div>
 
-      <button className="btn btn-primary" onClick={realizarPedido}>
+      <button
+        className="btn btn-primary"
+        onClick={() =>
+          realizarPedido(
+            usuario.id,
+            enderecoSelecionado,
+            idCarrinho,
+            produtosCarrinho
+          )
+        }
+      >
         Finalizar pedido
       </button>
     </div>

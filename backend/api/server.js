@@ -31,6 +31,7 @@ const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
 const favoritarProdutosRoutes = require("../rotas/post/favoritarProduto");
 const colocarProdutoCarrinhoRoutes = require("../rotas/post/colocarProdutoCarrinho");
+const realizarPedidoRoutes = require("../rotas/post/realizarPedido");
 
 const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
 const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
@@ -90,6 +91,9 @@ app.use("/favoritar-produto", favoritarProdutosRoutes);
 
 // Rota para colocar produtos no carrinho
 app.use("/colocar-produtos-carrinho", colocarProdutoCarrinhoRoutes);
+
+// Rota para registrar pedidos
+app.use("/realizar-pedido", realizarPedidoRoutes);
 
 // --- POST --- //
 

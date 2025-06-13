@@ -10,11 +10,13 @@ import {
   faHeart as faHeartSolid,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useCarrinho } from "../../contexto/CarrinhoContexto";
 
 const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
   const { usuario } = useAutenticacao();
   const navigate = useNavigate();
   const { favoritos, toggleFavorito } = useFavoritos();
+  const { adicionarProduto } = useCarrinho();
 
   const isFavorito = favoritos.includes(produto.id_produto);
 
@@ -28,32 +30,22 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
   };
 
   const colocarCarrinho = async () => {
-    const idProduto = produto.id_produto;
-
     if (!usuario) {
       alert("Você precisa estar logado para comprar.");
       return navigate("/login");
     }
 
-    const idUsuario = usuario.id;
-
     try {
-      const res = await fetch(
-        "http://localhost:3000/colocar-produtos-carrinho",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idProduto, idUsuario }),
-        }
-      );
+      const res = await adicionarProduto(produto.id_produto);
 
       const { mensagem } = await res.json();
 
       if (res.ok) {
         const confirmar = window.confirm(
-          `${mensagem} Deseja finalizar compra?`
+          `${mensagem}. Deseja finalizar compra?`
         );
-        if (confirmar) navigate("/carrinho");
+
+        if (confirmar) return navigate("/carrinho");
       } else {
         alert(mensagem);
       }

@@ -7,24 +7,50 @@ const CarrinhoContexto = createContext();
 export const ProvedorCarrinho = ({ children }) => {
   const { usuario } = useAutenticacao();
   const [produtosCarrinho, setProdutosCarrinho] = useState([]);
+  const [idCarrinho, setIdCarrinho] = useState(null);
+
+  const carregarCarrinho = async () => {
+    if (!usuario) return;
+
+    const resultado = await fetchApiPorId("itens-carrinho", usuario.id);
+    const itens = resultado?.itensCarrinho || [];
+
+    if (itens.length > 0) {
+      setIdCarrinho(itens[0].id_carrinho);
+    }
+
+    const detalhados = await Promise.all(
+      itens.map(async (item) => {
+        const produto = await fetchApiPorId("produtos", item.id_produto);
+        return {
+          ...produto,
+          qtde: item.qtde,
+          id_produto: item.id_produto,
+          id_item_carrinho: item.id_item_carrinho,
+        };
+      })
+    );
+
+    setProdutosCarrinho(detalhados);
+  };
 
   useEffect(() => {
-    const carregarCarrinho = async () => {
-      if (!usuario) return;
-
-      const itens = await fetchApiPorId("itens-carrinho", usuario.id);
-      const detalhados = await Promise.all(
-        itens.map(async (item) => {
-          const produto = await fetchApiPorId("produtos", item.id_produto);
-          return { ...produto, qtde: item.qtde };
-        })
-      );
-
-      setProdutosCarrinho(detalhados);
-    };
-
     carregarCarrinho();
   }, [usuario]);
+
+  const adicionarProduto = async (idProduto) => {
+    if (!usuario) return;
+
+    const res = await fetch("http://localhost:3000/colocar-produtos-carrinho", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idProduto, idUsuario: usuario.id }),
+    });
+
+    await carregarCarrinho();
+
+    return res;
+  };
 
   const atualizarQuantidade = async (idProduto, novaQuantidade) => {
     if (!usuario) return;
@@ -60,8 +86,11 @@ export const ProvedorCarrinho = ({ children }) => {
   };
 
   const contexto = {
+    idCarrinho,
     produtosCarrinho,
     setProdutosCarrinho,
+    carregarCarrinho,
+    adicionarProduto,
     atualizarQuantidade,
     removerProduto,
   };

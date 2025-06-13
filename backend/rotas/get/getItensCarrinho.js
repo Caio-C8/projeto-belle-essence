@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     );
 
     return responder(res, {
-      dados: itensCarrinho,
+      dados: { id_carrinho: carrinhoCliente.id_carrinho, itensCarrinho },
     });
   } catch (error) {
     console.error("Erro ao cadastrar usuário:", error);

@@ -5,21 +5,21 @@ import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { useCarrinho } from "../../../contexto/CarrinhoContexto";
 
 const CardProdutoCarrinho = ({ produto, onRemover }) => {
-  const [quantidade, setQuantidade] = useState(produto.qtde);
+  const [quantidade, setQuantidade] = useState(produto.qtde ?? 1);
   const { atualizarQuantidade } = useCarrinho();
 
-  const aumentar = () => {
+  const aumentar = async () => {
     if (quantidade < produto.qtde_estoque) {
       const nova = quantidade + 1;
-      atualizarQuantidade(nova);
+      await atualizarQuantidade(produto.id_produto, nova);
       setQuantidade(nova);
     }
   };
 
-  const diminuir = () => {
+  const diminuir = async () => {
     if (quantidade > 1) {
       const nova = quantidade - 1;
-      atualizarQuantidade(nova);
+      await atualizarQuantidade(produto.id_produto, nova);
       setQuantidade(nova);
     }
   };
@@ -77,7 +77,7 @@ const CardProdutoCarrinho = ({ produto, onRemover }) => {
             type="text"
             className="form-control form-control-sm text-center"
             style={{ width: "50px" }}
-            value={quantidade}
+            value={quantidade ?? ""}
             disabled
           />
           <button

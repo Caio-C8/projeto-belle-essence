@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProdutoCarrinho from "./componentes/CardProdutoCarrinho";
 import { useCarrinho } from "../../contexto/CarrinhoContexto";
 
 const Carrinho = () => {
-  const { produtosCarrinho, removerProduto } = useCarrinho();
+  const { produtosCarrinho, removerProduto, carregarCarrinho } = useCarrinho();
+
+  useEffect(() => {
+    carregarCarrinho();
+  }, []);
 
   return (
     <div className="d-flex flex-column gap-4">
