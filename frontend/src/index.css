@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* ---------- RESET CSS ---------- */
 
@@ -6,7 +6,7 @@
   margin: 0 !important;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body,
@@ -112,6 +112,18 @@ main {
   background-color: #ffb4a2;
   border-color: #ffb4a2;
   color: #1c1c1c;
+  transform: scale(1.03);
+}
+
+.btn-outline-primary {
+  border-color: #ffb4a2;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #1c1c1c;
+}
+
+.btn-outline-primary:hover {
+  background-color: transparent;
+  border-color: #ffb4a2;
   transform: scale(1.03);
 }
 
