@@ -3,12 +3,14 @@ import { useAutenticacao } from "../../contexto/AutenticarContexto";
 import { useEnderecos } from "../../contexto/EnderecosContexto";
 import { useCarrinho } from "../../contexto/CarrinhoContexto";
 import { useCliente } from "../../contexto/ClienteContexto";
+import { usePedidos } from "../../contexto/PedidosContexto";
 
 const Checkout = () => {
   const { usuario } = useAutenticacao();
   const { enderecos } = useEnderecos();
   const { idCarrinho, produtosCarrinho } = useCarrinho();
   const { cliente } = useCliente();
+  const { realizarPedido } = usePedidos();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
 
   const encaminharWhatsapp = () => {
@@ -19,60 +21,22 @@ const Checkout = () => {
     if (!confirmar) return;
 
     const mensagem = encodeURIComponent(
-      `Olá, fiz um pedido!\n\nNº do pedido: 1\n\nItens:\n- 1x Homem Cor.agio, Natura por R$ 199,90\n\nLocal de entrega: Rua, 001 - Bairro - Complemento, Ponto de Referência - Cidade, Estado\n\nTotal do pedido: R$ 199,90`
+      `Olá, meu nome é Nome Completo e fiz um pedido!\n\nNº do pedido: 1\n\nItens:\n- 1x Homem Cor.agio, Natura por R$ 199,90\n\nLocal de entrega: Rua, 001 - Bairro - Complemento, Ponto de Referência - Cidade, Estado\n\nTotal do pedido: R$ 199,90`
     );
     const link = `https://wa.me/5538998249365?text=${mensagem}`;
     window.open(link, "_blank");
   };
 
-  const realizarPedido = async (
-    idUsuario,
-    idEndereco,
-    idCarrinho,
-    produtosCarrinho
-  ) => {
-    if (!idEndereco) return alert("Selecione um endereço para entrega.");
-
-    const produtosPedido = produtosCarrinho.map((produto) => {
-      console.log("📦 Produto no carrinho:", produto);
-      const idProduto = produto.id_produto;
-      const qtde = produto.qtde;
-      const precoUnitario = produto.promocao
-        ? produto.preco_promocao
-        : produto.preco;
-      return { idProduto, qtde, precoUnitario };
-    });
-
-    console.log("🛒 Enviando para o backend:", {
-      idUsuario,
-      idEndereco,
+  const finalizarPedido = async () => {
+    const sucesso = await realizarPedido(
+      usuario.id,
+      enderecoSelecionado,
       idCarrinho,
-      produtosPedido,
-    });
+      produtosCarrinho
+    );
 
-    try {
-      const res = await fetch("http://localhost:3000/realizar-pedido", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idUsuario,
-          idEndereco,
-          idCarrinho,
-          produtosPedido,
-        }),
-      });
-
-      const { mensagem } = await res.json();
-
-      if (res.ok) {
-        alert(mensagem);
-        encaminharWhatsapp();
-      } else {
-        alert(mensagem);
-      }
-    } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro de conexão com o servidor");
+    if (sucesso) {
+      encaminharWhatsapp();
     }
   };
 
@@ -129,17 +93,7 @@ const Checkout = () => {
         )}
       </div>
 
-      <button
-        className="btn btn-primary"
-        onClick={() =>
-          realizarPedido(
-            usuario.id,
-            enderecoSelecionado,
-            idCarrinho,
-            produtosCarrinho
-          )
-        }
-      >
+      <button className="btn btn-primary" onClick={finalizarPedido}>
         Finalizar pedido
       </button>
     </div>

@@ -7,7 +7,6 @@ export const ProvedorFavoritos = ({ children }) => {
   const { usuario } = useAutenticacao();
   const [favoritos, setFavoritos] = useState([]);
 
-  // Carrega os favoritos do usuário ao logar
   useEffect(() => {
     const carregarFavoritos = async () => {
       if (!usuario) {
@@ -30,7 +29,6 @@ export const ProvedorFavoritos = ({ children }) => {
     carregarFavoritos();
   }, [usuario]);
 
-  // Função para favoritar/desfavoritar
   const toggleFavorito = async (idProduto) => {
     if (!usuario) {
       alert("Você precisa estar logado para favoritar.");
@@ -72,8 +70,10 @@ export const ProvedorFavoritos = ({ children }) => {
     }
   };
 
+  const contexto = { favoritos, toggleFavorito };
+
   return (
-    <FavoritosContexto.Provider value={{ favoritos, toggleFavorito }}>
+    <FavoritosContexto.Provider value={contexto}>
       {children}
     </FavoritosContexto.Provider>
   );

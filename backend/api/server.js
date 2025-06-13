@@ -26,6 +26,7 @@ const enderecosRoutes = require("../rotas/get/getEnderecos");
 const clientesRoutes = require("../rotas/get/getClientes");
 const itensListaFavoritosRoutes = require("../rotas/get/getItensListaFavoritos");
 const itensCarrinhosRoutes = require("../rotas/get/getItensCarrinho");
+const informacoesPedidosRoutes = require("../rotas/get/getInformacoesPedido");
 
 const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
@@ -75,6 +76,9 @@ app.use("/itens-lista-favoritos", itensListaFavoritosRoutes);
 
 // Rota listar itens do carrinho
 app.use("/itens-carrinho", itensCarrinhosRoutes);
+
+// Rota listar informações dos pedidos
+app.use("/informacoes-pedidos", informacoesPedidosRoutes);
 
 // --- GET --- //
 

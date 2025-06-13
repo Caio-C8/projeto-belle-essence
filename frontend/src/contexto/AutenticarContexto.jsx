@@ -54,10 +54,10 @@ export const ProvedorAutenticacao = ({ children }) => {
     setUsuario(null);
   };
 
+  const contexto = { usuario, login, logout, carregando };
+
   return (
-    <AutenticacaoContexto.Provider
-      value={{ usuario, login, logout, carregando }}
-    >
+    <AutenticacaoContexto.Provider value={contexto}>
       {children}
     </AutenticacaoContexto.Provider>
   );

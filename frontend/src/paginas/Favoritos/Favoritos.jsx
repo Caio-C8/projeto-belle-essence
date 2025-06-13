@@ -30,7 +30,8 @@ const Favoritos = () => {
   }, [usuario, favoritos]);
 
   return (
-    <>
+    <div className="d-flex flex-column gap-4">
+      <h1>Produtos na Lista de Favoritos</h1>
       {produtosFavoritos.length === 0 ? (
         <div className="d-flex justify-content-center">
           <h1 className="align-self-center">
@@ -48,7 +49,7 @@ const Favoritos = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 import DadosPerfil from "./componentes/DadosPerfil";
 import EnderecosPerfil from "./componentes/EnderecosPerfil";
+import PedidosPerfil from "./componentes/PedidosPerfil";
 import Sidebar from "./componentes/SideBar";
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
 import { useCliente } from "../../contexto/ClienteContexto";
 
 const Perfil = () => {
   const { logout } = useAutenticacao();
-  const [pagina, setPagina] = useState("dados");
   const { cliente, setCliente } = useCliente();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pagina = searchParams.get("aba") || "dados";
+
+  const mudarPagina = (nova) => setSearchParams({ aba: nova });
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-3">
-          <Sidebar pagina={pagina} setPagina={setPagina} logout={logout} />
+          <Sidebar pagina={pagina} setPagina={mudarPagina} logout={logout} />
         </div>
         <div className="col-md-9">
           {pagina === "dados" && (
@@ -26,7 +32,7 @@ const Perfil = () => {
               sobrenome={cliente.sobrenome}
             />
           )}
-          {/* {pagina === "pedidos" && <PedidosPerfil />} */}
+          {pagina === "pedidos" && <PedidosPerfil />}
         </div>
       </div>
     </div>
