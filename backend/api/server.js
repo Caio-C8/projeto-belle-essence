@@ -28,6 +28,8 @@ const clientesRoutes = require("../rotas/get/getClientes");
 const itensListaFavoritosRoutes = require("../rotas/get/getItensListaFavoritos");
 const itensCarrinhosRoutes = require("../rotas/get/getItensCarrinho");
 const informacoesPedidosRoutes = require("../rotas/get/getInformacoesPedido");
+const pesquisaProdutosRoutes = require("../rotas/get/pesquisaProdutos");
+const categoriasRoutes = require("../rotas/get/getCategorias");
 
 const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
@@ -84,6 +86,12 @@ app.use("/itens-carrinho", itensCarrinhosRoutes);
 
 // Rota listar informações dos pedidos
 app.use("/informacoes-pedidos", informacoesPedidosRoutes);
+
+// Rota para pesquisar por produtos
+app.use("/pesquisa", pesquisaProdutosRoutes);
+
+// Rota para listar todas as categorias
+app.use("/categorias", categoriasRoutes);
 
 // --- GET --- //
 

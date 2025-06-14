@@ -1,20 +1,11 @@
 import React from "react";
 import "./Categorias.css";
 import { Link } from "react-router-dom";
-
-const categorias = [
-  "Promoções",
-  "Masculinos",
-  "Femininos",
-  "Infantis",
-  "Perfumes",
-  "Maquiagens",
-  "Skincare",
-  "Cabelos",
-  "Cuidados com o Corpo",
-];
+import { useCategorias } from "../../contexto/CategoriasContexto";
 
 const Categorias = () => {
+  const { categorias } = useCategorias();
+
   return (
     <div className="py-4 px-5" style={{ backgroundColor: "#ffb4a2" }}>
       <div className="d-flex justify-content-center align-items-center container-fluid px-0">
@@ -25,9 +16,9 @@ const Categorias = () => {
               className="d-flex align-items-center mx-3 categoria-item text-nowrap"
               role="button"
             >
-              <Link to={`/pesquisa/${categoria.toLowerCase()}`}>
+              <Link to={`/pesquisa/categoria/${categoria.slug}`}>
                 <span className="categoria" style={{ fontSize: "1.2rem" }}>
-                  {categoria}
+                  {categoria.nomeOriginal}
                 </span>
               </Link>
             </div>

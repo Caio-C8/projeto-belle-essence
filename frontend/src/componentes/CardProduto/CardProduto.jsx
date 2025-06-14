@@ -57,66 +57,65 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
 
   return (
     <div className="col-12 col-sm-6 col-md-3 px-2">
-      <div className="card produto">
-        {isPaginaFavoritos ? (
-          <div className="x-icon" onClick={handleFavoritar}>
-            <FontAwesomeIcon icon={faXmark} />
-          </div>
-        ) : (
-          <div
-            className={isFavorito ? "heart-icon ativo" : "heart-icon"}
-            onClick={handleFavoritar}
-          >
-            <FontAwesomeIcon
-              icon={isFavorito ? faHeartSolid : faHeartOutline}
-            />
-          </div>
-        )}
-
-        <Link
-          className="d-flex flex-column"
-          to={`/produto/${produto.id_produto}`}
-        >
-          <img
-            src={produto.imagem}
-            className="card-img-top"
-            alt={produto.nome}
-          />
-
-          <div className="card-body d-flex flex-column flex-grow-1">
-            <div>
-              <p className="text-muted">{produto.marca}</p>
-              <p className="nome-produto">{produto.nome}</p>
+      <Link to={`/produto/${produto.id_produto}`}>
+        <div className="card produto">
+          {isPaginaFavoritos ? (
+            <div className="x-icon" onClick={handleFavoritar}>
+              <FontAwesomeIcon icon={faXmark} />
             </div>
+          ) : (
+            <div
+              className={isFavorito ? "heart-icon ativo" : "heart-icon"}
+              onClick={handleFavoritar}
+            >
+              <FontAwesomeIcon
+                icon={isFavorito ? faHeartSolid : faHeartOutline}
+              />
+            </div>
+          )}
 
-            <div className="mt-auto">
-              {produto.promocao ? (
-                <>
-                  <p className="text-decoration-line-through text-muted preco-secundario">
+          <div className="d-flex flex-column">
+            <img
+              src={produto.imagem}
+              className="card-img-top"
+              alt={produto.nome}
+            />
+
+            <div className="card-body d-flex flex-column flex-grow-1">
+              <div>
+                <p className="text-muted">{produto.marca}</p>
+                <p className="nome-produto">{produto.nome}</p>
+              </div>
+
+              <div className="mt-auto">
+                {produto.promocao ? (
+                  <>
+                    <p className="text-decoration-line-through text-muted preco-secundario">
+                      {formatarPreco(produto.preco)}
+                    </p>
+                    <p className="fw-bold preco-principal">
+                      {formatarPreco(produto.preco_promocao)}
+                    </p>
+                  </>
+                ) : (
+                  <p className="fw-bold preco-principal">
                     {formatarPreco(produto.preco)}
                   </p>
-                  <p className="fw-bold preco-principal">
-                    {formatarPreco(produto.preco_promocao)}
-                  </p>
-                </>
-              ) : (
-                <p className="fw-bold preco-principal">
-                  {formatarPreco(produto.preco)}
-                </p>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        </Link>
 
-        <div className="mt-auto">
-          <button
-            onClick={colocarCarrinho}
-            className="btn btn-primary w-100 rounded-pill btn-comprar"
-          >
-            Comprar Agora
-          </button>
+          <div className="mt-auto">
+            <button
+              onClick={colocarCarrinho}
+              className="btn btn-primary w-100 rounded-pill btn-comprar"
+            >
+              Comprar Agora
+            </button>
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

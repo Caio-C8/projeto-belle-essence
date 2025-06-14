@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAutenticacao } from "../contexto/AutenticarContexto";
 
-const RotaAcessarLogin = ({ children }) => {
+const RotaRestritaUsuario = ({ children }) => {
   const { usuario } = useAutenticacao();
 
   if (usuario) {
@@ -11,4 +11,4 @@ const RotaAcessarLogin = ({ children }) => {
   return children;
 };
 
-export default RotaAcessarLogin;
+export default RotaRestritaUsuario;

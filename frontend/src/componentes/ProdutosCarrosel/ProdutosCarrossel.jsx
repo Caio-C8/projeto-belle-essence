@@ -3,14 +3,13 @@ import "./ProdutosCarrossel.css";
 import { Link } from "react-router-dom";
 import CardProduto from "../CardProduto/CardProduto";
 
-const ProdutosCarrossel = ({ titulo, produtos }) => {
+const ProdutosCarrossel = ({ titulo, produtos, rota }) => {
   const [indiceInicial, setIndiceInicial] = useState(0);
   const itensPorPagina = 4;
 
-  const totalItens = produtos.length;
+  const totalItens = produtos.length > 8 ? 8 : produtos.length;
   const mostrarControles = totalItens > itensPorPagina;
 
-  // Calcula os índices de início válidos para o carrossel
   const indicesInicioValidos = [];
   for (let i = 0; i < totalItens; i += itensPorPagina) {
     if (i + itensPorPagina > totalItens && totalItens > itensPorPagina) {
@@ -47,7 +46,7 @@ const ProdutosCarrossel = ({ titulo, produtos }) => {
     >
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="fw-bold">{titulo}</h2>
-        <Link to="" className="link">
+        <Link to={rota} className="link">
           Ver mais
         </Link>
       </div>

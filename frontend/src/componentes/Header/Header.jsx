@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import "./Header.css";
 import Categorias from "./Categorias";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoBagOutline, IoHeartOutline, IoPersonOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [textoBusca, setTextoBusca] = useState("");
+  const navigate = useNavigate();
+
+  const realizarBusca = () => {
+    if (textoBusca.trim()) {
+      navigate(`/pesquisa?pesq=${encodeURIComponent(textoBusca)}`);
+    } else {
+      navigate("/pesquisa");
+    }
+  };
 
   return (
     <>
@@ -34,13 +44,15 @@ const Header = () => {
                   type="text"
                   className="barra-pesquisa form-control border-0"
                   placeholder="Procure por produtos"
+                  value={textoBusca}
+                  onChange={(e) => setTextoBusca(e.target.value)}
                 />
-                <Link
-                  to="/pesquisa"
-                  className="btn-barra-pesquisa input-group-text bg-white border-0"
+                <button
+                  onClick={realizarBusca}
+                  className="btn btn-barra-pesquisa input-group-text bg-white border-0"
                 >
                   <IoIosSearch />
-                </Link>
+                </button>
               </div>
             </div>
 

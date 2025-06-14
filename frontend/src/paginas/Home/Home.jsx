@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ImagensCarrossel from "./componentes/ImagensCarrossel";
 import ProdutosCarrossel from "../../componentes/ProdutosCarrosel/ProdutosCarrossel";
-import { useProdutos } from "../../contexto/ProdutoContexto";
+import { useProdutos } from "../../contexto/ProdutosContexto";
 
 const Home = () => {
-  const { produtos } = useProdutos();
+  const { buscarTodosProdutos, produtos } = useProdutos();
+
+  useEffect(() => {
+    buscarTodosProdutos();
+  }, []);
+
+  const lancamentos = produtos.filter((p) => p.lancamento);
+  const promocoes = produtos.filter((p) => p.promocao);
 
   return (
     <div className="d-flex flex-column gap-5">
       <ImagensCarrossel />
-      <ProdutosCarrossel titulo="Mais Vendidos" produtos={produtos} />
-      <ProdutosCarrossel titulo="Promoções" produtos={produtos} />
+      <ProdutosCarrossel
+        titulo="Lançamentos"
+        produtos={lancamentos}
+        rota="/pesquisa/categoria/lancamentos"
+      />
+      <ProdutosCarrossel
+        titulo="Promoções"
+        produtos={promocoes}
+        rota="/pesquisa/categoria/promocoes"
+      />
     </div>
   );
 };
