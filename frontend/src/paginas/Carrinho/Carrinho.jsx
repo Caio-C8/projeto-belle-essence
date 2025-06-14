@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import CardProdutoCarrinho from './componentes/CardProdutoCarrinho';
-import { useCarrinho } from '../../contexto/CarrinhoContexto';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import CardProdutoCarrinho from "./componentes/CardProdutoCarrinho";
+import { useCarrinho } from "../../contexto/CarrinhoContexto";
+import { formatarPreco } from "../../utilidades/formatarPreco";
 
 const Carrinho = () => {
   const { produtosCarrinho, removerProduto, carregarCarrinho } = useCarrinho();
@@ -10,17 +11,24 @@ const Carrinho = () => {
     carregarCarrinho();
   }, []);
 
-  const subtotal = 300;
-  const frete = 10;
-  const total = subtotal + frete;
+  const subtotal = produtosCarrinho.reduce((acc, produto) => {
+    const precoUnitario = produto.promocao
+      ? produto.preco_promocao
+      : produto.preco;
+    return acc + precoUnitario * produto.qtde;
+  }, 0);
+  // const frete = 10;
+  const total = subtotal;
 
   return (
-    <div className='container mt-4'>
-      <div className='row'>
-        <div className='col-md-8 d-flex flex-column gap-3'>
-          <h1>Produtos na Sacola</h1>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-8 d-flex flex-column gap-3">
+          <h2>Produtos na Sacola</h2>
           {!produtosCarrinho.length ? (
-            <h4>Você não possui produtos na sua sacola.</h4>
+            <div className="d-flex justify-content-center">
+              <h3>Você não possui produtos na sua sacola.</h3>
+            </div>
           ) : (
             produtosCarrinho.map((produto, index) => (
               <CardProdutoCarrinho
@@ -32,31 +40,36 @@ const Carrinho = () => {
           )}
         </div>
 
-        <div className='col-md-4'>
-          <div className='border p-4 rounded shadow-sm bg-light'>
-            <h4 className='mb-4'>Resumo da Compra</h4>
-            <div className='d-flex justify-content-between'>
+        <div className="col-md-4 d-flex flex-column gap-3">
+          <h2>Resumo da Compra</h2>
+          <div className="border p-4" style={{ borderRadius: "10px" }}>
+            <div className="d-flex justify-content-between">
               <span>Subtotal ({produtosCarrinho.length} produtos)</span>
-              <strong>R$ {subtotal.toFixed(2)}</strong>
+              {subtotal === 0 ? (
+                <strong>-</strong>
+              ) : (
+                <strong>{formatarPreco(subtotal)}</strong>
+              )}
             </div>
-            <div className='d-flex justify-content-between mt-2'>
+            {/* <div className="d-flex justify-content-between mt-2">
               <div>
                 <span>Frete</span>
-                <small className='d-block text-muted'>
-                  Chega em até 10 dias
-                </small>
               </div>
-              <strong>R$ {frete.toFixed(2)}</strong>
+              <strong>{formatarPreco(frete)}</strong>
+            </div> */}
+            <hr className="my-3" />
+            <div className="d-flex justify-content-between">
+              <span>Valor Total</span>
+              {total === 0 ? (
+                <strong>-</strong>
+              ) : (
+                <strong>{formatarPreco(total)}</strong>
+              )}
             </div>
-            <hr className='my-3' />
-            <div className='d-flex justify-content-between'>
-              <span className='fw-bold'>Valor Total</span>
-              <strong className='text-success'>R$ {total.toFixed(2)}</strong>
-            </div>
-            <Link to='/checkout' className='btn btn-primary w-100 mt-4'>
+            <Link to="/checkout" className="btn btn-primary w-100 mt-4">
               Finalizar Compra
             </Link>
-            <Link to='/produtos' className='btn btn-outline-primary w-100 mt-2'>
+            <Link to="/pesquisa" className="btn btn-outline-primary w-100 mt-2">
               Escolher Mais Produtos
             </Link>
           </div>

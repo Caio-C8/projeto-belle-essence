@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatarPreco } from "../../../utilidades/formatarPreco";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -26,26 +27,26 @@ const CardProdutoCarrinho = ({ produto, onRemover }) => {
 
   return (
     <div
-      className="d-flex justify-content-between p-2"
+      className="d-flex justify-content-between p-2 border"
       style={{
-        width: "60%",
-        border: "1px solid #1c1c1c",
         borderRadius: "10px",
       }}
     >
-      <div className="p-4" style={{ borderRight: "1px solid #cccccc" }}>
-        <img
-          src={produto.imagem}
-          alt={produto.nome}
-          style={{
-            border: "1px solid #1c1c1c",
-            borderRadius: "10px",
-            width: "200px",
-          }}
-        />
+      <div className="p-4 my-2" style={{ borderRight: "1px solid #cccccc" }}>
+        <Link to={`/produto/${produto.id_produto}`}>
+          <img
+            src={produto.imagem}
+            alt={produto.nome}
+            style={{
+              border: "1px solid #1c1c1c",
+              borderRadius: "10px",
+              width: "200px",
+            }}
+          />
+        </Link>
       </div>
 
-      <div className="d-flex flex-column justify-content-between p-4">
+      <div className="d-flex flex-column justify-content-between p-4 w-100">
         <div>
           <h3>{produto.nome}</h3>
           <h6 className="text-muted">{produto.marca}</h6>
@@ -92,7 +93,11 @@ const CardProdutoCarrinho = ({ produto, onRemover }) => {
 
       <div className="p-4">
         <button onClick={onRemover}>
-          <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "2rem" }} />
+          <FontAwesomeIcon
+            icon={faTrashCan}
+            className="icon"
+            style={{ color: "#cccccc", fontSize: "2rem" }}
+          />
         </button>
       </div>
     </div>

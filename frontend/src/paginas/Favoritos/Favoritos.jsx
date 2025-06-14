@@ -34,9 +34,9 @@ const Favoritos = () => {
       <h1>Produtos na Lista de Favoritos</h1>
       {produtosFavoritos.length === 0 ? (
         <div className="d-flex justify-content-center">
-          <h1 className="align-self-center">
+          <h3 className="align-self-center">
             Você não possui itens salvos na sua lista de favoritos.
-          </h1>
+          </h3>
         </div>
       ) : (
         <div className="d-flex flex-wrap">

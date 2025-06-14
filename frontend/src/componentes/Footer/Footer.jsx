@@ -24,10 +24,28 @@ const Footer = () => {
           <div className="col-12 col-md-4 text-center text-md-end">
             <p className="fw-bold fs-5 mb-2">Redes Sociais</p>
             <div className="d-flex justify-content-center justify-content-md-end gap-4">
-              <Link to="#">
+              <Link
+                onClick={() => {
+                  return (
+                    window.open(
+                      "https://www.instagram.com/elianeangelicadefreitas/"
+                    ),
+                    "_blank"
+                  );
+                }}
+              >
                 <IoLogoInstagram className="footer-icon" />
               </Link>
-              <Link to="#">
+              <Link
+                onClick={() => {
+                  return (
+                    window.open(
+                      "https://www.facebook.com/elianeangelicadefreitas"
+                    ),
+                    "_blank"
+                  );
+                }}
+              >
                 <IoLogoFacebook className="footer-icon" />
               </Link>
             </div>

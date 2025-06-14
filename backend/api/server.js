@@ -19,6 +19,7 @@ const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
 const desfavoritarProdutosRoutes = require("../rotas/delete/desfavoritarProdutos");
 const retirarProdutosCarrinhoRoutes = require("../rotas/delete/retirarProdutosCarrinho");
 const deletarContasRoutes = require("../rotas/delete/deletarConta");
+const esvaziarCarrinhoRoutes = require("../rotas/delete/esvaziarCarrinho");
 
 const carrinhosRoutes = require("../rotas/get/getItensCarrinho");
 const produtosRoutes = require("../rotas/get/getProdutos");
@@ -38,6 +39,7 @@ const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
 const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
 const alterarSenhaRoutes = require("../rotas/put/alterarSenha");
 const atualizarQuantidadeCarrinhoRoutes = require("../rotas/put/atualizarQuantidadeCarrinho");
+const cancelarPedidoRoutes = require("../rotas/put/cancelarPedido");
 
 const validarUsuariosRoutes = require("../rotas/validarUsuarios");
 
@@ -54,6 +56,9 @@ app.use("/retirar-produtos-carrinho", retirarProdutosCarrinhoRoutes);
 
 // Rota para deletar contas
 app.use("/deletar-conta", deletarContasRoutes);
+
+// Rota para esvaziar carrinho
+app.use("/esvaziar-carrinho", esvaziarCarrinhoRoutes);
 
 // --- DELETE --- //
 
@@ -114,6 +119,9 @@ app.use("/alterar-senha", alterarSenhaRoutes);
 
 // Rota para alterar quantidade de produtos no carrinho
 app.use("/atualizar-quantidade", atualizarQuantidadeCarrinhoRoutes);
+
+// Rota para cancelar pedidos
+app.use("/cancelar-pedido", cancelarPedidoRoutes);
 
 // --- PUT --- //
 

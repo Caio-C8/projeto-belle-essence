@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { usePedidos } from "../../../contexto/PedidosContexto";
 
 const PedidosPerfil = () => {
-  const { pedidos } = usePedidos();
+  const { pedidos, cancelarPedido, carregarPedidos } = usePedidos();
+
+  useEffect(() => {
+    carregarPedidos();
+  });
+
+  const cancelar = async (idPedido) => {
+    const res = await cancelarPedido(idPedido);
+
+    const { mensagem } = await res.json();
+
+    if (res.ok) {
+      alert(mensagem);
+    } else {
+      alert(mensagem);
+    }
+  };
 
   return (
     <div>
@@ -32,7 +48,19 @@ const PedidosPerfil = () => {
                 </Link>
               </div>
             ))}
+
             <p className="fw-bold mt-2">{`Total do pedido: ${total} - Status: ${pedido.status}`}</p>
+
+            {pedido.status === "Cancelado" ? (
+              <></>
+            ) : (
+              <button
+                onClick={() => cancelar(pedido.id_pedido)}
+                className="btn btn-cancelar"
+              >
+                Cancelar Pedido
+              </button>
+            )}
           </div>
         );
       })}

@@ -75,10 +75,26 @@ export const ProvedorPedidos = ({ children }) => {
     }
   };
 
+  const cancelarPedido = async (idPedido) => {
+    try {
+      const res = await fetch("http://localhost:3000/cancelar-pedido", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idPedido }),
+      });
+
+      return res;
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro de conexão com o servidor");
+    }
+  };
+
   const contexto = {
     pedidos,
     carregarPedidos,
     realizarPedido,
+    cancelarPedido,
   };
 
   return (

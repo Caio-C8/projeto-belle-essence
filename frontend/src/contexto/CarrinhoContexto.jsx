@@ -85,6 +85,16 @@ export const ProvedorCarrinho = ({ children }) => {
     );
   };
 
+  const esvaziarCarrinho = async () => {
+    if (!usuario) return;
+
+    await fetch(`http://localhost:3000/esvaziar-carrinho/${usuario.id}`, {
+      method: "DELETE",
+    });
+
+    setProdutosCarrinho([]);
+  };
+
   const contexto = {
     idCarrinho,
     produtosCarrinho,
@@ -93,6 +103,7 @@ export const ProvedorCarrinho = ({ children }) => {
     adicionarProduto,
     atualizarQuantidade,
     removerProduto,
+    esvaziarCarrinho,
   };
 
   return (
