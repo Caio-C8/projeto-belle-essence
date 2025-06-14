@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
       id_endereco: idEndereco,
       id_carrinho: idCarrinho,
       data_pedido: new Date(),
-      status: "Realizado",
+      status: "Aguardando Pagamento.",
     });
 
     const idPedido = pedidoResutl.id_pedido;
@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
     return responder(res, {
       mensagem:
         "O seu pedido foi registrado com sucesso. Para ver seus pedidos, confira seu perfil.",
+      dados: { idPedido },
     });
   } catch (error) {
     console.error("Erro ao registrar pedido:", error);

@@ -1,11 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAutenticacao } from "./AutenticarContexto";
 import { fetchApiPorId } from "../../api/requisicoes";
+import { useCliente } from "./ClienteContexto";
 
 const PedidosContexto = createContext();
 
 export const ProvedorPedidos = ({ children }) => {
   const { usuario } = useAutenticacao();
+  const { cliente } = useCliente();
   const [pedidos, setPedidos] = useState([]);
 
   const carregarPedidos = async () => {
@@ -58,20 +60,24 @@ export const ProvedorPedidos = ({ children }) => {
         }),
       });
 
-      const { mensagem } = await res.json();
+      const { mensagem, dados } = await res.json();
 
       if (res.ok) {
         alert(mensagem);
         carregarPedidos();
-        return true;
+        return {
+          sucesso: true,
+          idPedidoCriado: dados.idPedido,
+          nomeCompleto: cliente.nome + cliente.sobrenome,
+        };
       } else {
         alert(mensagem);
-        return false;
+        return { sucesso: false, idPedidoCriado: null, nomeCompleto: null };
       }
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro de conexão com o servidor");
-      return false;
+      return { sucesso: false, idPedidoCriado: null, nomeCompleto: null };
     }
   };
 

@@ -5,6 +5,7 @@ import { useEnderecos } from "../../contexto/EnderecosContexto";
 import { useCarrinho } from "../../contexto/CarrinhoContexto";
 import { useCliente } from "../../contexto/ClienteContexto";
 import { usePedidos } from "../../contexto/PedidosContexto";
+import { formatarPreco } from "../../utilidades/formatarPreco";
 
 const Checkout = () => {
   const { usuario } = useAutenticacao();
@@ -15,21 +16,53 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
 
-  const encaminharWhatsapp = (usuario, produtosCarrinho, idCarrinho) => {
+  const encaminharWhatsapp = (
+    produtosCarrinho,
+    idPedidoCriado,
+    nomeCompleto
+  ) => {
     const confirmar = window.confirm(
       "Deseja ser redirecionado para o Whatsapp para realizar o pagamento? (A entrega só será feita mediante pagamento)"
     );
 
     if (!confirmar) return;
 
-    const mensagem = encodeURIComponent();
+    const endereco = enderecos.find(
+      (end) => end.id_endereco === enderecoSelecionado
+    );
+
+    const mensagem =
+      encodeURIComponent(`Olá, meu nome é ${nomeCompleto} fiz um pedido!\n\nNº do pedido: #${idPedidoCriado}\n\nItens:\n${produtosCarrinho
+        .map(
+          (produto) =>
+            `- ${produto.qtde}x ${produto.nome}, ${produto.marca} por ${
+              produto.promocao
+                ? formatarPreco(produto.preco_promocao)
+                : formatarPreco(produto.preco)
+            } a unidade;`
+        )
+        .join("\n")}\n\nLocal de entrega: ${endereco.logradouro}, ${
+        endereco.numero
+      } - ${endereco.bairro} - ${endereco.complemento}, ${
+        endereco.ponto_referencia
+      } - ${endereco.cidade}, ${
+        endereco.estado
+      }\n\nTotal do pedido: ${formatarPreco(
+        produtosCarrinho.reduce((acc, produto) => {
+          const precoUnitario = produto.promocao
+            ? produto.preco_promocao
+            : produto.preco;
+          return acc + precoUnitario * produto.qtde;
+        }, 0)
+      )}
+      `);
 
     const link = `https://wa.me/5538998249365?text=${mensagem}`;
     window.open(link, "_blank");
   };
 
   const finalizarPedido = async () => {
-    const sucesso = await realizarPedido(
+    const { sucesso, idPedidoCriado, nomeCompleto } = await realizarPedido(
       usuario.id,
       enderecoSelecionado,
       idCarrinho,
@@ -37,7 +70,7 @@ const Checkout = () => {
     );
 
     if (sucesso) {
-      encaminharWhatsapp(usuario, produtosCarrinho, idCarrinho);
+      encaminharWhatsapp(produtosCarrinho, idPedidoCriado, nomeCompleto);
       navigate("/perfil?aba=pedidos");
       await esvaziarCarrinho();
     }
