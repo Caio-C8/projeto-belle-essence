@@ -181,12 +181,12 @@ function validarCamposAlterarDadosUsuario(
   celular,
   dataNascimento
 ) {
-  if (email !== null) {
+  if (email) {
     if (!validarEmail(email)) {
       return "E-mail inválido.";
     }
   }
-  if (senha !== null && confirmarSenha !== null) {
+  if (senha && confirmarSenha) {
     if (!validarSenha(senha)) {
       return "Senha deve conter no mínimo 8 caracteres, 1 letra, 1 símbolo e 1 número.";
     }
@@ -194,17 +194,17 @@ function validarCamposAlterarDadosUsuario(
       return "As senhas digitadas são diferentes.";
     }
   }
-  if (nome !== null && sobrenome !== null) {
+  if (nome && sobrenome) {
     if (!validarNomeSobrenome(nome, sobrenome)) {
       return "Nome ou Sobrenome inválidos.";
     }
   }
-  if (celular !== null) {
+  if (celular) {
     if (!validarNumeroCelular(celular)) {
       return "Número de celular inválido.";
     }
   }
-  if (dataNascimento !== null) {
+  if (dataNascimento) {
     if (!validarDataNascimento(dataNascimento)) {
       return "Data de nascimento inválida.";
     }

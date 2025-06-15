@@ -30,13 +30,13 @@ const DadosPerfil = ({ cliente, setCliente }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [tipoModal, setTipoModal] = useState("");
 
-  const [email, setEmail] = useState(null);
-  const [senha, setSenha] = useState(null);
-  const [confirmarSenha, setConfirmarSenha] = useState(null);
-  const [nome, setNome] = useState(null);
-  const [sobrenome, setSobrenome] = useState(null);
-  const [celular, setCelular] = useState(null);
-  const [dataNascimento, setDataNascimento] = useState(null);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [celular, setCelular] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
   const navigate = useNavigate();
 
   const abrirModal = (tipo) => {
@@ -184,10 +184,10 @@ const DadosPerfil = ({ cliente, setCliente }) => {
         }
       );
 
-      const mensagem = await res.json();
+      const { mensagem } = await res.json();
 
       if (res.ok) {
-        alert(mensagem.mensagem);
+        alert(mensagem);
 
         setCliente((anterior) => ({
           ...anterior,
@@ -198,16 +198,16 @@ const DadosPerfil = ({ cliente, setCliente }) => {
           ...(dataNascimento && { data_nascimento: dataNascimento }),
         }));
 
-        setEmail(null);
-        setSenha(null);
-        setConfirmarSenha(null);
-        setNome(null);
-        setSobrenome(null);
-        setCelular(null);
-        setDataNascimento(null);
+        setEmail("");
+        setSenha("");
+        setConfirmarSenha("");
+        setNome("");
+        setSobrenome("");
+        setCelular("");
+        setDataNascimento("");
         fecharModal();
       } else {
-        alert(`Erro ao alterar dados. ${mensagem.mensagem}`);
+        alert(`Erro ao alterar dados. ${mensagem}`);
       }
     } catch (error) {
       console.error("Erro:", error);

@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { usePedidos } from "../../../contexto/PedidosContexto";
+import { useEnderecos } from "../../../contexto/EnderecosContexto";
 
 const PedidosPerfil = () => {
   const { pedidos, cancelarPedido, carregarPedidos } = usePedidos();
+  const { enderecos } = useEnderecos();
 
   useEffect(() => {
     carregarPedidos();
@@ -30,6 +32,10 @@ const PedidosPerfil = () => {
           0
         );
 
+        const enderecoPedido = enderecos.filter(
+          (endereco) => endereco.id_endereco === pedido.id_endereco
+        );
+
         return (
           <div className="border p-3 mb-2" key={index}>
             <h4 className="mb-2">Pedido #{pedido.id_pedido}</h4>
@@ -48,6 +54,15 @@ const PedidosPerfil = () => {
                 </Link>
               </div>
             ))}
+
+            {!enderecoPedido ? (
+              <p>Endereço excluído</p>
+            ) : (
+              <p>
+                Endereço do pedido: {enderecoPedido.logradouro},
+                {enderecoPedido.numero}
+              </p>
+            )}
 
             <p className="fw-bold mt-2">{`Total do pedido: ${total} - Status: ${pedido.status}`}</p>
 

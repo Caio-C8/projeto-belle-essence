@@ -8,11 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { useEnderecos } from "../../../contexto/EnderecosContexto";
+import { usePedidos } from "../../../contexto/PedidosContexto";
 
 const EnderecosPerfil = ({ nome, sobrenome }) => {
   const { usuario } = useAutenticacao();
   const { enderecos, adicionarEndereco, atualizarEndereco, deletarEndereco } =
     useEnderecos();
+  const { pedidos } = usePedidos();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [modoEdicao, setModoEdicao] = useState(false);
@@ -169,6 +171,19 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
   const excluirEndereco = async (idEndereco) => {
     const confirmar = window.confirm("Tem certeza que deseja excluir?");
     if (!confirmar) return;
+
+    const pedidosComEndereco = pedidos.filter((pedido) => {
+      return pedido.id_endereco === idEndereco;
+    });
+
+    const pedidosNaoPermitidos = pedidosComEndereco.filter(
+      (pedido) => pedido.status !== "Entregue" && pedido.status !== "Cancelado"
+    );
+
+    if (pedidosNaoPermitidos.length > 0)
+      return alert(
+        "Este endereço está em um pedido, você só poderá excluí-lo se cancelar o pedido ou depois que o pedido for concluído."
+      );
 
     try {
       const res = await fetch(

@@ -9,7 +9,6 @@ import { ProvedorFavoritos } from "./contexto/FavoritosContexto";
 import { ProvedorCarrinho } from "./contexto/CarrinhoContexto";
 import { ProvedorEndereco } from "./contexto/EnderecosContexto";
 import { ProvedorCliente } from "./contexto/ClienteContexto";
-import { ProvedorProduto } from "./contexto/ProdutoContexto";
 import { ProvedorPedidos } from "./contexto/PedidosContexto";
 import ScrollCima from "./utilidades/ScrollCima";
 import ResetAoTrocarPagina from "./utilidades/ResetAoTrocarPagina";
@@ -30,6 +29,8 @@ import RotaAcessarCheckout from "./rotas/RotaAcessarCheckout";
 import { ProvedorProdutos } from "./contexto/ProdutosContexto";
 import { ProvedorCategorias } from "./contexto/CategoriasContexto";
 
+// Pesquisa pelo código do produto
+
 const App = () => {
   return (
     <ProvedorAutenticacao>
@@ -37,100 +38,95 @@ const App = () => {
         <ProvedorCarrinho>
           <ProvedorEndereco>
             <ProvedorCliente>
-              <ProvedorProduto>
-                <ProvedorPedidos>
-                  <ProvedorProdutos>
-                    <ProvedorCategorias>
-                      <BrowserRouter>
-                        <ScrollCima />
-                        <ResetAoTrocarPagina>
-                          <Header />
-                          <main>
-                            <Routes>
-                              <Route path="/" element={<Home />} />
+              <ProvedorPedidos>
+                <ProvedorProdutos>
+                  <ProvedorCategorias>
+                    <BrowserRouter>
+                      <ScrollCima />
+                      <ResetAoTrocarPagina>
+                        <Header />
+                        <main>
+                          <Routes>
+                            <Route path="/" element={<Home />} />
 
-                              <Route
-                                path="/cadastro"
-                                element={
-                                  <RotaRestritaUsuario>
-                                    <FormCadastro />
-                                  </RotaRestritaUsuario>
-                                }
-                              />
+                            <Route
+                              path="/cadastro"
+                              element={
+                                <RotaRestritaUsuario>
+                                  <FormCadastro />
+                                </RotaRestritaUsuario>
+                              }
+                            />
 
-                              <Route
-                                path="/login"
-                                element={
-                                  <RotaRestritaUsuario>
-                                    <Login />
-                                  </RotaRestritaUsuario>
-                                }
-                              />
+                            <Route
+                              path="/login"
+                              element={
+                                <RotaRestritaUsuario>
+                                  <Login />
+                                </RotaRestritaUsuario>
+                              }
+                            />
 
-                              <Route
-                                path="/alterar-senha"
-                                element={
-                                  <RotaRestritaUsuario>
-                                    <EsqueceuSenha />
-                                  </RotaRestritaUsuario>
-                                }
-                              />
+                            <Route
+                              path="/alterar-senha"
+                              element={
+                                <RotaRestritaUsuario>
+                                  <EsqueceuSenha />
+                                </RotaRestritaUsuario>
+                              }
+                            />
 
-                              <Route
-                                path="/produto/:id"
-                                element={<Produto />}
-                              />
+                            <Route path="/produto/:id" element={<Produto />} />
 
-                              <Route path="/pesquisa" element={<Pesquisa />} />
-                              <Route
-                                path="/pesquisa/categoria/:categoria"
-                                element={<Pesquisa />}
-                              />
+                            <Route path="/pesquisa" element={<Pesquisa />} />
+                            <Route
+                              path="/pesquisa/categoria/:categoria"
+                              element={<Pesquisa />}
+                            />
 
-                              <Route
-                                path="/checkout"
-                                element={
-                                  <RotaAcessarCheckout>
-                                    <Checkout />
-                                  </RotaAcessarCheckout>
-                                }
-                              />
+                            <Route
+                              path="/checkout"
+                              element={
+                                <RotaAcessarCheckout>
+                                  <Checkout />
+                                </RotaAcessarCheckout>
+                              }
+                            />
 
-                              <Route
-                                path="/carrinho"
-                                element={
-                                  <RotaProtegida tipo="cliente">
-                                    <Carrinho />
-                                  </RotaProtegida>
-                                }
-                              />
+                            <Route
+                              path="/carrinho"
+                              element={
+                                <RotaProtegida tipo="cliente">
+                                  <Carrinho />
+                                </RotaProtegida>
+                              }
+                            />
 
-                              <Route
-                                path="/lista-favoritos"
-                                element={
-                                  <RotaProtegida tipo="cliente">
-                                    <Favoritos />
-                                  </RotaProtegida>
-                                }
-                              />
+                            <Route
+                              path="/lista-favoritos"
+                              element={
+                                <RotaProtegida tipo="cliente">
+                                  <Favoritos />
+                                </RotaProtegida>
+                              }
+                            />
 
-                              <Route
-                                path="/perfil"
-                                element={
-                                  <RotaProtegida tipo="cliente">
-                                    <Perfil />
-                                  </RotaProtegida>
-                                }
-                              />
-                            </Routes>
-                          </main>
-                          <Footer />
-                        </ResetAoTrocarPagina>
-                      </BrowserRouter>
-                    </ProvedorCategorias>
-                  </ProvedorProdutos>
-                </ProvedorPedidos>
-              </ProvedorProduto>
+                            <Route
+                              path="/perfil"
+                              element={
+                                <RotaProtegida tipo="cliente">
+                                  <Perfil />
+                                </RotaProtegida>
+                              }
+                            />
+                          </Routes>
+                        </main>
+                        <Footer />
+                      </ResetAoTrocarPagina>
+                    </BrowserRouter>
+                  </ProvedorCategorias>
+                </ProvedorProdutos>
+              </ProvedorPedidos>
             </ProvedorCliente>
           </ProvedorEndereco>
         </ProvedorCarrinho>

@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../../connect");
-const { listarTodos, listarPorId } = require("../../db/controladores");
+const { listarTodos, listarPorId } = require("../../handlers/handlerListar");
 const responder = require("../../utilidades/responder");
 
-router.get("/", listarTodos("produtos", "id_produto"));
 router.get("/:id", listarPorId("produtos", "id_produto"));
 
 router.get("/categorias/:idProduto", async (req, res) => {

@@ -7,12 +7,12 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("API rodando!");
-});
-
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+app.get("/", (req, res) => {
+  res.send("API rodando!");
 });
 
 const deletarEndedrecoRoutes = require("../rotas/delete/deletarEndereco");
@@ -37,7 +37,7 @@ const favoritarProdutosRoutes = require("../rotas/post/favoritarProduto");
 const colocarProdutoCarrinhoRoutes = require("../rotas/post/colocarProdutoCarrinho");
 const realizarPedidoRoutes = require("../rotas/post/realizarPedido");
 
-const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosUsuario");
+const alterarDadosUsuarioRoutes = require("../rotas/put/atualizarDadosCliente");
 const atualizarDadosEnderecoRoutes = require("../rotas/put/atualizarDadosEndereco");
 const alterarSenhaRoutes = require("../rotas/put/alterarSenha");
 const atualizarQuantidadeCarrinhoRoutes = require("../rotas/put/atualizarQuantidadeCarrinho");
