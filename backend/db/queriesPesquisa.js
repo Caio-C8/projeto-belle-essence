@@ -1,11 +1,15 @@
 const pool = require("../connect");
 const { buscarPorColuna, buscarTodosPorColuna } = require("./queries");
+const {
+  montarFiltrosQuery,
+  aplicarFiltros,
+} = require("../utilidades/montarFiltros");
 
 const buscarProdutoPorCodigo = async (codigoProduto) => {
   return await buscarPorColuna("produtos", "codigo_produto", codigoProduto);
 };
 
-const buscarProdutosPorTermos = async (termos) => {
+const buscarProdutosPorTermos = async (termos, filtros = {}) => {
   const valores = termos.map((t) => `%${t}%`);
 
   const likeConditions = termos
@@ -33,14 +37,23 @@ const buscarProdutosPorTermos = async (termos) => {
     })
     .join(" OR ");
 
-  const query = `
+  let baseQuery = `
     SELECT *
     FROM produtos p
-    WHERE ${likeConditions}
-    ORDER BY promocao DESC, id_produto ASC
+    WHERE (${likeConditions})
   `;
 
-  const result = await pool.query(query, valores);
+  const { query, params } = aplicarFiltros(
+    baseQuery,
+    filtros,
+    valores.length + 1
+  );
+  const finalParams = [...valores, ...params];
+
+  const result = await pool.query(
+    query + " ORDER BY promocao DESC, id_produto ASC",
+    finalParams
+  );
   return result.rows;
 };
 
@@ -77,32 +90,37 @@ const buscarProdutosRelacionados = async (idProduto) => {
   return relacionadosResult.rows;
 };
 
-const buscarProdutosPorCategoriaSlug = async (categoriaSlug) => {
+const buscarProdutosPorCategoriaSlug = async (categoriaSlug, filtros = {}) => {
   if (categoriaSlug === "promocoes") {
-    const produtosPromocao = await buscarTodosPorColuna(
-      "produtos",
-      "promocao",
-      true
+    const { query, params } = aplicarFiltros(
+      "SELECT * FROM produtos WHERE promocao = TRUE",
+      filtros
+    );
+    const result = await pool.query(
+      query + " ORDER BY promocao DESC, id_produto ASC",
+      params
     );
     return {
-      produtos: produtosPromocao,
-      mensagem: `Foram encontrados ${produtosPromocao.length} produtos em promoção.`,
+      produtos: result.rows,
+      mensagem: `Foram encontrados ${result.rowCount} produtos em promoção.`,
     };
   }
 
   if (categoriaSlug === "lancamentos") {
-    const produtosLancamento = await buscarTodosPorColuna(
-      "produtos",
-      "lancamento",
-      true
+    const { query, params } = aplicarFiltros(
+      "SELECT * FROM produtos WHERE lancamento = TRUE",
+      filtros
+    );
+    const result = await pool.query(
+      query + " ORDER BY promocao DESC, id_produto ASC",
+      params
     );
     return {
-      produtos: produtosLancamento,
-      mensagem: `Foram encontrados ${produtosLancamento.length} produtos em lançamento.`,
+      produtos: result.rows,
+      mensagem: `Foram encontrados ${result.rowCount} produtos em lançamento.`,
     };
   }
 
-  // Caso seja uma categoria normal (exemplo: "perfumes-femininos")
   const resultCategoria = await pool.query(
     `SELECT categoria FROM categorias WHERE unaccent(lower(categoria)) = unaccent(lower($1))`,
     [categoriaSlug.replace(/-/g, " ")]
@@ -118,16 +136,21 @@ const buscarProdutosPorCategoriaSlug = async (categoriaSlug) => {
 
   const nomeCategoriaBanco = resultCategoria.rows[0].categoria;
 
-  const query = `
-      SELECT p.*
-      FROM produtos p
-      JOIN categorias_produto cp ON p.id_produto = cp.id_produto
-      JOIN categorias c ON cp.id_categoria = c.id_categoria
-      WHERE unaccent(lower(c.categoria)) = unaccent(lower($1))
-      ORDER BY p.id_produto ASC
-    `;
+  let baseQuery = `
+    SELECT p.*
+    FROM produtos p
+    JOIN categorias_produto cp ON p.id_produto = cp.id_produto
+    JOIN categorias c ON cp.id_categoria = c.id_categoria
+    WHERE unaccent(lower(c.categoria)) = unaccent(lower($1))
+  `;
 
-  const resultProdutos = await pool.query(query, [nomeCategoriaBanco]);
+  const { query, params } = aplicarFiltros(baseQuery, filtros, 2);
+  const finalParams = [nomeCategoriaBanco, ...params];
+
+  const resultProdutos = await pool.query(
+    query + " ORDER BY p.id_produto ASC",
+    finalParams
+  );
 
   return {
     produtos: resultProdutos.rows,

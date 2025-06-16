@@ -15,10 +15,11 @@ const ProdutoDetalhado = () => {
 
   useEffect(() => {
     const carregarDados = async () => {
-      const dadosRequisitadosProduto = await fetchApiPorId("produtos", id);
-      setProduto(dadosRequisitadosProduto);
+      const resposta = await fetchApiPorId("produtos", id);
+      setProduto(resposta.dados);
 
-      const categorias = await fetchApiPorId("produtos/categorias", id);
+      const resposta2 = await fetchApiPorId("produtos/categorias", id);
+      const categorias = resposta2.dados;
       setCategoriasDoProduto(categorias.map((c) => c.categoria));
 
       await buscarRelacionados(id);

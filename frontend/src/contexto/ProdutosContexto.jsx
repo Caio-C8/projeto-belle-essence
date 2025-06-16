@@ -5,15 +5,34 @@ const ProdutosContexto = createContext();
 
 export const ProvedorProdutos = ({ children }) => {
   const [produtos, setProdutos] = useState([]);
+  const [filtros, setFiltros] = useState(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
 
-  const buscarTodosProdutos = async () => {
+  const construirQueryString = (filtrosAtivos) => {
+    const params = new URLSearchParams();
+
+    Object.entries(filtrosAtivos).forEach(([key, value]) => {
+      if (value && value.trim() !== "") {
+        params.append(key, value);
+      }
+    });
+
+    return params.toString();
+  };
+
+  const buscarTodosProdutos = async (filtrosAtivos = {}) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dados = await fetchApi("pesquisa/todos");
-      setProdutos(dados);
+      const queryString = construirQueryString(filtrosAtivos);
+      const url = queryString
+        ? `pesquisa/todos?${queryString}`
+        : "pesquisa/todos";
+      const resposta = await fetchApi(url);
+
+      setProdutos(resposta?.dados || []);
+      setFiltros(resposta?.filtros || null);
     } catch (error) {
       console.error("Erro ao buscar todos os produtos:", error);
       setErro("Erro ao carregar produtos.");
@@ -22,12 +41,18 @@ export const ProvedorProdutos = ({ children }) => {
     }
   };
 
-  const buscarPorCategoria = async (categoria) => {
+  const buscarPorCategoria = async (categoria, filtrosAtivos = {}) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dados = await fetchApiPorId("pesquisa/categoria", categoria);
-      setProdutos(dados);
+      const queryString = construirQueryString(filtrosAtivos);
+      const url = queryString
+        ? `pesquisa/categoria/${categoria}?${queryString}`
+        : `pesquisa/categoria/${categoria}`;
+      const resposta = await fetchApi(url);
+
+      setProdutos(resposta?.dados || []);
+      setFiltros(resposta?.filtros || null);
     } catch (error) {
       console.error("Erro ao buscar por categoria:", error);
       setErro("Erro ao carregar categoria.");
@@ -36,14 +61,23 @@ export const ProvedorProdutos = ({ children }) => {
     }
   };
 
-  const buscarPorTexto = async (pesquisa) => {
+  const buscarPorTexto = async (pesquisa, filtrosAtivos = {}) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dados = await fetchApi(
-        `pesquisa?pesq=${encodeURIComponent(pesquisa)}`
-      );
-      setProdutos(dados);
+      const params = new URLSearchParams();
+      params.append("pesq", pesquisa);
+
+      Object.entries(filtrosAtivos).forEach(([key, value]) => {
+        if (value && value.trim() !== "") {
+          params.append(key, value);
+        }
+      });
+
+      const resposta = await fetchApi(`pesquisa?${params.toString()}`);
+
+      setProdutos(resposta?.dados || []);
+      setFiltros(resposta?.filtros || null);
     } catch (error) {
       console.error("Erro ao buscar por texto:", error);
       setErro("Erro na pesquisa.");
@@ -56,8 +90,10 @@ export const ProvedorProdutos = ({ children }) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dados = await fetchApiPorId("pesquisa/relacionados", idProduto);
-      setProdutos(dados);
+      const resposta = await fetchApiPorId("pesquisa/relacionados", idProduto);
+
+      setProdutos(resposta?.dados || []);
+      setFiltros(resposta?.filtros || null);
     } catch (error) {
       console.error("Erro ao buscar relacionados:", error);
       setErro("Erro ao carregar produtos relacionados.");
@@ -68,6 +104,7 @@ export const ProvedorProdutos = ({ children }) => {
 
   const contexto = {
     produtos,
+    filtros,
     carregando,
     erro,
     buscarTodosProdutos,

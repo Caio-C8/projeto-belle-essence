@@ -17,7 +17,7 @@ export const ProvedorPedidos = ({ children }) => {
     }
 
     try {
-      const dados = await fetchApiPorId("informacoes-pedidos", usuario.id);
+      const { dados } = await fetchApiPorId("informacoes-pedidos", usuario.id);
       setPedidos(dados);
     } catch (error) {
       console.error("Erro ao carregar pedidos:", error);

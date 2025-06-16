@@ -12,7 +12,7 @@ export const ProvedorEndereco = ({ children }) => {
     const carregarEnderecos = async () => {
       if (!usuario) return;
 
-      const dados = await fetchApiPorId("enderecos", usuario.id);
+      const { dados } = await fetchApiPorId("enderecos", usuario.id);
       setEnderecos(dados || []);
     };
 

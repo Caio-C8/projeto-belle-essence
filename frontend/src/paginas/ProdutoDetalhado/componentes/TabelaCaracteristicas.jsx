@@ -1,8 +1,7 @@
 import React from "react";
-import "./TabelaCaracteristicas.css"; // para estilos de fundo e borda
+import "./TabelaCaracteristicas.css";
 
 const TabelaCaracteristicas = ({ produto }) => {
-  // Montar as linhas dinamicamente
   const linhas = [
     { label: "Código do produto", valor: produto.codigo_produto },
     { label: "Nome do produto", valor: produto.nome },

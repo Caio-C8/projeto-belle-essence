@@ -12,8 +12,8 @@ export const ProvedorCarrinho = ({ children }) => {
   const carregarCarrinho = async () => {
     if (!usuario) return;
 
-    const resultado = await fetchApiPorId("itens-carrinho", usuario.id);
-    const itens = resultado?.itensCarrinho || [];
+    const { dados } = await fetchApiPorId("itens-carrinho", usuario.id);
+    const itens = dados.itensCarrinho || [];
 
     if (itens.length > 0) {
       setIdCarrinho(itens[0].id_carrinho);
@@ -21,9 +21,10 @@ export const ProvedorCarrinho = ({ children }) => {
 
     const detalhados = await Promise.all(
       itens.map(async (item) => {
-        const produto = await fetchApiPorId("produtos", item.id_produto);
+        const resposta = await fetchApiPorId("produtos", item.id_produto);
+        const produtos = resposta.dados;
         return {
-          ...produto,
+          ...produtos,
           qtde: item.qtde,
           id_produto: item.id_produto,
           id_item_carrinho: item.id_item_carrinho,

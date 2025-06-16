@@ -17,10 +17,15 @@ const Favoritos = () => {
       }
 
       try {
-        const detalhes = await Promise.all(
-          favoritos.map((id) => fetchApiPorId("produtos", id))
+        const resposta = await Promise.all(
+          favoritos.map(async (id) => {
+            const { dados } = await fetchApiPorId("produtos", id);
+
+            return dados;
+          })
         );
-        setProdutosFavoritos(detalhes);
+
+        setProdutosFavoritos(resposta);
       } catch (error) {
         console.error("Erro ao carregar produtos favoritos:", error);
       }
