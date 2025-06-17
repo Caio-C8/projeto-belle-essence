@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./FiltrosProdutos.css";
 
 const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
-  const [filtrosLocais, setFiltrosLocais] = useState({
-    marca: "",
-    familia_olfativa: "",
-    concentracao: "",
-    preco: "",
-  });
+  const [filtrosLocais, setFiltrosLocais] = useState(filtrosAtivos);
 
   useEffect(() => {
     setFiltrosLocais(filtrosAtivos);
   }, [filtrosAtivos]);
+
+  if (!filtros) return null;
 
   const handleFiltroChange = (tipo, valor) => {
     const novosFiltros = {
@@ -33,35 +30,15 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
     onFiltrosChange(filtrosVazios);
   };
 
-  const temFiltrosAtivos = Object.values(filtrosLocais).some(
-    (valor) => valor !== ""
-  );
-
-  if (!filtros) return null;
-
   return (
     <div className="filtros-produtos">
-      <div className="filtros-header">
-        <h5>Filtros</h5>
-        {temFiltrosAtivos && (
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={limparFiltros}
-          >
-            Limpar Filtros
-          </button>
-        )}
-      </div>
-
+      <h5>Filtrar por:</h5>
       <div className="filtros-container">
-        {/* Filtro de Marca */}
-        <div className="filtro-grupo">
-          <label htmlFor="filtro-marca" className="form-label">
-            Marca
-          </label>
+        {/* Filtro Marca */}
+        <div className="filtro-item">
+          <label htmlFor="marca">Marca:</label>
           <select
-            id="filtro-marca"
-            className="form-select"
+            id="marca"
             value={filtrosLocais.marca}
             onChange={(e) => handleFiltroChange("marca", e.target.value)}
           >
@@ -74,18 +51,13 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
           </select>
         </div>
 
-        {/* Filtro de Família Olfativa */}
-        <div className="filtro-grupo">
-          <label htmlFor="filtro-familia" className="form-label">
-            Família Olfativa
-          </label>
+        {/* Filtro Família Olfativa */}
+        <div className="filtro-item">
+          <label htmlFor="familia_olfativa">Família Olfativa:</label>
           <select
-            id="filtro-familia"
-            className="form-select"
+            id="familia_olfativa"
             value={filtrosLocais.familia_olfativa}
-            onChange={(e) =>
-              handleFiltroChange("familia_olfativa", e.target.value)
-            }
+            onChange={(e) => handleFiltroChange("familia_olfativa", e.target.value)}
           >
             <option value="">Todas as famílias</option>
             {filtros.familias_olfativas?.map((familia, index) => (
@@ -96,14 +68,11 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
           </select>
         </div>
 
-        {/* Filtro de Concentração */}
-        <div className="filtro-grupo">
-          <label htmlFor="filtro-concentracao" className="form-label">
-            Concentração
-          </label>
+        {/* Filtro Concentração */}
+        <div className="filtro-item">
+          <label htmlFor="concentracao">Concentração:</label>
           <select
-            id="filtro-concentracao"
-            className="form-select"
+            id="concentracao"
             value={filtrosLocais.concentracao}
             onChange={(e) => handleFiltroChange("concentracao", e.target.value)}
           >
@@ -116,14 +85,11 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
           </select>
         </div>
 
-        {/* Filtro de Preço */}
-        <div className="filtro-grupo">
-          <label htmlFor="filtro-preco" className="form-label">
-            Faixa de Preço
-          </label>
+        {/* Filtro Preço */}
+        <div className="filtro-item">
+          <label htmlFor="preco">Faixa de Preço:</label>
           <select
-            id="filtro-preco"
-            className="form-select"
+            id="preco"
             value={filtrosLocais.preco}
             onChange={(e) => handleFiltroChange("preco", e.target.value)}
           >
@@ -135,9 +101,17 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
             ))}
           </select>
         </div>
+
+        {/* Botão Limpar Filtros */}
+        <div className="filtro-item">
+          <button className="btn-limpar-filtros" onClick={limparFiltros}>
+            Limpar Filtros
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default FiltrosProdutos;
+

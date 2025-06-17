@@ -1,7 +1,7 @@
-function responder(
+const responder = (
   res,
-  { status = 200, sucesso = true, mensagem = "", dados = null, filtros = null }
-) {
+  { status = 200, sucesso = true, mensagem = "", dados = null }
+) => {
   const corpo = {
     sucesso,
     mensagem,
@@ -11,13 +11,7 @@ function responder(
     corpo.dados = dados;
   }
 
-  if (filtros !== null) {
-    corpo.filtros = filtros;
-  }
-
   return res.status(status).json(corpo);
-}
+};
 
 module.exports = responder;
-
-

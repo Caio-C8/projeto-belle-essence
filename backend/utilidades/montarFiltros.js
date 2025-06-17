@@ -1,4 +1,4 @@
-function montarFiltrosQuery(filtros) {
+const montarFiltrosQuery = (filtros) => {
   const conditions = [];
   const params = [];
 
@@ -32,9 +32,9 @@ function montarFiltrosQuery(filtros) {
   }
 
   return { conditions, params };
-}
+};
 
-function getFaixaPreco(slug) {
+const getFaixaPreco = (slug) => {
   const faixas = {
     "ate-50": { min: 0, max: 50 },
     "50-100": { min: 50, max: 100 },
@@ -44,7 +44,7 @@ function getFaixaPreco(slug) {
     "acima-250": { min: 250, max: null },
   };
   return faixas[slug] || null;
-}
+};
 
 const aplicarFiltros = (baseQuery, filtros, startParamIndex = 1) => {
   const { conditions, params } = montarFiltrosQuery(filtros);

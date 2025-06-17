@@ -5,19 +5,17 @@ const {
   pesquisarProdutos,
   pesquisarProdutosPorCategoria,
   pesquisarProdutosRelacionados,
-  getFiltrosDinamicos,
 } = require("../../handlers/handlerPesquisa");
 
 router.get("/todos", async (req, res) => {
   try {
-    const resultado = await pesquisarProdutos(req, res, true);
-    const filtrosDinamicos = await getFiltrosDinamicos();
+    const { marca, familia_olfativa, concentracao, preco } = req.query;
+    const filtros = { marca, familia_olfativa, concentracao, preco };
 
+    const resultado = await pesquisarProdutos(req, res, true, filtros); // Passa filtros
+    
     return responder(res, {
-      status: resultado.status,
-      sucesso: resultado.sucesso,
       dados: resultado.dados,
-      filtros: filtrosDinamicos,
       mensagem: resultado.mensagem,
     });
   } catch (error) {
@@ -32,14 +30,15 @@ router.get("/todos", async (req, res) => {
 
 router.get("/categoria/:categoria", async (req, res) => {
   try {
-    const resultado = await pesquisarProdutosPorCategoria(req, res);
-    const filtrosDinamicos = await getFiltrosDinamicos();
+    const { marca, familia_olfativa, concentracao, preco } = req.query;
+    const filtros = { marca, familia_olfativa, concentracao, preco };
 
+    const resultado = await pesquisarProdutosPorCategoria(req, res, filtros); // Passa filtros
+    
     return responder(res, {
-      status: resultado.status,
+      status: resultado.status || 200,
       sucesso: resultado.sucesso,
       dados: resultado.dados,
-      filtros: filtrosDinamicos,
       mensagem: resultado.mensagem,
     });
   } catch (error) {
@@ -52,38 +51,17 @@ router.get("/categoria/:categoria", async (req, res) => {
   }
 });
 
-router.get("/relacionados/:idProduto", async (req, res) => {
-  try {
-    const resultado = await pesquisarProdutosRelacionados(req, res);
-    const filtrosDinamicos = await getFiltrosDinamicos();
-
-    return responder(res, {
-      status: resultado.status,
-      sucesso: resultado.sucesso,
-      dados: resultado.dados,
-      filtros: filtrosDinamicos,
-      mensagem: resultado.mensagem,
-    });
-  } catch (error) {
-    console.error("Erro ao buscar produtos relacionados:", error);
-    return responder(res, {
-      status: 500,
-      sucesso: false,
-      mensagem: "Erro no servidor",
-    });
-  }
-});
+router.get("/relacionados/:idProduto", pesquisarProdutosRelacionados);
 
 router.get("/", async (req, res) => {
   try {
-    const resultado = await pesquisarProdutos(req, res, false);
-    const filtrosDinamicos = await getFiltrosDinamicos();
+    const { marca, familia_olfativa, concentracao, preco } = req.query;
+    const filtros = { marca, familia_olfativa, concentracao, preco };
 
+    const resultado = await pesquisarProdutos(req, res, false, filtros); // Passa filtros
+    
     return responder(res, {
-      status: resultado.status,
-      sucesso: resultado.sucesso,
       dados: resultado.dados,
-      filtros: filtrosDinamicos,
       mensagem: resultado.mensagem,
     });
   } catch (error) {
@@ -97,3 +75,4 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
+

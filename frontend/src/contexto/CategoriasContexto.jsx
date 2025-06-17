@@ -9,12 +9,12 @@ export const ProvedorCategorias = ({ children }) => {
 
   const carregarCategorias = async () => {
     try {
-      const { dados } = await fetchApi("categorias"); // Alterado aqui para desestruturar dados
+      const dados = await fetchApi("categorias");
 
       const categoriasFormatadas = [
         { nomeOriginal: "Promoções", slug: "promocoes", tipo: "especial" },
         { nomeOriginal: "Lançamentos", slug: "lancamentos", tipo: "especial" },
-        ...(dados || []).map((cat) => ({
+        ...dados.map((cat) => ({
           nomeOriginal: cat.categoria,
           slug: normalizarTexto(cat.categoria),
           tipo: "categoria",
@@ -50,4 +50,3 @@ export const ProvedorCategorias = ({ children }) => {
 };
 
 export const useCategorias = () => useContext(CategoriasContexto);
-

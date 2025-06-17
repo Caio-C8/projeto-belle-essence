@@ -21,6 +21,15 @@ export const ProvedorProdutos = ({ children }) => {
     return params.toString();
   };
 
+  const buscarFiltrosDinamicos = async () => {
+    try {
+      const dados = await fetchApi("filtros");
+      setFiltros(dados);
+    } catch (error) {
+      console.error("Erro ao buscar filtros dinâmicos:", error);
+    }
+  };
+
   const buscarTodosProdutos = async (filtrosAtivos = {}) => {
     setCarregando(true);
     setErro(null);
@@ -29,10 +38,13 @@ export const ProvedorProdutos = ({ children }) => {
       const url = queryString
         ? `pesquisa/todos?${queryString}`
         : "pesquisa/todos";
-      const resposta = await fetchApi(url);
+      const dados = await fetchApi(url);
+      setProdutos(dados);
 
-      setProdutos(resposta?.dados || []);
-      setFiltros(resposta?.filtros || null);
+      // Busca filtros dinâmicos se ainda não foram carregados
+      if (!filtros) {
+        await buscarFiltrosDinamicos();
+      }
     } catch (error) {
       console.error("Erro ao buscar todos os produtos:", error);
       setErro("Erro ao carregar produtos.");
@@ -46,13 +58,17 @@ export const ProvedorProdutos = ({ children }) => {
     setErro(null);
     try {
       const queryString = construirQueryString(filtrosAtivos);
-      const url = queryString
-        ? `pesquisa/categoria/${categoria}?${queryString}`
-        : `pesquisa/categoria/${categoria}`;
-      const resposta = await fetchApi(url);
 
-      setProdutos(resposta?.dados || []);
-      setFiltros(resposta?.filtros || null);
+      const dados = await fetchApiPorId(
+        "pesquisa/categoria",
+        categoria + (queryString ? `?${queryString}` : "")
+      );
+      setProdutos(dados);
+
+      // Busca filtros dinâmicos se ainda não foram carregados
+      if (!filtros) {
+        await buscarFiltrosDinamicos();
+      }
     } catch (error) {
       console.error("Erro ao buscar por categoria:", error);
       setErro("Erro ao carregar categoria.");
@@ -74,10 +90,13 @@ export const ProvedorProdutos = ({ children }) => {
         }
       });
 
-      const resposta = await fetchApi(`pesquisa?${params.toString()}`);
+      const dados = await fetchApi(`pesquisa?${params.toString()}`);
+      setProdutos(dados);
 
-      setProdutos(resposta?.dados || []);
-      setFiltros(resposta?.filtros || null);
+      // Busca filtros dinâmicos se ainda não foram carregados
+      if (!filtros) {
+        await buscarFiltrosDinamicos();
+      }
     } catch (error) {
       console.error("Erro ao buscar por texto:", error);
       setErro("Erro na pesquisa.");
@@ -90,10 +109,8 @@ export const ProvedorProdutos = ({ children }) => {
     setCarregando(true);
     setErro(null);
     try {
-      const resposta = await fetchApiPorId("pesquisa/relacionados", idProduto);
-
-      setProdutos(resposta?.dados || []);
-      setFiltros(resposta?.filtros || null);
+      const dados = await fetchApiPorId("pesquisa/relacionados", idProduto);
+      setProdutos(dados);
     } catch (error) {
       console.error("Erro ao buscar relacionados:", error);
       setErro("Erro ao carregar produtos relacionados.");
@@ -111,6 +128,7 @@ export const ProvedorProdutos = ({ children }) => {
     buscarPorCategoria,
     buscarPorTexto,
     buscarRelacionados,
+    buscarFiltrosDinamicos,
   };
 
   return (

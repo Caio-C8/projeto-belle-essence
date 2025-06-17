@@ -30,7 +30,7 @@ const itensCarrinhosRoutes = require("../rotas/get/getItensCarrinho");
 const informacoesPedidosRoutes = require("../rotas/get/getInformacoesPedido");
 const pesquisaProdutosRoutes = require("../rotas/get/pesquisaProdutos");
 const categoriasRoutes = require("../rotas/get/getCategorias");
-const filtrosRoutes = require("../rotas/get/filtros");
+const filtrosRoutes = require("../rotas/get/filtros"); // Nova rota para filtros
 
 const cadastradoUsuariosRoutes = require("../rotas/post/cadastrarUsuarios");
 const cadastrarEnderecoRoutes = require("../rotas/post/cadastrarEnderecos");
@@ -94,7 +94,7 @@ app.use("/pesquisa", pesquisaProdutosRoutes);
 // Rota para listar todas as categorias
 app.use("/categorias", categoriasRoutes);
 
-// Rota para listar filtros
+// Rota para obter filtros dinâmicos
 app.use("/filtros", filtrosRoutes);
 
 // --- GET --- //
@@ -139,3 +139,4 @@ app.use("/cancelar-pedido", cancelarPedidoRoutes);
 
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);
+

@@ -1,4 +1,4 @@
-function validarCpf(cpf) {
+const validarCpf = (cpf) => {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   const strCPF = String(cpf).replace(/[^\d]/g, "");
 
@@ -28,9 +28,9 @@ function validarCpf(cpf) {
 
   // Se todas as verificações passaram, o CPF é válido.
   return true;
-}
+};
 
-function validarNumeroCelular(telefone) {
+const validarNumeroCelular = (telefone) => {
   // Remove todos os caracteres que não sejam dígitos numéricos.
   telefone = telefone.replace(/\D/g, "");
 
@@ -61,29 +61,29 @@ function validarNumeroCelular(telefone) {
 
   // Se todas as verificações passaram, o número de celular é válido.
   return true;
-}
+};
 
-function validarEmail(email) {
+const validarEmail = (email) => {
   if (!email.includes("@")) return false;
 
   return true;
-}
+};
 
-function validarSenha(senha) {
+const validarSenha = (senha) => {
   const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   if (!regex.test(senha)) return false;
 
   return true;
-}
+};
 
-function validarNomeSobrenome(nome, sobrenome) {
+const validarNomeSobrenome = (nome, sobrenome) => {
   const regex = /^[A-Za-zÀ-ÿ\s]+$/;
   if (!regex.test(nome) || !regex.test(sobrenome)) return false;
 
   return true;
-}
+};
 
-function validarDataNascimento(dataStr) {
+const validarDataNascimento = (dataStr) => {
   const data = new Date(dataStr);
   const hoje = new Date();
 
@@ -93,24 +93,24 @@ function validarDataNascimento(dataStr) {
   if (!(data <= hoje) || !(data >= cemAnosAtras)) return false;
 
   return true;
-}
+};
 
-function validarCep(cep) {
+const validarCep = (cep) => {
   const cepFormatado = cep.replace("-", "");
 
   if (cepFormatado.length !== 8) return false;
   if (isNaN(cepFormatado)) return false;
 
   return true;
-}
+};
 
-function validarNumeroEndereco(numero) {
+const validarNumeroEndereco = (numero) => {
   if (isNaN(numero)) return false;
 
   return true;
-}
+};
 
-function validarCamposCadastro({
+const validarCamposCadastro = ({
   email,
   senha,
   nome,
@@ -125,7 +125,7 @@ function validarCamposCadastro({
   cidade,
   estado,
   tipo,
-}) {
+}) => {
   if (
     !email ||
     !senha ||
@@ -170,9 +170,9 @@ function validarCamposCadastro({
   }
 
   return null;
-}
+};
 
-function validarCamposAlterarDadosUsuario(
+const validarCamposAlterarDadosUsuario = (
   email,
   senha,
   confirmarSenha,
@@ -180,7 +180,7 @@ function validarCamposAlterarDadosUsuario(
   sobrenome,
   celular,
   dataNascimento
-) {
+) => {
   if (email) {
     if (!validarEmail(email)) {
       return "E-mail inválido.";
@@ -211,9 +211,9 @@ function validarCamposAlterarDadosUsuario(
   }
 
   return null;
-}
+};
 
-function validarCamposAlterarEndereco(
+const validarCamposAlterarEndereco = (
   logradouro,
   numero,
   bairro,
@@ -221,7 +221,7 @@ function validarCamposAlterarEndereco(
   cidade,
   estado,
   tipo
-) {
+) => {
   if (
     !logradouro ||
     !numero ||
@@ -241,7 +241,7 @@ function validarCamposAlterarEndereco(
   }
 
   return null;
-}
+};
 
 module.exports = {
   validarSenha,

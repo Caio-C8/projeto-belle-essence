@@ -57,22 +57,23 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
 
   return (
     <div className="col-12 col-sm-6 col-md-3 px-2">
-      <div className="card produto">
-        {isPaginaFavoritos ? (
-          <div className="x-icon" onClick={handleFavoritar}>
-            <FontAwesomeIcon icon={faXmark} />
-          </div>
-        ) : (
-          <div
-            className={isFavorito ? "heart-icon ativo" : "heart-icon"}
-            onClick={handleFavoritar}
-          >
-            <FontAwesomeIcon
-              icon={isFavorito ? faHeartSolid : faHeartOutline}
-            />
-          </div>
-        )}
-        <Link to={`/produto/${produto.id_produto}`}>
+      <Link to={`/produto/${produto.id_produto}`}>
+        <div className="card produto">
+          {isPaginaFavoritos ? (
+            <div className="x-icon" onClick={handleFavoritar}>
+              <FontAwesomeIcon icon={faXmark} />
+            </div>
+          ) : (
+            <div
+              className={isFavorito ? "heart-icon ativo" : "heart-icon"}
+              onClick={handleFavoritar}
+            >
+              <FontAwesomeIcon
+                icon={isFavorito ? faHeartSolid : faHeartOutline}
+              />
+            </div>
+          )}
+
           <div className="d-flex flex-column">
             <img
               src={produto.imagem}
@@ -104,17 +105,17 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
               </div>
             </div>
           </div>
-        </Link>
 
-        <div className="mt-auto">
-          <button
-            onClick={colocarCarrinho}
-            className="btn btn-primary w-100 rounded-pill btn-comprar"
-          >
-            Comprar Agora
-          </button>
+          <div className="mt-auto">
+            <button
+              onClick={colocarCarrinho}
+              className="btn btn-primary w-100 rounded-pill btn-comprar"
+            >
+              Comprar Agora
+            </button>
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

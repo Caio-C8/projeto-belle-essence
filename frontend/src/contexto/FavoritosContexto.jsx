@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAutenticacao } from "./AutenticarContexto";
-import { fetchApiPorId } from "../../api/requisicoes";
 
 const FavoritosContexto = createContext();
 
@@ -16,10 +15,10 @@ export const ProvedorFavoritos = ({ children }) => {
       }
 
       try {
-        const { dados } = await fetchApiPorId(
-          "itens-lista-favoritos",
-          usuario.id
+        const res = await fetch(
+          `http://localhost:3000/itens-lista-favoritos/${usuario.id}`
         );
+        const { dados } = await res.json();
         const ids = dados.map((item) => item.id_produto);
         setFavoritos(ids);
       } catch (error) {

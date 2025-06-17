@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RotaProtegida from "./rotas/RotaProtegida";
 import { ProvedorAutenticacao } from "./contexto/AutenticarContexto";
@@ -27,6 +28,8 @@ import RotaRestritaUsuario from "./rotas/RotaRestritaUsuario";
 import RotaAcessarCheckout from "./rotas/RotaAcessarCheckout";
 import { ProvedorProdutos } from "./contexto/ProdutosContexto";
 import { ProvedorCategorias } from "./contexto/CategoriasContexto";
+
+// Pesquisa pelo código do produto
 
 const App = () => {
   return (

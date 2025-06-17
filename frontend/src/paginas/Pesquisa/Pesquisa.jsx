@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import { useProdutos } from "../../contexto/ProdutosContexto";
 import CardProduto from "../../componentes/CardProduto/CardProduto";
 import FiltrosProdutos from "../../componentes/FiltrosProdutos/FiltrosProdutos";
@@ -24,8 +24,8 @@ const Pesquisa = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { categoria } = useParams();
   const { buscarNomePorSlug } = useCategorias();
-  const navigate = useNavigate();
 
+  // Função para extrair filtros da URL
   const extrairFiltrosDaURL = () => {
     return {
       marca: searchParams.get("marca") || "",
@@ -35,9 +35,11 @@ const Pesquisa = () => {
     };
   };
 
+  // Função para atualizar a URL com os filtros
   const atualizarURLComFiltros = (novosFiltros) => {
     const params = new URLSearchParams(searchParams);
 
+    // Remove filtros vazios e adiciona os novos
     Object.keys(novosFiltros).forEach((key) => {
       if (novosFiltros[key] && novosFiltros[key].trim() !== "") {
         params.set(key, novosFiltros[key]);
@@ -46,6 +48,7 @@ const Pesquisa = () => {
       }
     });
 
+    // Mantém o parâmetro de pesquisa se existir
     const termoPesq = searchParams.get("pesq");
     if (termoPesq) {
       params.set("pesq", termoPesq);
@@ -54,6 +57,7 @@ const Pesquisa = () => {
     setSearchParams(params);
   };
 
+  // Função para lidar com mudanças nos filtros
   const handleFiltrosChange = (novosFiltros) => {
     setFiltrosAtivos(novosFiltros);
     atualizarURLComFiltros(novosFiltros);

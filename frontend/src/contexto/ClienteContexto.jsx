@@ -11,7 +11,7 @@ export const ProvedorCliente = ({ children }) => {
   useEffect(() => {
     const carregarCliente = async () => {
       if (!usuario?.id) return;
-      const { dados } = await fetchApiPorId("clientes", usuario.id);
+      const dados = await fetchApiPorId("clientes", usuario.id);
       setCliente(dados || {});
     };
 

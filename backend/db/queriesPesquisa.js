@@ -1,9 +1,6 @@
 const pool = require("../connect");
 const { buscarPorColuna, buscarTodosPorColuna } = require("./queries");
-const {
-  montarFiltrosQuery,
-  aplicarFiltros,
-} = require("../utilidades/montarFiltros");
+const { montarFiltrosQuery, aplicarFiltros } = require("../utilidades/montarFiltros");
 
 const buscarProdutoPorCodigo = async (codigoProduto) => {
   return await buscarPorColuna("produtos", "codigo_produto", codigoProduto);
@@ -43,17 +40,10 @@ const buscarProdutosPorTermos = async (termos, filtros = {}) => {
     WHERE (${likeConditions})
   `;
 
-  const { query, params } = aplicarFiltros(
-    baseQuery,
-    filtros,
-    valores.length + 1
-  );
+  const { query, params } = aplicarFiltros(baseQuery, filtros, valores.length + 1);
   const finalParams = [...valores, ...params];
 
-  const result = await pool.query(
-    query + " ORDER BY promocao DESC, id_produto ASC",
-    finalParams
-  );
+  const result = await pool.query(query + " ORDER BY promocao DESC, id_produto ASC", finalParams);
   return result.rows;
 };
 
@@ -92,14 +82,8 @@ const buscarProdutosRelacionados = async (idProduto) => {
 
 const buscarProdutosPorCategoriaSlug = async (categoriaSlug, filtros = {}) => {
   if (categoriaSlug === "promocoes") {
-    const { query, params } = aplicarFiltros(
-      "SELECT * FROM produtos WHERE promocao = TRUE",
-      filtros
-    );
-    const result = await pool.query(
-      query + " ORDER BY promocao DESC, id_produto ASC",
-      params
-    );
+    const { query, params } = aplicarFiltros("SELECT * FROM produtos WHERE promocao = TRUE", filtros);
+    const result = await pool.query(query + " ORDER BY promocao DESC, id_produto ASC", params);
     return {
       produtos: result.rows,
       mensagem: `Foram encontrados ${result.rowCount} produtos em promoção.`,
@@ -107,20 +91,15 @@ const buscarProdutosPorCategoriaSlug = async (categoriaSlug, filtros = {}) => {
   }
 
   if (categoriaSlug === "lancamentos") {
-    const { query, params } = aplicarFiltros(
-      "SELECT * FROM produtos WHERE lancamento = TRUE",
-      filtros
-    );
-    const result = await pool.query(
-      query + " ORDER BY promocao DESC, id_produto ASC",
-      params
-    );
+    const { query, params } = aplicarFiltros("SELECT * FROM produtos WHERE lancamento = TRUE", filtros);
+    const result = await pool.query(query + " ORDER BY promocao DESC, id_produto ASC", params);
     return {
       produtos: result.rows,
       mensagem: `Foram encontrados ${result.rowCount} produtos em lançamento.`,
     };
   }
 
+  // Caso seja uma categoria normal (exemplo: "perfumes-femininos")
   const resultCategoria = await pool.query(
     `SELECT categoria FROM categorias WHERE unaccent(lower(categoria)) = unaccent(lower($1))`,
     [categoriaSlug.replace(/-/g, " ")]
@@ -129,7 +108,7 @@ const buscarProdutosPorCategoriaSlug = async (categoriaSlug, filtros = {}) => {
   if (resultCategoria.rowCount === 0) {
     return {
       produtos: [],
-      mensagem: `Categoria '${categoriaSlug}' não encontrada.`,
+      mensagem: `Categoria \'${categoriaSlug}\' não encontrada.`,
       status: 404,
     };
   }
@@ -147,10 +126,7 @@ const buscarProdutosPorCategoriaSlug = async (categoriaSlug, filtros = {}) => {
   const { query, params } = aplicarFiltros(baseQuery, filtros, 2);
   const finalParams = [nomeCategoriaBanco, ...params];
 
-  const resultProdutos = await pool.query(
-    query + " ORDER BY p.id_produto ASC",
-    finalParams
-  );
+  const resultProdutos = await pool.query(query + " ORDER BY p.id_produto ASC", finalParams);
 
   return {
     produtos: resultProdutos.rows,
@@ -164,3 +140,4 @@ module.exports = {
   buscarProdutosRelacionados,
   buscarProdutosPorCategoriaSlug,
 };
+

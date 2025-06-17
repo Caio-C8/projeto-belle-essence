@@ -1,7 +1,7 @@
 const responder = require("../utilidades/responder");
 const normalizarTexto = require("../utilidades/normalizarTexto");
-const { montarFiltrosQuery } = require("../utilidades/montarFiltros");
 const pool = require("../connect");
+const { montarFiltrosQuery } = require("../utilidades/montarFiltros");
 const {
   buscarProdutoPorCodigo,
   buscarProdutosPorTermos,
@@ -54,9 +54,8 @@ const getFiltrosDinamicos = async () => {
   };
 };
 
-const pesquisarProdutos = async (req, res, isTodosRoute = false) => {
-  const { pesq, marca, familia_olfativa, concentracao, preco } = req.query;
-  const filtros = { marca, familia_olfativa, concentracao, preco };
+const pesquisarProdutos = async (req, res, isTodosRoute = false, filtros = {}) => {
+  const { pesq } = req.query;
 
   if (!isTodosRoute && !pesq) {
     return {
@@ -82,16 +81,18 @@ const pesquisarProdutos = async (req, res, isTodosRoute = false) => {
 
     let produtos;
     if (isTodosRoute) {
+      // Para a rota /todos, buscar todos os produtos e aplicar filtros
       const { conditions, params } = montarFiltrosQuery(filtros);
       let queryProdutos = "SELECT * FROM produtos";
       if (conditions.length > 0) {
         queryProdutos += " WHERE " + conditions.join(" AND ");
       }
       queryProdutos += " ORDER BY promocao DESC, id_produto ASC";
-
+      
       const result = await pool.query(queryProdutos, params);
       produtos = result.rows;
     } else {
+      // Para a rota /pesquisa, buscar por termos e aplicar filtros
       const termosOriginais = pesq.split(" ").filter(Boolean);
       const termosFiltrados = termosOriginais
         .map(normalizarTexto)
@@ -120,10 +121,8 @@ const pesquisarProdutos = async (req, res, isTodosRoute = false) => {
   }
 };
 
-const pesquisarProdutosPorCategoria = async (req, res) => {
+const pesquisarProdutosPorCategoria = async (req, res, filtros = {}) => {
   const { categoria } = req.params;
-  const { marca, familia_olfativa, concentracao, preco } = req.query;
-  const filtros = { marca, familia_olfativa, concentracao, preco };
 
   try {
     const resultado = await buscarProdutosPorCategoriaSlug(categoria, filtros);
@@ -150,23 +149,24 @@ const pesquisarProdutosRelacionados = async (req, res) => {
   try {
     const relacionados = await buscarProdutosRelacionados(idProduto);
 
-    return {
+    if (relacionados.length === 0) {
+      return responder(res, {
+        dados: [],
+        mensagem: "Produto não tem categorias para buscar relacionados.",
+      });
+    }
+
+    return responder(res, {
       dados: relacionados,
-      mensagem:
-        relacionados.length === 0
-          ? "Produto não tem categorias para buscar relacionados."
-          : `Foram encontrados ${relacionados.length} produtos relacionados.`,
-      status: 200,
-      sucesso: true,
-    };
+      mensagem: `Foram encontrados ${relacionados.length} produtos relacionados.`,
+    });
   } catch (error) {
     console.error("Erro ao buscar relacionados:", error);
-    return {
-      dados: [],
-      mensagem: "Erro no servidor ao buscar relacionados.",
+    return responder(res, {
       status: 500,
       sucesso: false,
-    };
+      mensagem: "Erro no servidor ao buscar relacionados.",
+    });
   }
 };
 
@@ -176,3 +176,4 @@ module.exports = {
   pesquisarProdutosRelacionados,
   getFiltrosDinamicos,
 };
+

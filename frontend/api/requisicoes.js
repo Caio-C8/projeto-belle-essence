@@ -6,9 +6,8 @@ export const fetchApi = async (endpoint) => {
       throw new Error(`Erro HTTP: ${res.status}`);
     }
 
-    const resposta = await res.json();
-
-    return resposta;
+    const { dados } = await res.json();
+    return dados;
   } catch (error) {
     console.error(`Erro ao buscar /${endpoint}:`, error);
     return null;
@@ -23,9 +22,8 @@ export const fetchApiPorId = async (endpoint, id) => {
       throw new Error(`Erro HTTP: ${res.status}`);
     }
 
-    const resposta = await res.json();
-
-    return resposta;
+    const { dados } = await res.json();
+    return dados;
   } catch (error) {
     console.error(`Erro ao buscar /${endpoint}:`, error);
     return null;
