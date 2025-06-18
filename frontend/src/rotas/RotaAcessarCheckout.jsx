@@ -1,5 +1,5 @@
-// src/rotas/RotaCheckoutPermitido.jsx
 import { Navigate } from "react-router-dom";
+
 import { useCarrinho } from "../contexto/CarrinhoContexto";
 
 const RotaAcessarCheckout = ({ children }) => {
