@@ -6,3 +6,6 @@ const pool = new Pool({
 });
 
 module.exports = pool;
+
+// Email adm: admBE@email.com
+// Senha adm: Senha123

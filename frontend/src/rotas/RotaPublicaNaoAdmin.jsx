@@ -1,14 +1,14 @@
 import { Navigate } from "react-router-dom";
 import { useAutenticacao } from "../contexto/AutenticarContexto";
 
-const RotaRestritaUsuario = ({ children }) => {
+const RotaPublicaNaoAdmin = ({ children }) => {
   const { usuario } = useAutenticacao();
 
-  if (usuario) {
-    return <Navigate to="/perfil" replace />;
+  if (usuario?.tipo === "admin") {
+    return <Navigate to="/adm/" replace />;
   }
 
   return children;
 };
 
-export default RotaRestritaUsuario;
+export default RotaPublicaNaoAdmin;

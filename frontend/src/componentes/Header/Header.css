@@ -14,11 +14,16 @@
 }
 
 .icone-header {
+  font-size: 1.5rem;
   transition: transform 0.2s ease;
 }
 
 .icone-header:hover {
   transform: scale(1.14);
+}
+
+.icone-header.rotate:hover {
+  transform: scale(1.14) rotate(180deg);
 }
 
 .btn-outline-dark {

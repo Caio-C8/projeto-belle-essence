@@ -5,7 +5,7 @@ import { IoLogoInstagram, IoLogoFacebook } from "react-icons/io5";
 
 const Footer = () => {
   return (
-    <footer className="bg-light border-top py-4 px-3 text-center text-md-start">
+    <footer className="border-top py-4 px-3 text-center text-md-start">
       <div className="container-fluid">
         {/* Conteúdo principal */}
         <div className="row align-items-center justify-content-between gy-4">

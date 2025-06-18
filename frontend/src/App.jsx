@@ -3,13 +3,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import RotaProtegida from "./rotas/RotaProtegida";
 import { ProvedorAutenticacao } from "./contexto/AutenticarContexto";
 import { ProvedorFavoritos } from "./contexto/FavoritosContexto";
 import { ProvedorCarrinho } from "./contexto/CarrinhoContexto";
 import { ProvedorEndereco } from "./contexto/EnderecosContexto";
 import { ProvedorCliente } from "./contexto/ClienteContexto";
 import { ProvedorPedidos } from "./contexto/PedidosContexto";
+
+import RotaApenasNaoLogado from "./rotas/RotaApenasNaoLogado";
+import RotaProtegidaAdmin from "./rotas/RotaProtegidaAdmin";
+import RotaProtegidaCliente from "./rotas/RotaProtegidaCliente";
+import RotaAcessarCheckout from "./rotas/RotaAcessarCheckout";
+import RotaPublicaNaoAdmin from "./rotas/RotaPublicaNaoAdmin";
+
 import ScrollCima from "./utilidades/ScrollCima";
 import ResetAoTrocarPagina from "./utilidades/ResetAoTrocarPagina";
 import Header from "./componentes/Header/Header";
@@ -24,10 +30,9 @@ import EsqueceuSenha from "./paginas/EsqueceuSenha/EsqueceuSenha";
 import Produto from "./paginas/ProdutoDetalhado/ProdutoDetalhado";
 import Pesquisa from "./paginas/Pesquisa/Pesquisa";
 import Checkout from "./paginas/Checkout/Checkout";
-import RotaRestritaUsuario from "./rotas/RotaRestritaUsuario";
-import RotaAcessarCheckout from "./rotas/RotaAcessarCheckout";
 import { ProvedorProdutos } from "./contexto/ProdutosContexto";
 import { ProvedorCategorias } from "./contexto/CategoriasContexto";
+import HomeAdm from "./paginas/HomeAdm/HomeAdm";
 
 // Pesquisa pelo código do produto
 
@@ -47,78 +52,122 @@ const App = () => {
                         <Header />
                         <main>
                           <Routes>
-                            <Route path="/" element={<Home />} />
+                            {/* ------ Rotas Públicas ------ */}
+                            <Route
+                              path="/"
+                              element={
+                                <RotaPublicaNaoAdmin>
+                                  <Home />
+                                </RotaPublicaNaoAdmin>
+                              }
+                            />
 
                             <Route
                               path="/cadastro"
                               element={
-                                <RotaRestritaUsuario>
+                                <RotaApenasNaoLogado>
                                   <FormCadastro />
-                                </RotaRestritaUsuario>
+                                </RotaApenasNaoLogado>
                               }
                             />
 
                             <Route
                               path="/login"
                               element={
-                                <RotaRestritaUsuario>
+                                <RotaApenasNaoLogado>
                                   <Login />
-                                </RotaRestritaUsuario>
+                                </RotaApenasNaoLogado>
                               }
                             />
 
                             <Route
                               path="/alterar-senha"
                               element={
-                                <RotaRestritaUsuario>
+                                <RotaApenasNaoLogado>
                                   <EsqueceuSenha />
-                                </RotaRestritaUsuario>
+                                </RotaApenasNaoLogado>
                               }
                             />
 
-                            <Route path="/produto/:id" element={<Produto />} />
+                            <Route
+                              path="/produto/:id"
+                              element={
+                                <RotaPublicaNaoAdmin>
+                                  <Produto />
+                                </RotaPublicaNaoAdmin>
+                              }
+                            />
 
-                            <Route path="/pesquisa" element={<Pesquisa />} />
+                            <Route
+                              path="/pesquisa"
+                              element={
+                                <RotaPublicaNaoAdmin>
+                                  <Pesquisa />
+                                </RotaPublicaNaoAdmin>
+                              }
+                            />
+
                             <Route
                               path="/pesquisa/categoria/:categoria"
-                              element={<Pesquisa />}
+                              element={
+                                <RotaPublicaNaoAdmin>
+                                  <Pesquisa />
+                                </RotaPublicaNaoAdmin>
+                              }
                             />
+                            {/* ------ Rotas Públicas ------ */}
+
+                            {/* ------ Rotas Clientes ------ */}
 
                             <Route
                               path="/checkout"
                               element={
-                                <RotaAcessarCheckout>
-                                  <Checkout />
-                                </RotaAcessarCheckout>
+                                <RotaProtegidaCliente>
+                                  <RotaAcessarCheckout>
+                                    <Checkout />
+                                  </RotaAcessarCheckout>
+                                </RotaProtegidaCliente>
                               }
                             />
 
                             <Route
                               path="/carrinho"
                               element={
-                                <RotaProtegida tipo="cliente">
+                                <RotaProtegidaCliente>
                                   <Carrinho />
-                                </RotaProtegida>
+                                </RotaProtegidaCliente>
                               }
                             />
 
                             <Route
                               path="/lista-favoritos"
                               element={
-                                <RotaProtegida tipo="cliente">
+                                <RotaProtegidaCliente>
                                   <Favoritos />
-                                </RotaProtegida>
+                                </RotaProtegidaCliente>
                               }
                             />
 
                             <Route
                               path="/perfil"
                               element={
-                                <RotaProtegida tipo="cliente">
+                                <RotaProtegidaCliente>
                                   <Perfil />
-                                </RotaProtegida>
+                                </RotaProtegidaCliente>
                               }
                             />
+                            {/* ------ Rotas Clientes ------ */}
+
+                            {/* ------ Rotas Admin ------ */}
+                            <Route
+                              path="/adm/"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <HomeAdm />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+                            {/* ------ Rotas Admin ------ */}
                           </Routes>
                         </main>
                         <Footer />

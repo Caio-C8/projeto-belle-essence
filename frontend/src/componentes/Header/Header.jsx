@@ -4,8 +4,20 @@ import Categorias from "./Categorias";
 import { Link, useNavigate } from "react-router-dom";
 import { IoBagOutline, IoHeartOutline, IoPersonOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHeart,
+  faClipboard,
+  faUser,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
+import { useAutenticacao } from "../../contexto/AutenticarContexto";
 
 const Header = () => {
+  const { usuario, logout } = useAutenticacao();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [textoBusca, setTextoBusca] = useState("");
   const navigate = useNavigate();
@@ -20,12 +32,12 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-light py-3 px-4 border-bottom">
+      <header className="py-3 px-4 border-bottom">
         <div className="container-fluid">
           {/* Desktop & Mobile Row 1 */}
           <div className="row align-items-center">
             <div className="logo col-12 col-md-3 text-center text-md-start mb-2 mb-md-0">
-              <Link to="/">
+              <Link to={usuario?.tipo === "admin" ? "/adm/" : "/"}>
                 <img
                   src="../../src/assets/img/logoBelleEssenceSimplificada.png"
                   alt="Logo Belle Essence Simplificada"
@@ -51,79 +63,56 @@ const Header = () => {
                   onClick={realizarBusca}
                   className="btn btn-barra-pesquisa input-group-text bg-white border-0"
                 >
-                  <IoIosSearch />
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
               </div>
             </div>
 
-            <div className="d-none d-md-flex col-md-3 justify-content-end gap-4">
-              <Link to="/perfil">
-                <IoPersonOutline className="icone-header" size={28} />
-              </Link>
-
-              <Link to="/lista-favoritos">
-                <IoHeartOutline className="icone-header" size={28} />
-              </Link>
-
-              <Link to="/carrinho">
-                <IoBagOutline className="icone-header" size={28} />
-              </Link>
-            </div>
-
-            {/* Mobile only: Menu + Search */}
-            <div className="d-flex d-md-none col-12 justify-content-between align-items-center mt-2">
-              <button
-                className="btn btn-outline-dark"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                ☰
-              </button>
-
-              <div
-                className="input-group rounded shadow-sm"
-                style={{ maxWidth: "70%" }}
-              >
-                <input
-                  type="text"
-                  className="barra-pesquisa form-control border-0"
-                  placeholder="Procure por produtos"
-                />
+            {usuario?.tipo === "admin" ? (
+              <div className="d-none d-md-flex col-md-3 justify-content-end align-items-center gap-4">
                 <Link
-                  to="/pesquisa"
-                  className="btn-barra-pesquisa input-group-text bg-white border-0"
+                  className="d-flex align-items-center"
+                  to="#"
+                  onClick={logout}
                 >
-                  <IoIosSearch />
+                  <FontAwesomeIcon
+                    icon={faArrowRightFromBracket}
+                    className="icone-header rotate"
+                    rotation={180}
+                  />
+                </Link>
+
+                <Link className="d-flex align-items-center" to="#">
+                  <FontAwesomeIcon
+                    icon={faClipboard}
+                    className="icone-header"
+                    style={{ fontSize: "1.7rem" }}
+                  />
                 </Link>
               </div>
-            </div>
-          </div>
+            ) : (
+              <div className="d-none d-md-flex col-md-3 justify-content-end align-items-center gap-4">
+                <Link className="d-flex align-items-center" to="/perfil">
+                  <FontAwesomeIcon icon={faUser} className="icone-header" />
+                </Link>
 
-          {/* Mobile Dropdown Menu */}
-          {isMenuOpen && (
-            <div className="d-md-none mt-3">
-              <ul className="list-group">
-                <Link className="item" to="/perfil">
-                  <li className="list-group-item d-flex align-items-center">
-                    <IoPersonOutline className="me-2" /> Perfil
-                  </li>
+                <Link
+                  className="d-flex align-items-center"
+                  to="/lista-favoritos"
+                >
+                  <FontAwesomeIcon icon={faHeart} className="icone-header" />
                 </Link>
-                <Link className="item" to="/lista-favoritos">
-                  <li className="list-group-item d-flex align-items-center">
-                    <IoHeartOutline className="me-2" /> Favoritos
-                  </li>
+
+                <Link className="d-flex align-items-center" to="/carrinho">
+                  <IoBagOutline className="icone-header" size={28} />
                 </Link>
-                <Link className="item" to="/carrinho">
-                  <li className="list-group-item d-flex align-items-center">
-                    <IoBagOutline className="me-2" /> Carrinho
-                  </li>
-                </Link>
-              </ul>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
-      <Categorias />
+      {usuario?.tipo === "admin" ? <></> : <Categorias />}
     </>
   );
 };
