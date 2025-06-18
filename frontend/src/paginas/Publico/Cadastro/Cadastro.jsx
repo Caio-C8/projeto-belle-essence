@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import "./Cadastro.css";
-import { useMask } from "@react-input/mask";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useMask } from "@react-input/mask";
 
 import { validarCamposCadastro } from "../../../utilidades/validadores";
 

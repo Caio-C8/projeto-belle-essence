@@ -1,6 +1,6 @@
 import React from "react";
-import "./Footer.css";
 import { Link } from "react-router-dom";
+
 import { IoLogoInstagram, IoLogoFacebook } from "react-icons/io5";
 
 const Footer = () => {

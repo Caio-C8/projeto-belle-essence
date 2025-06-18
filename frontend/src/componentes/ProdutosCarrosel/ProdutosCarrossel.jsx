@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./ProdutosCarrossel.css";
 import { Link } from "react-router-dom";
+
 import CardProduto from "../CardProduto/CardProduto";
 
 const ProdutosCarrossel = ({ titulo, produtos, rota }) => {

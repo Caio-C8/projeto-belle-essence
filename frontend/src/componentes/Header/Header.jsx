@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import "./Header.css";
-import Categorias from "./Categorias";
 import { Link, useNavigate } from "react-router-dom";
-import { IoBagOutline, IoHeartOutline, IoPersonOutline } from "react-icons/io5";
-import { IoIosSearch } from "react-icons/io";
+
+import { IoBagOutline } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -14,7 +12,10 @@ import {
   faArrowRightFromBracket,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
+
+import Categorias from "./Categorias";
 
 const Header = () => {
   const { usuario, logout } = useAutenticacao();

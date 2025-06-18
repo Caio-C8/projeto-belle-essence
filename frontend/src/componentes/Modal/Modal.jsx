@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
 import Select from "../../componentes/Campos/Select";
 import Input from "../../componentes/Campos/Input";
 import InputSenha from "../../componentes/Campos/InputSenha";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import "./Modal.css";
 
 const Modal = ({ titulo, campos, aberto, fechar, salvar }) => {
   useEffect(() => {

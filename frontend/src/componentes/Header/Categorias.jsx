@@ -1,6 +1,6 @@
 import React from "react";
-import "./Categorias.css";
 import { Link } from "react-router-dom";
+
 import { useCategorias } from "../../contexto/CategoriasContexto";
 
 const Categorias = () => {

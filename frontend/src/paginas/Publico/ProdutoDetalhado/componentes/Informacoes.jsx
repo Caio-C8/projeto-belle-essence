@@ -1,5 +1,4 @@
 import React from "react";
-import "./Informacoes.css";
 import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

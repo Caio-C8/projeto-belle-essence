@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Descricao.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";

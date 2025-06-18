@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../Perfil.css";
 import { useMask } from "@react-input/mask";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./DadosPerfil.css";
 import { useNavigate } from "react-router-dom";
 import { useMask } from "@react-input/mask";
 

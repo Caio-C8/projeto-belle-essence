@@ -1,5 +1,4 @@
 import React from "react";
-import "./TabelaCaracteristicas.css";
 
 const TabelaCaracteristicas = ({ produto }) => {
   const linhas = [

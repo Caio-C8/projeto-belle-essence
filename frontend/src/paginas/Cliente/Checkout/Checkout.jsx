@@ -17,6 +17,12 @@ const Checkout = () => {
   const { realizarPedido } = usePedidos();
   const navigate = useNavigate();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
+  const valorTotal = produtosCarrinho.reduce((acc, produto) => {
+    const precoUnitario = produto.promocao
+      ? produto.preco_promocao
+      : produto.preco;
+    return acc + precoUnitario * produto.qtde;
+  }, 0);
 
   const encaminharWhatsapp = (
     produtosCarrinho,
@@ -49,14 +55,7 @@ const Checkout = () => {
         endereco.ponto_referencia
       } - ${endereco.cidade}, ${
         endereco.estado
-      }\n\nTotal do pedido: ${formatarPreco(
-        produtosCarrinho.reduce((acc, produto) => {
-          const precoUnitario = produto.promocao
-            ? produto.preco_promocao
-            : produto.preco;
-          return acc + precoUnitario * produto.qtde;
-        }, 0)
-      )}
+      }\n\nTotal do pedido: ${formatarPreco(valorTotal)}
       `);
 
     const link = `https://wa.me/5538998249365?text=${mensagem}`;

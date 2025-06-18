@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./FiltrosProdutos.css";
 
 const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
   const [filtrosLocais, setFiltrosLocais] = useState(filtrosAtivos);
@@ -57,7 +56,9 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
           <select
             id="familia_olfativa"
             value={filtrosLocais.familia_olfativa}
-            onChange={(e) => handleFiltroChange("familia_olfativa", e.target.value)}
+            onChange={(e) =>
+              handleFiltroChange("familia_olfativa", e.target.value)
+            }
           >
             <option value="">Todas as famílias</option>
             {filtros.familias_olfativas?.map((familia, index) => (
@@ -114,4 +115,3 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
 };
 
 export default FiltrosProdutos;
-
