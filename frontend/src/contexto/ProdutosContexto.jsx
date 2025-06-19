@@ -5,6 +5,7 @@ const ProdutosContexto = createContext();
 
 export const ProvedorProdutos = ({ children }) => {
   const [produtos, setProdutos] = useState([]);
+  const [produto, setProduto] = useState({});
   const [filtros, setFiltros] = useState(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
@@ -119,8 +120,23 @@ export const ProvedorProdutos = ({ children }) => {
     }
   };
 
+  const buscarProdutoPorId = async (id) => {
+    setCarregando(true);
+    setErro(null);
+    try {
+      const dadosRequisitadosProduto = await fetchApiPorId("produtos", id);
+      setProduto(dadosRequisitadosProduto);
+    } catch (error) {
+      console.error("Erro ao buscar produto por id:", error);
+      setErro("Erro ao carregar produto.");
+    } finally {
+      setCarregando(false);
+    }
+  };
+
   const contexto = {
     produtos,
+    produto,
     filtros,
     carregando,
     erro,
@@ -129,6 +145,7 @@ export const ProvedorProdutos = ({ children }) => {
     buscarPorTexto,
     buscarRelacionados,
     buscarFiltrosDinamicos,
+    buscarProdutoPorId,
   };
 
   return (

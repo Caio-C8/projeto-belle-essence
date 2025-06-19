@@ -19,9 +19,9 @@ const HomeAdm = () => {
 
       <div className="d-flex flex-column gap-4">
         <div className="d-flex gap-4">
-          <Link to="">
+          <Link to="/adm/estoque">
             <div
-              className="d-flex flex-column align-items-center justify-content-center shadow-sm hover-shadow p-3 rounded gap-2"
+              className="card-home-adm shadow-sm hover-shadow rounded"
               style={{
                 height: "200px",
                 width: "400px",
@@ -36,9 +36,9 @@ const HomeAdm = () => {
             </div>
           </Link>
 
-          <Link>
+          <Link to="/adm/pedidos">
             <div
-              className=" d-flex flex-column align-items-center justify-content-center shadow-sm hover-shadow p-3 rounded gap-2"
+              className="card-home-adm shadow-sm hover-shadow rounded"
               style={{
                 height: "200px",
                 width: "400px",
@@ -55,9 +55,9 @@ const HomeAdm = () => {
         </div>
 
         <div className="d-flex gap-4">
-          <Link>
+          <Link to="/adm/cadastrar-produto">
             <div
-              className="d-flex flex-column align-items-center justify-content-center shadow-sm hover-shadow p-3 rounded gap-2"
+              className="card-home-adm shadow-sm hover-shadow rounded"
               style={{
                 height: "200px",
                 width: "400px",
@@ -72,10 +72,10 @@ const HomeAdm = () => {
             </div>
           </Link>
 
-          <Link>
+          <Link to="/adm/definir-promocao">
             <div className="col">
               <div
-                className="d-flex flex-column align-items-center justify-content-center shadow-sm hover-shadow p-3 rounded gap-2"
+                className="card-home-adm shadow-sm hover-shadow rounded"
                 style={{
                   height: "200px",
                   width: "400px",

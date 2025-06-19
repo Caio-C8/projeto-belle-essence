@@ -8,17 +8,13 @@ export const ProvedorCliente = ({ children }) => {
   const { usuario } = useAutenticacao();
   const [cliente, setCliente] = useState({});
 
-  useEffect(() => {
-    const carregarCliente = async () => {
-      if (!usuario?.id) return;
-      const dados = await fetchApiPorId("clientes", usuario.id);
-      setCliente(dados || {});
-    };
+  const carregarCliente = async () => {
+    if (!usuario?.id && usuario?.tipo === "admin") return;
+    const dados = await fetchApiPorId("clientes", usuario.id);
+    setCliente(dados || {});
+  };
 
-    carregarCliente();
-  }, [usuario]);
-
-  const contexto = { cliente, setCliente };
+  const contexto = { cliente, setCliente, carregarCliente };
 
   return (
     <ClienteContexto.Provider value={contexto}>

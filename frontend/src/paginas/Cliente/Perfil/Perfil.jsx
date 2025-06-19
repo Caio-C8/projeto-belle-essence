@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useAutenticacao } from "../../../contexto/AutenticarContexto";
@@ -11,7 +11,11 @@ import Sidebar from "./componentes/SideBar";
 
 const Perfil = () => {
   const { logout } = useAutenticacao();
-  const { cliente, setCliente } = useCliente();
+  const { cliente, setCliente, carregarCliente } = useCliente();
+
+  useEffect(() => {
+    carregarCliente();
+  }, []);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const pagina = searchParams.get("aba") || "dados";

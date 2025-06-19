@@ -6,7 +6,7 @@ const InputSenha = ({ label, placeholder, value, onChange, className }) => {
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   return (
-    <div className={`mb-3 ${className}`}>
+    <div className={`${className}`}>
       {label && <label className="form-label">{label}</label>}
       <div className="input-group">
         <input

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,8 +18,12 @@ import { useCarrinho } from "../../contexto/CarrinhoContexto";
 const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
   const { usuario } = useAutenticacao();
   const navigate = useNavigate();
-  const { favoritos, toggleFavorito } = useFavoritos();
+  const { favoritos, toggleFavorito, carregarFavoritos } = useFavoritos();
   const { adicionarProduto } = useCarrinho();
+
+  useEffect(() => {
+    carregarFavoritos();
+  }, []);
 
   const isFavorito = favoritos.includes(produto.id_produto);
 

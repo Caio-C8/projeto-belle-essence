@@ -45,6 +45,11 @@ import Checkout from "./paginas/Cliente/Checkout/Checkout";
 
 // Páginas de Administrador
 import HomeAdm from "./paginas/Admin/HomeAdm/HomeAdm";
+import CadastrarProduto from "./paginas/Admin/CadastrarProduto/CadastrarProduto";
+import DefinirPromocao from "./paginas/Admin/DefinirPromocao/DefinirPromocao";
+import Estoque from "./paginas/Admin/Estoque/Estoque";
+import Pedidos from "./paginas/Admin/Pedidos/Pedidos";
+import ProdutoEstoque from "./paginas/Admin/ProdutoEstoque/ProdutoEstoque";
 
 const App = () => {
   return (
@@ -174,6 +179,51 @@ const App = () => {
                               element={
                                 <RotaProtegidaAdmin>
                                   <HomeAdm />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+
+                            <Route
+                              path="/adm/estoque"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <Estoque />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+
+                            <Route
+                              path="/adm/estoque/produto/:id"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <ProdutoEstoque />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+
+                            <Route
+                              path="/adm/pedidos"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <Pedidos />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+
+                            <Route
+                              path="/adm/cadastrar-produto"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <CadastrarProduto />
+                                </RotaProtegidaAdmin>
+                              }
+                            />
+
+                            <Route
+                              path="/adm/definir-promocao"
+                              element={
+                                <RotaProtegidaAdmin>
+                                  <DefinirPromocao />
                                 </RotaProtegidaAdmin>
                               }
                             />

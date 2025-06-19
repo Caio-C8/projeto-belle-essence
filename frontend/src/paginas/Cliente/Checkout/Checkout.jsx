@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { formatarPreco } from "../../../utilidades/formatarPreco";
@@ -12,8 +12,9 @@ import { usePedidos } from "../../../contexto/PedidosContexto";
 const Checkout = () => {
   const { usuario } = useAutenticacao();
   const { enderecos } = useEnderecos();
-  const { idCarrinho, produtosCarrinho, esvaziarCarrinho } = useCarrinho();
-  const { cliente } = useCliente();
+  const { idCarrinho, produtosCarrinho, esvaziarCarrinho, carregarCarrinho } =
+    useCarrinho();
+  const { cliente, carregarCliente } = useCliente();
   const { realizarPedido } = usePedidos();
   const navigate = useNavigate();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
@@ -23,6 +24,11 @@ const Checkout = () => {
       : produto.preco;
     return acc + precoUnitario * produto.qtde;
   }, 0);
+
+  useEffect(() => {
+    carregarCarrinho();
+    carregarCliente();
+  }, []);
 
   const encaminharWhatsapp = (
     produtosCarrinho,

@@ -153,6 +153,10 @@ main {
   border-color: #ff0000 !important;
 }
 
+.resultado-pesquisa {
+  background-color: #fff;
+  padding: 1rem;
+}
 /* ---------- Gerais ---------- */
 
 /* ---------- CardProduto ---------- */
@@ -588,11 +592,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-body {
-  background: #f5fffa;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .card {
   border-radius: 1rem;
   background-color: #ffffff;
@@ -843,7 +842,7 @@ body {
   box-shadow: 0 0 0 0.15rem #ffb5a28f;
 }
 
-h5 {
+.divisoria h5 {
   color: #ffb4a2;
   font-weight: bold;
 }
@@ -963,7 +962,7 @@ h5 {
   border-right: 1px solid #ccc;
 }
 
-.coluna {
+td.coluna {
   text-align: center;
 }
 
@@ -1154,3 +1153,106 @@ h5 {
   animation: fadeIn 0.6s ease-out;
 }
 /* ---------- Checkout ---------- */
+
+/* ---------- HomeAdm ---------- */
+.card-home-adm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.card-home-adm:hover {
+  transform: scale(1.02);
+}
+/* ---------- HomeAdm ---------- */
+
+/* ---------- CardProdutoEstoque ---------- */
+.produto-card {
+  display: flex;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #fff;
+  margin: 0 auto;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.produto-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.img-produto {
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+}
+
+.produto-card-body {
+  display: flex;
+}
+
+.produto-card-img {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-right: 1px solid #ccc;
+  padding: 25px;
+  padding-left: 0;
+}
+
+.estoque {
+  font-size: 1.5rem;
+}
+
+.alto {
+  color: #0ea700;
+}
+
+.medio {
+  color: #f0dc00;
+}
+
+.baixo {
+  color: #ffae00;
+}
+
+.sem {
+  color: #e00000;
+}
+
+.produto-detalhes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: #444;
+  padding: 25px;
+  padding-right: 0;
+}
+
+.botao-produto {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.botao-produto button {
+  width: 100%;
+}
+
+.produto-detalhes .coluna {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* ---------- CardProdutoEstoque ---------- */

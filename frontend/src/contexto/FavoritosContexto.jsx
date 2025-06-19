@@ -7,27 +7,23 @@ export const ProvedorFavoritos = ({ children }) => {
   const { usuario } = useAutenticacao();
   const [favoritos, setFavoritos] = useState([]);
 
-  useEffect(() => {
-    const carregarFavoritos = async () => {
-      if (!usuario) {
-        setFavoritos([]);
-        return;
-      }
+  const carregarFavoritos = async () => {
+    if (!usuario) {
+      setFavoritos([]);
+      return;
+    }
 
-      try {
-        const res = await fetch(
-          `http://localhost:3000/itens-lista-favoritos/${usuario.id}`
-        );
-        const { dados } = await res.json();
-        const ids = dados.map((item) => item.id_produto);
-        setFavoritos(ids);
-      } catch (error) {
-        console.error("Erro ao carregar favoritos:", error);
-      }
-    };
-
-    carregarFavoritos();
-  }, [usuario]);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/itens-lista-favoritos/${usuario.id}`
+      );
+      const { dados } = await res.json();
+      const ids = dados.map((item) => item.id_produto);
+      setFavoritos(ids);
+    } catch (error) {
+      console.error("Erro ao carregar favoritos:", error);
+    }
+  };
 
   const toggleFavorito = async (idProduto) => {
     if (!usuario) {
@@ -70,7 +66,7 @@ export const ProvedorFavoritos = ({ children }) => {
     }
   };
 
-  const contexto = { favoritos, toggleFavorito };
+  const contexto = { favoritos, toggleFavorito, carregarFavoritos };
 
   return (
     <FavoritosContexto.Provider value={contexto}>

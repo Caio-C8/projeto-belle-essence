@@ -8,11 +8,13 @@ const Input = ({
   onChange,
   className,
   inputRef,
+  disabled = false,
 }) => {
   return (
-    <div className={`mb-3 ${className}`}>
+    <div className={`${className}`}>
       {label && <label className="form-label">{label}</label>}
       <input
+        disabled={disabled}
         type={type}
         className="form-control"
         placeholder={placeholder}

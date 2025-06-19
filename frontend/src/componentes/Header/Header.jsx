@@ -15,6 +15,8 @@ import {
 
 import { useAutenticacao } from "../../contexto/AutenticarContexto";
 
+import logoSimplificada from "../../assets/img/logoBelleEssenceSimplificada.png";
+
 import Categorias from "./Categorias";
 
 const Header = () => {
@@ -40,7 +42,7 @@ const Header = () => {
             <div className="logo col-12 col-md-3 text-center text-md-start mb-2 mb-md-0">
               <Link to={usuario?.tipo === "admin" ? "/adm/" : "/"}>
                 <img
-                  src="../../src/assets/img/logoBelleEssenceSimplificada.png"
+                  src={logoSimplificada}
                   alt="Logo Belle Essence Simplificada"
                   style={{ height: "100px" }}
                 />

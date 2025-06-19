@@ -34,10 +34,6 @@ export const ProvedorCarrinho = ({ children }) => {
     setProdutosCarrinho(detalhados);
   };
 
-  useEffect(() => {
-    carregarCarrinho();
-  }, [usuario]);
-
   const adicionarProduto = async (idProduto) => {
     if (!usuario) return;
 

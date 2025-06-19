@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { IoLogoInstagram, IoLogoFacebook } from "react-icons/io5";
 
+import logo from "../../assets/img/logoBelleEssence.png";
+
 const Footer = () => {
   return (
     <footer className="border-top py-4 px-3 text-center text-md-start">
@@ -13,7 +15,7 @@ const Footer = () => {
           <div className="col-12 col-md-4 text-center text-md-start">
             <div className="logo">
               <img
-                src="../../src/assets/img/logoBelleEssence.png"
+                src={logo}
                 alt="Logo Belle Essence"
                 style={{ height: "100px" }}
               />

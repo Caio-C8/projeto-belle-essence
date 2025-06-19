@@ -1,10 +1,22 @@
 import React from "react";
 
-const Select = ({ label, value, onChange, options, className }) => {
+const Select = ({
+  label,
+  value,
+  onChange,
+  options,
+  className,
+  disabled = false,
+}) => {
   return (
-    <div className={`mb-3 ${className}`}>
+    <div className={`${className}`}>
       {label && <label className="form-label">{label}</label>}
-      <select className="form-select" value={value} onChange={onChange}>
+      <select
+        className="form-select"
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      >
         <option value="" disabled>
           Selecione
         </option>

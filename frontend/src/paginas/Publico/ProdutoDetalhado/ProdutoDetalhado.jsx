@@ -12,21 +12,26 @@ import ProdutosCarrossel from "../../../componentes/ProdutosCarrosel/ProdutosCar
 
 const ProdutoDetalhado = () => {
   const { id } = useParams();
-  const { produtos, buscarRelacionados } = useProdutos();
-  const [produto, setProduto] = useState({});
+  const {
+    produto,
+    produtos,
+    buscarTodosProdutos,
+    buscarProdutoPorId,
+    buscarRelacionados,
+  } = useProdutos();
+
   const [categoriasDoProduto, setCategoriasDoProduto] = useState([]);
 
   useEffect(() => {
     const carregarDados = async () => {
-      const dadosRequisitadosProduto = await fetchApiPorId("produtos", id);
-      setProduto(dadosRequisitadosProduto);
-
       const categorias = await fetchApiPorId("produtos/categorias", id);
       setCategoriasDoProduto(categorias.map((c) => c.categoria));
 
       await buscarRelacionados(id);
     };
 
+    buscarTodosProdutos();
+    buscarProdutoPorId(id);
     carregarDados();
   }, [id]);
 
