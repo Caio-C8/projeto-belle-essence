@@ -49,7 +49,7 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
 
       if (res.ok) {
         const confirmar = window.confirm(
-          `${mensagem}. Deseja finalizar compra?`
+          `${mensagem} Deseja finalizar compra?`
         );
 
         if (confirmar) return navigate("/carrinho");
@@ -64,7 +64,7 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
 
   return (
     <div className="col-12 col-sm-6 col-md-3 px-2">
-      <div className="card produto">
+      <div className="card produto shadow-sm hover-shadow">
         {isPaginaFavoritos ? (
           <div className="x-icon" onClick={handleFavoritar}>
             <FontAwesomeIcon icon={faXmark} />

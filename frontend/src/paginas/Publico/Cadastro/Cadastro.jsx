@@ -162,7 +162,7 @@ const Cadastro = () => {
         <h5>Dados pessoais</h5>
       </div>
 
-      <div className="row">
+      <div className="row row-gap-3">
         <Input
           label="Nome"
           placeholder="Seu nome"
@@ -236,7 +236,7 @@ const Cadastro = () => {
         <h5>Endereço</h5>
       </div>
 
-      <div className="row">
+      <div className="row row-gap-3">
         <Input
           label="CEP"
           placeholder="00000-000"

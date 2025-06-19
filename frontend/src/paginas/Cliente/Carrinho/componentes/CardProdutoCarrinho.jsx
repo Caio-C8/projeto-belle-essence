@@ -41,10 +41,9 @@ const CardProdutoCarrinho = ({ produto, onRemover }) => {
             src={produto.imagem}
             alt={produto.nome}
             style={{
-              border: "1px solid #1c1c1c",
-              borderRadius: "10px",
               width: "200px",
             }}
+            className="border rounded"
           />
         </Link>
       </div>

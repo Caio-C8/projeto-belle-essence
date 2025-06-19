@@ -56,32 +56,34 @@ const EsqueceuSenha = () => {
     <form onSubmit={alterarSenha} className="card shadow mx-auto">
       <h2 className="text-center">Alterar Senha</h2>
 
-      <Input
-        label="E-mail"
-        type="email"
-        placeholder="Seu e-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <div className="d-flex flex-column gap-3">
+        <Input
+          label="E-mail"
+          type="email"
+          placeholder="Seu e-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <InputSenha
-        label="Senha"
-        placeholder="Sua nova senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-      />
+        <InputSenha
+          label="Senha"
+          placeholder="Sua nova senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
 
-      <InputSenha
-        label="Confirmar senha"
-        placeholder="Confirme sua nova senha"
-        value={confirmarSenha}
-        onChange={(e) => setConfirmarSenha(e.target.value)}
-      />
+        <InputSenha
+          label="Confirmar senha"
+          placeholder="Confirme sua nova senha"
+          value={confirmarSenha}
+          onChange={(e) => setConfirmarSenha(e.target.value)}
+        />
 
-      <div className="d-grid">
-        <button type="submit" className="btn btn-primary">
-          Alterar Senha
-        </button>
+        <div className="d-grid mt-3">
+          <button type="submit" className="btn btn-primary">
+            Alterar Senha
+          </button>
+        </div>
       </div>
 
       <div className="text-center mt-3">

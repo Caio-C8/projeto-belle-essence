@@ -76,6 +76,8 @@ export const ProvedorCarrinho = ({ children }) => {
       { method: "DELETE" }
     );
 
+    alert("Produto removido da sacola.");
+
     setProdutosCarrinho((anteriores) =>
       anteriores.filter((p) => p.id_produto !== idProduto)
     );

@@ -41,8 +41,8 @@ const ProdutosCarrossel = ({ titulo, produtos, rota }) => {
 
   return (
     <div
-      className="container py-4 px-4"
-      style={{ border: "1px solid #1c1c1c", borderRadius: "10px" }}
+      className="container py-4 px-4 border shadow-sm hover-shadow"
+      style={{ borderRadius: "20px" }}
     >
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="fw-bold">{titulo}</h2>
