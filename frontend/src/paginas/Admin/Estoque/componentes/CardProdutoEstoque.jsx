@@ -2,12 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { formatarPreco } from "../../../../utilidades/formatarPreco";
+import { formatarData } from "../../../../utilidades/formatarData";
 
 const CardProdutoEstoque = ({ produto }) => {
   return (
     <div className="produto-card border shadow-sm hover-shadow">
       <div className="produto-card-header">
-        <h3>{produto.nome}</h3>
+        <div>
+          <h3 className="mb-1">{produto.nome}</h3>
+          {produto.data_vencimento ? (
+            <p>
+              <strong>Data de vencimento:</strong>{" "}
+              {formatarData(produto.data_vencimento)}
+            </p>
+          ) : (
+            <></>
+          )}
+        </div>
         {produto.qtde_estoque > 10 ? (
           <span className="estoque alto">ESTOQUE ALTO</span>
         ) : produto.qtde_estoque > 5 && produto.qtde_estoque <= 10 ? (
@@ -46,10 +57,10 @@ const CardProdutoEstoque = ({ produto }) => {
               <strong>Quantidade em Estoque:</strong> {produto.qtde_estoque}
             </div>
             <div>
-              <strong>Lançamento:</strong> {produto.lancamento ? "Sim" : "Não"}
+              <strong>Número de vendas:</strong> {produto.numero_vendas}
             </div>
             <div>
-              <strong>Número de vendas:</strong> {produto.numero_vendas}
+              <strong>Lançamento:</strong> {produto.lancamento ? "Sim" : "Não"}
             </div>
             <div>
               <strong>Valor Promocional:</strong>{" "}
