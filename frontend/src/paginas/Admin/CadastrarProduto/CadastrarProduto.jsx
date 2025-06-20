@@ -16,10 +16,54 @@ const CadastrarProduto = () => {
     banner: "",
     imagem: "",
     descricao: "",
+    dataVencimento: "",
   });
 
   const handleChange = (campo) => (e) => {
     setForm({ ...form, [campo]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/adm/cadastrar-produtos",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const { mensagem } = await response.json();
+
+      if (response.ok) {
+        alert(mensagem || "Produto cadastrado com sucesso!");
+        setForm({
+          nome: "",
+          codigo: "",
+          marca: "",
+          preco: "",
+          estoque: "",
+          familiaOlfativa: "",
+          concentracao: "",
+          categorias: "",
+          ocasioes: "",
+          banner: "",
+          imagem: "",
+          descricao: "",
+          dataVencimento: "",
+        });
+      } else {
+        alert(mensagem || "Erro ao cadastrar produto.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar produto:", error);
+      alert("Erro na conexão com o servidor.");
+    }
   };
 
   return (
@@ -29,6 +73,7 @@ const CadastrarProduto = () => {
       </div>
 
       <form
+        onSubmit={handleSubmit}
         className="border rounded shadow-sm p-4 d-flex flex-column gap-3"
         style={{ width: "800px", backgroundColor: "#fff" }}
       >
@@ -86,23 +131,32 @@ const CadastrarProduto = () => {
 
         <div className="row">
           <div className="col-md-6" style={{ paddingLeft: "0" }}>
-            <Select
+            <Input
               label="Família olfativa:"
+              placeholder="Família olfativa"
+              type="text"
               value={form.familiaOlfativa}
               onChange={handleChange("familiaOlfativa")}
-              options={["Amadeirada", "Floral", "Frutal", "Oriental"]}
             />
           </div>
 
           <div className="col-md-6" style={{ paddingRight: "0" }}>
-            <Select
+            <Input
               label="Concentração:"
+              placeholder="Concentração"
+              type="text"
               value={form.concentracao}
               onChange={handleChange("concentracao")}
-              options={["Cologne", "Eau de Toilette", "Eau de Parfum"]}
             />
           </div>
         </div>
+
+        <Input
+          label="Data de vencimento:"
+          type="date"
+          value={form.dataVencimento}
+          onChange={handleChange("dataVencimento")}
+        />
 
         <Input
           label="Categorias:"
@@ -124,7 +178,7 @@ const CadastrarProduto = () => {
           <div className="col-md-6" style={{ paddingLeft: "0" }}>
             <Input
               label="Banner do produto:"
-              placeholder="Clique aqui"
+              placeholder="Link da imagem"
               type="text"
               value={form.banner}
               onChange={handleChange("banner")}
@@ -134,7 +188,7 @@ const CadastrarProduto = () => {
           <div className="col-md-6" style={{ paddingRight: "0" }}>
             <Input
               label="Imagem do produto:"
-              placeholder="Clique aqui"
+              placeholder="Link da imagem"
               type="text"
               value={form.imagem}
               onChange={handleChange("imagem")}

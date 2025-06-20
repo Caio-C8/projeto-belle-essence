@@ -27,8 +27,16 @@ const Header = () => {
 
   const realizarBusca = () => {
     if (textoBusca.trim()) {
+      if (usuario?.tipo === "admin") {
+        navigate(`/adm/estoque?pesq=${encodeURIComponent(textoBusca)}`);
+        return;
+      }
       navigate(`/pesquisa?pesq=${encodeURIComponent(textoBusca)}`);
     } else {
+      if (usuario?.tipo === "admin") {
+        navigate("/adm/estoque");
+        return;
+      }
       navigate("/pesquisa");
     }
   };

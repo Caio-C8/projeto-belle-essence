@@ -1,28 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import CardProdutoEstoque from "./componentes/CardProdutoEstoque";
 import { useProdutos } from "../../../contexto/ProdutosContexto";
 
 const Estoque = () => {
-  const { produtos, buscarTodosProdutos } = useProdutos();
+  const { produtos, buscarTodosProdutos, buscarPorTexto } = useProdutos();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [parametroPesquisa, setParametroPesquisa] = useState("");
 
   useEffect(() => {
     buscarTodosProdutos();
   }, []);
+
+  useEffect(() => {
+    const termoPesq = searchParams.get("pesq");
+    const filtrosDaURL = [];
+
+    if (termoPesq) {
+      setParametroPesquisa(termoPesq);
+      buscarPorTexto(termoPesq, filtrosDaURL);
+    } else {
+      setParametroPesquisa("Todos os Produtos");
+      buscarTodosProdutos(filtrosDaURL);
+    }
+  }, [searchParams]);
 
   return (
     <div className="row">
       <div className="col-md-3 mb-4">
         <div>
           <h5>Filtros</h5>
-          {/* Exemplo de espaço reservado para filtros */}
-          {/* <FiltrosComponent /> */}
         </div>
       </div>
 
       <div className="col-md-9 d-flex flex-column gap-4">
         <div className="border rounded resultado-pesquisa">
-          <h2>Resultado da busca: "todos"</h2>
+          <h2>Resultado da busca: "{parametroPesquisa}"</h2>
           <p className="text-muted">Total de produtos: {produtos.length}</p>
         </div>
 

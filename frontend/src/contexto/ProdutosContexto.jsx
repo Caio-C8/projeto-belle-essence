@@ -134,6 +134,24 @@ export const ProvedorProdutos = ({ children }) => {
     }
   };
 
+  const buscarCategoriasEOcasioesPorProduto = async (id) => {
+    setCarregando(true);
+    setErro(null);
+    try {
+      const dados = await fetchApiPorId(
+        "produtos",
+        `${id}/categorias-ocasioes`
+      );
+      return dados;
+    } catch (error) {
+      console.error("Erro ao buscar categorias/ocasiões:", error);
+      setErro("Erro ao carregar categorias e ocasiões.");
+      return null;
+    } finally {
+      setCarregando(false);
+    }
+  };
+
   const contexto = {
     produtos,
     produto,
@@ -146,6 +164,7 @@ export const ProvedorProdutos = ({ children }) => {
     buscarRelacionados,
     buscarFiltrosDinamicos,
     buscarProdutoPorId,
+    buscarCategoriasEOcasioesPorProduto,
   };
 
   return (

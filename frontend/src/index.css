@@ -153,6 +153,26 @@ main {
   border-color: #ff0000 !important;
 }
 
+.btn-salvar {
+  background-color: #0ea700;
+  border-color: #0ea700;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #ffffff;
+}
+
+.btn-salvar:hover {
+  background-color: #0ea700;
+  border-color: #0ea700;
+  color: #1c1c1c;
+  transform: scale(1.03);
+}
+
+.btn-salvar:active {
+  color: #1c1c1c !important;
+  background-color: #ffffff !important;
+  border-color: #0ea700 !important;
+}
+
 .resultado-pesquisa {
   background-color: #fff;
   padding: 1rem;

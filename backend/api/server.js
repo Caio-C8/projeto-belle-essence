@@ -140,3 +140,28 @@ app.use("/cancelar-pedido", cancelarPedidoRoutes);
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);
 
+const adminCadastrarProdutosRoutes = require("../rotas/admin/post/cadastrarProdutos");
+
+const adminAlterarProdutosRoutes = require("../rotas/admin/put/alterarProduto");
+
+// --- DELETE --- //
+
+// --- DELETE --- //
+
+// --- GET --- //
+
+// --- GET --- //
+
+// --- POST --- //
+
+// Rota para cadastrar produtos
+app.use("/adm/cadastrar-produtos", adminCadastrarProdutosRoutes);
+
+// --- POST --- //
+
+// --- PUT --- //
+
+// Rota pra alterar produtos cadastrados
+app.use("/adm/alterar-produto", adminAlterarProdutosRoutes);
+
+// --- PUT --- //

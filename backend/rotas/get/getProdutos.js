@@ -34,4 +34,49 @@ router.get("/categorias/:idProduto", async (req, res) => {
   }
 });
 
+router.get("/:id/categorias-ocasioes", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Buscar categorias
+    const categoriasQuery = await pool.query(
+      `
+      SELECT c.categoria
+      FROM categorias c
+      JOIN categorias_produto cp ON cp.id_categoria = c.id_categoria
+      WHERE cp.id_produto = $1
+      `,
+      [id]
+    );
+
+    const categorias = categoriasQuery.rows.map((row) => row.categoria);
+
+    // Buscar ocasiões
+    const ocasioesQuery = await pool.query(
+      `
+      SELECT o.ocasiao
+      FROM ocasioes o
+      JOIN ocasioes_produto op ON op.id_ocasiao = o.id_ocasiao
+      WHERE op.id_produto = $1
+      `,
+      [id]
+    );
+
+    const ocasioes = ocasioesQuery.rows.map((row) => row.ocasiao);
+
+    responder(res, {
+      dados: { categorias, ocasioes },
+    });
+  } catch (error) {
+    console.error("Erro ao buscar categorias/ocasiões:", error);
+    responder(res, {
+      status: 500,
+      sucesso: false,
+      mensagem: "Erro no servidor ao buscar categorias e ocasiões.",
+    });
+  }
+});
+
+module.exports = router;
+
 module.exports = router;
