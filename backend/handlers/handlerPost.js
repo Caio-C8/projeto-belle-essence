@@ -12,6 +12,7 @@ const {
 const {
   buscarClientePorEmailOuCelularOuCpf,
 } = require("../db/queriesClientes");
+const pool = require("../connect");
 
 const cadastrarEnderecoCliente = async (req, res) => {
   const {
@@ -302,12 +303,23 @@ const realizarPedidoCliente = async (req, res) => {
 
     for (const item of produtosPedido) {
       const { idProduto, qtde, precoUnitario } = item;
+
       await inserirRegistro("itens_pedido", {
         id_pedido: pedido.id_pedido,
         id_produto: idProduto,
         qtde,
         preco_unitario: precoUnitario,
       });
+
+      await pool.query(
+        `
+        UPDATE produtos
+        SET qtde_estoque = qtde_estoque - $1,
+            numero_vendas = numero_vendas + $1
+        WHERE id_produto = $2
+        `,
+        [qtde, idProduto]
+      );
     }
 
     return responder(res, {

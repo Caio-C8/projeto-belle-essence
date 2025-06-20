@@ -16,6 +16,7 @@ const {
 } = require("../db/queriesClientes");
 const bcrypt = require("bcrypt");
 const responder = require("../utilidades/responder");
+const pool = require("../connect");
 
 const atualizarQuantidadeCarrinho = async (req, res) => {
   const { idUsuario, idProduto, novaQuantidade } = req.body;
@@ -461,10 +462,36 @@ const cancelarPedido = async (req, res) => {
   try {
     const pedido = await buscarPorColuna("pedidos", "id_pedido", idPedido);
 
-    if (pedido.status === "Cancelado")
+    if (!pedido) {
+      return responder(res, {
+        status: 404,
+        sucesso: false,
+        mensagem: "Pedido não encontrado.",
+      });
+    }
+
+    if (pedido.status === "Cancelado") {
       return responder(res, {
         mensagem: "Pedido já está cancelado.",
       });
+    }
+
+    const itensQuery = await pool.query(
+      "SELECT id_produto, qtde FROM itens_pedido WHERE id_pedido = $1",
+      [idPedido]
+    );
+
+    for (const item of itensQuery.rows) {
+      await pool.query(
+        `
+        UPDATE produtos
+        SET qtde_estoque = qtde_estoque + $1,
+            numero_vendas = numero_vendas - $1
+        WHERE id_produto = $2
+        `,
+        [item.qtde, item.id_produto]
+      );
+    }
 
     await atualizarColunaPorId("pedidos", "status", "id_pedido", [
       "Cancelado",
@@ -472,15 +499,14 @@ const cancelarPedido = async (req, res) => {
     ]);
 
     return responder(res, {
-      mensagem:
-        "Pedido foi cancelado. Para mais informações entre em contato no Whatsapp.",
+      mensagem: "Pedido cancelado e estoque/vendas revertidos.",
     });
   } catch (error) {
-    console.error("Erro ao atualizar quantidade:", error);
+    console.error("Erro ao cancelar pedido:", error);
     return responder(res, {
       status: 500,
       sucesso: false,
-      mensagem: "Erro no servidor ao atualizar a quantidade.",
+      mensagem: "Erro no servidor ao cancelar o pedido.",
     });
   }
 };
