@@ -16,6 +16,7 @@ const ProdutoEstoque = () => {
   const [originalData, setOriginalData] = useState({});
   const [categorias, setCategorias] = useState("");
   const [ocasioes, setOcasioes] = useState("");
+  const [ativo, setAtivo] = useState(true);
 
   const buscarCategoriasEOcasioes = async () => {
     const dados = await buscarCategoriasEOcasioesPorProduto(id);
@@ -67,6 +68,8 @@ const ProdutoEstoque = () => {
         qtde_estoque: produto.qtde_estoque || "",
         descricao: produto.descricao || "",
       });
+
+      setAtivo(produto.ativo !== false);
     }
   }, [produto, categorias, ocasioes]);
 
@@ -134,6 +137,39 @@ const ProdutoEstoque = () => {
     }
   };
 
+  const handleToggleAtivo = async () => {
+    const acao = ativo ? "desativar" : "ativar";
+    const confirmacao = window.confirm(
+      `Tem certeza que deseja ${acao} este produto?`
+    );
+    if (!confirmacao) return;
+
+    const rota = ativo
+      ? `http://localhost:3000/adm/desativar-produto/${id}`
+      : `http://localhost:3000/adm/ativar-produto/${id}`;
+
+    try {
+      const response = await fetch(rota, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const { mensagem } = await response.json();
+
+      if (response.ok) {
+        alert(mensagem || `Produto ${acao} com sucesso.`);
+        setAtivo(!ativo);
+      } else {
+        alert(mensagem || `Erro ao ${acao} o produto.`);
+      }
+    } catch (error) {
+      console.error(`Erro ao ${acao} produto:`, error);
+      alert(`Erro na conexão ao tentar ${acao}.`);
+    }
+  };
+
   return (
     <div className="d-flex flex-column gap-3 align-items-center">
       <h3>Informações do Produto</h3>
@@ -190,6 +226,14 @@ const ProdutoEstoque = () => {
           </div>
 
           <div className="col-md-6 d-flex flex-column gap-4 justify-content-between">
+            <Input
+              disabled={true}
+              label="Status:"
+              type="text"
+              value={ativo ? "Ativado" : "Desativado"}
+              onChange={null}
+            />
+
             <Input
               disabled={isDisabled}
               label="Nome do produto:"
@@ -274,10 +318,11 @@ const ProdutoEstoque = () => {
               </button>
 
               <button
-                className="btn btn-cancelar"
+                className={`btn ${ativo ? "btn-cancelar" : "btn-salvar"}`}
                 style={{ width: "200px", fontSize: "1.3rem" }}
+                onClick={handleToggleAtivo}
               >
-                Desativar
+                {ativo ? "Desativar" : "Ativar"}
               </button>
             </div>
           ) : (

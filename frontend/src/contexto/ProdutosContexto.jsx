@@ -1,9 +1,19 @@
 import { createContext, useContext, useState } from "react";
+
 import { fetchApi, fetchApiPorId } from "../../api/requisicoes";
+
+import { useAutenticacao } from "./AutenticarContexto";
 
 const ProdutosContexto = createContext();
 
 export const ProvedorProdutos = ({ children }) => {
+  const { usuario } = useAutenticacao();
+  const tipoUsuario =
+    usuario?.tipo === "admin"
+      ? "admin"
+      : usuario?.tipo === "cliente"
+      ? "cliente"
+      : null;
   const [produtos, setProdutos] = useState([]);
   const [produto, setProduto] = useState({});
   const [filtros, setFiltros] = useState(null);
@@ -18,6 +28,8 @@ export const ProvedorProdutos = ({ children }) => {
         params.append(key, value);
       }
     });
+
+    params.append("tipoUsuario", tipoUsuario);
 
     return params.toString();
   };
@@ -42,7 +54,6 @@ export const ProvedorProdutos = ({ children }) => {
       const dados = await fetchApi(url);
       setProdutos(dados);
 
-      // Busca filtros dinâmicos se ainda não foram carregados
       if (!filtros) {
         await buscarFiltrosDinamicos();
       }
@@ -84,6 +95,7 @@ export const ProvedorProdutos = ({ children }) => {
     try {
       const params = new URLSearchParams();
       params.append("pesq", pesquisa);
+      params.append("tipoUsuario", tipoUsuario);
 
       Object.entries(filtrosAtivos).forEach(([key, value]) => {
         if (value && value.trim() !== "") {
@@ -110,7 +122,11 @@ export const ProvedorProdutos = ({ children }) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dados = await fetchApiPorId("pesquisa/relacionados", idProduto);
+      const dados = await fetchApiPorId(
+        "pesquisa/relacionados",
+        idProduto,
+        tipoUsuario
+      );
       setProdutos(dados);
     } catch (error) {
       console.error("Erro ao buscar relacionados:", error);
@@ -124,7 +140,11 @@ export const ProvedorProdutos = ({ children }) => {
     setCarregando(true);
     setErro(null);
     try {
-      const dadosRequisitadosProduto = await fetchApiPorId("produtos", id);
+      const dadosRequisitadosProduto = await fetchApiPorId(
+        "produtos",
+        id,
+        tipoUsuario
+      );
       setProduto(dadosRequisitadosProduto);
     } catch (error) {
       console.error("Erro ao buscar produto por id:", error);
@@ -140,7 +160,8 @@ export const ProvedorProdutos = ({ children }) => {
     try {
       const dados = await fetchApiPorId(
         "produtos",
-        `${id}/categorias-ocasioes`
+        `${id}/categorias-ocasioes`,
+        tipoUsuario
       );
       return dados;
     } catch (error) {

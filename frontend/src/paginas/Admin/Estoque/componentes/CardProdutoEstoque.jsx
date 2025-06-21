@@ -9,15 +9,7 @@ const CardProdutoEstoque = ({ produto }) => {
     <div className="produto-card border shadow-sm hover-shadow">
       <div className="produto-card-header">
         <div>
-          <h3 className="mb-1">{produto.nome}</h3>
-          {produto.data_vencimento ? (
-            <p>
-              <strong>Data de vencimento:</strong>{" "}
-              {formatarData(produto.data_vencimento)}
-            </p>
-          ) : (
-            <></>
-          )}
+          <h3>{produto.nome}</h3>
         </div>
         {produto.qtde_estoque > 10 ? (
           <span className="estoque alto">ESTOQUE ALTO</span>
@@ -51,6 +43,12 @@ const CardProdutoEstoque = ({ produto }) => {
             <div>
               <strong>Valor Base:</strong> {formatarPreco(produto.preco)}
             </div>
+            <div>
+              <strong>Data de Vencimento:</strong>{" "}
+              {produto.data_vencimento
+                ? formatarData(produto.data_vencimento)
+                : "-"}
+            </div>
           </div>
           <div className="coluna">
             <div>
@@ -65,6 +63,10 @@ const CardProdutoEstoque = ({ produto }) => {
             <div>
               <strong>Valor Promocional:</strong>{" "}
               {produto.promocao ? formatarPreco(produto.preco_promocao) : "-"}
+            </div>
+            <div>
+              <strong>Status:</strong>{" "}
+              {produto.ativo ? "Ativado" : "Desativado"}
             </div>
           </div>
           <Link

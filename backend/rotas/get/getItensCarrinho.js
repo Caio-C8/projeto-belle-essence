@@ -19,11 +19,28 @@ router.get("/:id", async (req, res) => {
       carrinhoCliente.id_carrinho
     );
 
+    // Filtrar produtos ativos
+    const ativos = [];
+
+    for (const item of itensCarrinho) {
+      const produto = await buscarPorColuna(
+        "produtos",
+        "id_produto",
+        item.id_produto
+      );
+      if (produto && produto.ativo === true) {
+        ativos.push(item);
+      }
+    }
+
     return responder(res, {
-      dados: { id_carrinho: carrinhoCliente.id_carrinho, itensCarrinho },
+      dados: {
+        id_carrinho: carrinhoCliente.id_carrinho,
+        itensCarrinho: ativos,
+      },
     });
   } catch (error) {
-    console.error("Erro ao cadastrar usuário:", error);
+    console.error("Erro ao carregar itens do carrinho:", error);
     return responder(res, {
       status: 500,
       sucesso: false,

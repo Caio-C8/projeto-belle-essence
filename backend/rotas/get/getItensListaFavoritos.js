@@ -19,11 +19,25 @@ router.get("/:id", async (req, res) => {
       listaFavoritosCliente.id_lista_favoritos
     );
 
+    // Filtrar produtos ativos
+    const ativos = [];
+
+    for (const item of itensListaFavoritos) {
+      const produto = await buscarPorColuna(
+        "produtos",
+        "id_produto",
+        item.id_produto
+      );
+      if (produto && produto.ativo === true) {
+        ativos.push(item);
+      }
+    }
+
     return responder(res, {
-      dados: itensListaFavoritos,
+      dados: ativos,
     });
   } catch (error) {
-    console.error("Erro ao cadastrar usuário:", error);
+    console.error("Erro ao carregar itens da lista de favoritos:", error);
     return responder(res, {
       status: 500,
       sucesso: false,

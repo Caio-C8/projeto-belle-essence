@@ -54,7 +54,13 @@ const getFiltrosDinamicos = async () => {
   };
 };
 
-const pesquisarProdutos = async (req, res, isTodosRoute = false, filtros = {}) => {
+const pesquisarProdutos = async (
+  req,
+  res,
+  isTodosRoute = false,
+  filtros = {},
+  tipoUsuario
+) => {
   const { pesq } = req.query;
 
   if (!isTodosRoute && !pesq) {
@@ -68,7 +74,7 @@ const pesquisarProdutos = async (req, res, isTodosRoute = false, filtros = {}) =
 
   try {
     if (!isTodosRoute) {
-      const produtoPorCodigo = await buscarProdutoPorCodigo(pesq);
+      const produtoPorCodigo = await buscarProdutoPorCodigo(pesq, tipoUsuario);
       if (produtoPorCodigo) {
         return {
           dados: [produtoPorCodigo],
@@ -81,27 +87,26 @@ const pesquisarProdutos = async (req, res, isTodosRoute = false, filtros = {}) =
 
     let produtos;
     if (isTodosRoute) {
-      // Para a rota /todos, buscar todos os produtos e aplicar filtros
       const { conditions, params } = montarFiltrosQuery(filtros);
-      let queryProdutos = "SELECT * FROM produtos";
-      if (conditions.length > 0) {
-        queryProdutos += " WHERE " + conditions.join(" AND ");
+
+      let whereClause = "";
+
+      if (tipoUsuario !== "admin") {
+        conditions.push("ativo = true");
       }
-      queryProdutos += " ORDER BY promocao DESC, id_produto ASC";
-      
+
+      if (conditions.length > 0) {
+        whereClause = " WHERE " + conditions.join(" AND ");
+      }
+
+      const queryProdutos = `
+        SELECT * FROM produtos
+        ${whereClause}
+        ORDER BY promocao DESC, id_produto ASC
+      `;
+
       const result = await pool.query(queryProdutos, params);
       produtos = result.rows;
-    } else {
-      // Para a rota /pesquisa, buscar por termos e aplicar filtros
-      const termosOriginais = pesq.split(" ").filter(Boolean);
-      const termosFiltrados = termosOriginais
-        .map(normalizarTexto)
-        .filter((palavra) => palavra && !preposicoes.includes(palavra));
-
-      if (termosFiltrados.length === 0)
-        termosFiltrados.push(normalizarTexto(pesq));
-
-      produtos = await buscarProdutosPorTermos(termosFiltrados, filtros);
     }
 
     return {
@@ -121,11 +126,20 @@ const pesquisarProdutos = async (req, res, isTodosRoute = false, filtros = {}) =
   }
 };
 
-const pesquisarProdutosPorCategoria = async (req, res, filtros = {}) => {
+const pesquisarProdutosPorCategoria = async (
+  req,
+  res,
+  filtros = {},
+  tipoUsuario
+) => {
   const { categoria } = req.params;
 
   try {
-    const resultado = await buscarProdutosPorCategoriaSlug(categoria, filtros);
+    const resultado = await buscarProdutosPorCategoriaSlug(
+      categoria,
+      filtros,
+      tipoUsuario
+    );
     return {
       dados: resultado.produtos,
       mensagem: resultado.mensagem,
@@ -145,9 +159,14 @@ const pesquisarProdutosPorCategoria = async (req, res, filtros = {}) => {
 
 const pesquisarProdutosRelacionados = async (req, res) => {
   const { idProduto } = req.params;
+  const tipoUsuario =
+    req.query.tipoUsuario || req.headers["tipo-usuario"] || null;
 
   try {
-    const relacionados = await buscarProdutosRelacionados(idProduto);
+    const relacionados = await buscarProdutosRelacionados(
+      idProduto,
+      tipoUsuario
+    );
 
     if (relacionados.length === 0) {
       return responder(res, {
@@ -176,4 +195,3 @@ module.exports = {
   pesquisarProdutosRelacionados,
   getFiltrosDinamicos,
 };
-

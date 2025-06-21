@@ -9,7 +9,7 @@ import CardProduto from "../../../componentes/CardProduto/CardProduto";
 
 const Favoritos = () => {
   const { usuario } = useAutenticacao();
-  const { favoritos } = useFavoritos();
+  const { favoritos, carregarFavoritos } = useFavoritos();
   const [produtosFavoritos, setProdutosFavoritos] = useState([]);
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const Favoritos = () => {
     };
 
     carregarProdutos();
+    carregarFavoritos();
   }, [usuario, favoritos]);
 
   return (

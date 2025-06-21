@@ -143,6 +143,8 @@ app.use("/login", validarUsuariosRoutes);
 const adminCadastrarProdutosRoutes = require("../rotas/admin/post/cadastrarProdutos");
 
 const adminAlterarProdutosRoutes = require("../rotas/admin/put/alterarProduto");
+const adminDesativarProdutosRoutes = require("../rotas/admin/put/desativarProduto");
+const adminAtivarProdutosRoutes = require("../rotas/admin/put/ativarProduto");
 
 // --- DELETE --- //
 
@@ -163,5 +165,11 @@ app.use("/adm/cadastrar-produtos", adminCadastrarProdutosRoutes);
 
 // Rota pra alterar produtos cadastrados
 app.use("/adm/alterar-produto", adminAlterarProdutosRoutes);
+
+// Rora para desativar produtos
+app.use("/adm/desativar-produto", adminDesativarProdutosRoutes);
+
+// Rora para ativar produtos
+app.use("/adm/ativar-produto", adminAtivarProdutosRoutes);
 
 // --- PUT --- //
