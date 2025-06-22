@@ -6,6 +6,7 @@ const {
   pesquisarProdutosPorCategoria,
   pesquisarProdutosRelacionados,
 } = require("../../handlers/handlerPesquisa");
+const { buscarProdutoPorCodigo } = require("../../db/queriesPesquisa");
 
 router.get("/todos", async (req, res) => {
   try {
@@ -90,6 +91,31 @@ router.get("/", async (req, res) => {
       status: 500,
       sucesso: false,
       mensagem: "Erro no servidor",
+    });
+  }
+});
+
+router.get("/codigo/:codigoProduto", async (req, res) => {
+  const { codigoProduto } = req.params;
+
+  try {
+    const produto = await buscarProdutoPorCodigo(codigoProduto);
+
+    if (!produto) {
+      return responder(res, {
+        status: 404,
+        sucesso: false,
+        mensagem: "Produto não encontrado.",
+      });
+    }
+
+    return responder(res, { dados: produto });
+  } catch (error) {
+    console.error("Erro ao buscar produto por código:", error);
+    return responder(res, {
+      status: 500,
+      sucesso: false,
+      mensagem: "Erro ao buscar produto por código.",
     });
   }
 });

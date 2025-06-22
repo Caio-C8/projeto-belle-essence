@@ -173,6 +173,22 @@ export const ProvedorProdutos = ({ children }) => {
     }
   };
 
+  const buscarProdutoPorCodigo = async (codigo) => {
+    setCarregando(true);
+    setErro(null);
+    try {
+      const produtoEncontrado = await fetchApiPorId("pesquisa/codigo", codigo);
+      setProduto(produtoEncontrado);
+      return produtoEncontrado;
+    } catch (error) {
+      console.error("Erro ao buscar produto por código:", error);
+      setErro("Erro ao buscar produto por código.");
+      return null;
+    } finally {
+      setCarregando(false);
+    }
+  };
+
   const contexto = {
     produtos,
     produto,
@@ -186,6 +202,7 @@ export const ProvedorProdutos = ({ children }) => {
     buscarFiltrosDinamicos,
     buscarProdutoPorId,
     buscarCategoriasEOcasioesPorProduto,
+    buscarProdutoPorCodigo,
   };
 
   return (

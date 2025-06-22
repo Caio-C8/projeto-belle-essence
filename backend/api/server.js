@@ -141,10 +141,13 @@ app.use("/cancelar-pedido", cancelarPedidoRoutes);
 app.use("/login", validarUsuariosRoutes);
 
 const adminCadastrarProdutosRoutes = require("../rotas/admin/post/cadastrarProdutos");
+const adminCadastrarPromocoesRoutes = require("../rotas/admin/post/cadastrarPromocao");
 
 const adminAlterarProdutosRoutes = require("../rotas/admin/put/alterarProduto");
 const adminDesativarProdutosRoutes = require("../rotas/admin/put/desativarProduto");
 const adminAtivarProdutosRoutes = require("../rotas/admin/put/ativarProduto");
+const adminAlterarPromocoesRoutes = require("../rotas/admin/put/alterarPromocao");
+const adminCancelarPromocaoRoutes = require("../rotas/admin/put/cancelarPromocao");
 
 // --- DELETE --- //
 
@@ -159,6 +162,9 @@ const adminAtivarProdutosRoutes = require("../rotas/admin/put/ativarProduto");
 // Rota para cadastrar produtos
 app.use("/adm/cadastrar-produtos", adminCadastrarProdutosRoutes);
 
+// Rota para cadastrar promocoes
+app.use("/adm/cadastrar-promocao", adminCadastrarPromocoesRoutes);
+
 // --- POST --- //
 
 // --- PUT --- //
@@ -171,5 +177,11 @@ app.use("/adm/desativar-produto", adminDesativarProdutosRoutes);
 
 // Rora para ativar produtos
 app.use("/adm/ativar-produto", adminAtivarProdutosRoutes);
+
+// Rota pra alterar promocoes cadastradas
+app.use("/adm/alterar-promocao", adminAlterarPromocoesRoutes);
+
+// Rota para cancelar promocoes
+app.use("/adm/cancelar-promocao", adminCancelarPromocaoRoutes);
 
 // --- PUT --- //

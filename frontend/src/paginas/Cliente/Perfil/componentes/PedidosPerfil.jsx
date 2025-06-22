@@ -6,10 +6,11 @@ import { useEnderecos } from "../../../../contexto/EnderecosContexto";
 
 const PedidosPerfil = () => {
   const { pedidos, cancelarPedido, carregarPedidos } = usePedidos();
-  const { enderecos } = useEnderecos();
+  const { enderecos, carregarEnderecos } = useEnderecos();
 
   useEffect(() => {
     carregarPedidos();
+    carregarEnderecos();
   });
 
   const cancelar = async (idPedido) => {

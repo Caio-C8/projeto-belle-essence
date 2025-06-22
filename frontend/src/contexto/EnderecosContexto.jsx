@@ -8,16 +8,12 @@ export const ProvedorEndereco = ({ children }) => {
   const { usuario } = useAutenticacao();
   const [enderecos, setEnderecos] = useState([]);
 
-  useEffect(() => {
-    const carregarEnderecos = async () => {
-      if (!usuario) return;
+  const carregarEnderecos = async () => {
+    if (!usuario) return;
 
-      const dados = await fetchApiPorId("enderecos", usuario.id);
-      setEnderecos(dados || []);
-    };
-
-    carregarEnderecos();
-  }, [usuario]);
+    const dados = await fetchApiPorId("enderecos", usuario.id);
+    setEnderecos(dados || []);
+  };
 
   const adicionarEndereco = (endereco) => {
     setEnderecos((prev) => [...prev, endereco]);
@@ -41,6 +37,7 @@ export const ProvedorEndereco = ({ children }) => {
     adicionarEndereco,
     atualizarEndereco,
     deletarEndereco,
+    carregarEnderecos,
   };
 
   return (

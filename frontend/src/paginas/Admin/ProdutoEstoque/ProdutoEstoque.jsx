@@ -89,7 +89,13 @@ const ProdutoEstoque = () => {
 
     Object.keys(formData).forEach((campo) => {
       if (formData[campo] !== originalData[campo]) {
-        camposAlterados[campo] = formData[campo];
+        if (campo === "preco") {
+          camposAlterados[campo] = parseFloat(
+            String(formData[campo]).replace(",", ".")
+          );
+        } else {
+          camposAlterados[campo] = formData[campo];
+        }
       }
     });
 
