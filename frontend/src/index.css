@@ -617,7 +617,6 @@ input[type="number"] {
   background-color: #ffffff;
   animation: fadeIn 0.8s ease;
   padding: 1.8rem;
-  max-width: 800px !important;
 }
 
 @keyframes fadeIn {
@@ -669,7 +668,6 @@ input[type="number"] {
   animation: fadeIn 0.8s ease;
   padding: 1.8rem;
   width: 100%;
-  max-width: 400px;
 }
 
 @keyframes fadeIn {
@@ -808,7 +806,6 @@ input[type="number"] {
   animation: fadeIn 0.8s ease;
   padding: 1.8rem;
   width: 100%;
-  max-width: 400px;
 }
 
 @keyframes fadeIn {

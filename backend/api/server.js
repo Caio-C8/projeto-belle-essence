@@ -140,6 +140,8 @@ app.use("/cancelar-pedido", cancelarPedidoRoutes);
 // Rota validar usuários
 app.use("/login", validarUsuariosRoutes);
 
+const adminListarTodosPedidosRoutes = require("../rotas/admin/get/pedidos");
+
 const adminCadastrarProdutosRoutes = require("../rotas/admin/post/cadastrarProdutos");
 const adminCadastrarPromocoesRoutes = require("../rotas/admin/post/cadastrarPromocao");
 
@@ -148,12 +150,16 @@ const adminDesativarProdutosRoutes = require("../rotas/admin/put/desativarProdut
 const adminAtivarProdutosRoutes = require("../rotas/admin/put/ativarProduto");
 const adminAlterarPromocoesRoutes = require("../rotas/admin/put/alterarPromocao");
 const adminCancelarPromocaoRoutes = require("../rotas/admin/put/cancelarPromocao");
+const adminAlterarStatusPedidoRoutes = require("../rotas/admin/put/alterarStatusPedido");
 
 // --- DELETE --- //
 
 // --- DELETE --- //
 
 // --- GET --- //
+
+// Rota para listar todos os pedidos
+app.use("/adm/pedidos", adminListarTodosPedidosRoutes);
 
 // --- GET --- //
 
@@ -183,5 +189,8 @@ app.use("/adm/alterar-promocao", adminAlterarPromocoesRoutes);
 
 // Rota para cancelar promocoes
 app.use("/adm/cancelar-promocao", adminCancelarPromocaoRoutes);
+
+// Rota para alterar status de pedidos
+app.use("/adm/alterar-status-pedido", adminAlterarStatusPedidoRoutes);
 
 // --- PUT --- //

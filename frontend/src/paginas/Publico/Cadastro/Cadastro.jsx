@@ -155,7 +155,11 @@ const Cadastro = () => {
   };
 
   return (
-    <form onSubmit={cadastrarUsuario} className="mx-auto card shadow p-4">
+    <form
+      onSubmit={cadastrarUsuario}
+      className="mx-auto card shadow p-4"
+      style={{ maxWidth: "800px" }}
+    >
       <h2 className="text-center mb-4">Criar Nova Conta</h2>
 
       <div className="row divisoria">

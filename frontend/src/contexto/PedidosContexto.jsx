@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAutenticacao } from "./AutenticarContexto";
-import { fetchApiPorId } from "../../api/requisicoes";
+import { fetchApiPorId, fetchApi } from "../../api/requisicoes";
 import { useCliente } from "./ClienteContexto";
 
 const PedidosContexto = createContext();
@@ -96,11 +96,22 @@ export const ProvedorPedidos = ({ children }) => {
     }
   };
 
+  const buscarTodosPedidosAdmin = async () => {
+    try {
+      const dados = await fetchApi("adm/pedidos");
+      return dados; // Retorna lista completa
+    } catch (error) {
+      console.error("Erro ao buscar todos os pedidos:", error);
+      return null;
+    }
+  };
+
   const contexto = {
     pedidos,
     carregarPedidos,
     realizarPedido,
     cancelarPedido,
+    buscarTodosPedidosAdmin,
   };
 
   return (

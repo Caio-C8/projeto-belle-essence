@@ -21,7 +21,6 @@ import Categorias from "./Categorias";
 
 const Header = () => {
   const { usuario, logout } = useAutenticacao();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [textoBusca, setTextoBusca] = useState("");
   const navigate = useNavigate();
 
@@ -93,13 +92,13 @@ const Header = () => {
                   />
                 </Link>
 
-                <Link className="d-flex align-items-center" to="#">
+                {/* <Link className="d-flex align-items-center" to="#">
                   <FontAwesomeIcon
                     icon={faClipboard}
                     className="icone-header"
                     style={{ fontSize: "1.7rem" }}
                   />
-                </Link>
+                </Link> */}
               </div>
             ) : (
               <div className="d-none d-md-flex col-md-3 justify-content-end align-items-center gap-4">

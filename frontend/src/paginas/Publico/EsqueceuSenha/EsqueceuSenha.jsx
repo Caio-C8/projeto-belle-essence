@@ -53,7 +53,11 @@ const EsqueceuSenha = () => {
   };
 
   return (
-    <form onSubmit={alterarSenha} className="card shadow mx-auto">
+    <form
+      onSubmit={alterarSenha}
+      className="card shadow mx-auto"
+      style={{ maxWidth: "800px" }}
+    >
       <h2 className="text-center">Alterar Senha</h2>
 
       <div className="d-flex flex-column gap-3">

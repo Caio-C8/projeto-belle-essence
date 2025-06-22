@@ -298,7 +298,7 @@ const realizarPedidoCliente = async (req, res) => {
       id_endereco: idEndereco,
       id_carrinho: idCarrinho,
       data_pedido: new Date(),
-      status: "Aguardando Pagamento.",
+      status: "Aguardando pagamento",
     });
 
     for (const item of produtosPedido) {

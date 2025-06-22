@@ -45,7 +45,11 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={login} className="card shadow mx-auto">
+    <form
+      onSubmit={login}
+      className="card shadow mx-auto"
+      style={{ maxWidth: "800px" }}
+    >
       <h2 className="text-center">Acessar Conta</h2>
 
       <div className="d-flex flex-column gap-3">
