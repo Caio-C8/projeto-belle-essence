@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMask } from "@react-input/mask";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,8 +15,13 @@ import Modal from "../../../../componentes/Modal/Modal";
 
 const EnderecosPerfil = ({ nome, sobrenome }) => {
   const { usuario } = useAutenticacao();
-  const { enderecos, adicionarEndereco, atualizarEndereco, deletarEndereco } =
-    useEnderecos();
+  const {
+    enderecos,
+    adicionarEndereco,
+    atualizarEndereco,
+    deletarEndereco,
+    carregarEnderecos,
+  } = useEnderecos();
   const { pedidos } = usePedidos();
   const [enderecoSelecionado, setEnderecoSelecionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -70,6 +75,10 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
     "SP",
     "TO",
   ];
+
+  useEffect(() => {
+    carregarEnderecos();
+  }, []);
 
   const abrirModalParaEdicao = (endereco) => {
     setModoEdicao(true);
@@ -220,6 +229,7 @@ const EnderecosPerfil = ({ nome, sobrenome }) => {
             <div
               key={index}
               className="d-flex justify-content-between border rounded p-3 mb-3"
+              style={{ backgroundColor: "#fff" }}
             >
               <div>
                 <h3>{`${endereco.logradouro}, ${endereco.numero}`}</h3>
