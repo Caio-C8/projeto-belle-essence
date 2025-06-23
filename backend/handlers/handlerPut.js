@@ -486,7 +486,7 @@ const cancelarPedido = async (req, res) => {
         `
         UPDATE produtos
         SET qtde_estoque = qtde_estoque + $1,
-            numero_vendas = numero_vendas - $1
+           numero_vendas = GREATEST(numero_vendas - $1, 0)
         WHERE id_produto = $2
         `,
         [item.qtde, item.id_produto]
@@ -499,7 +499,7 @@ const cancelarPedido = async (req, res) => {
     ]);
 
     return responder(res, {
-      mensagem: "Pedido cancelado e estoque/vendas revertidos.",
+      mensagem: "Pedido cancelado.",
     });
   } catch (error) {
     console.error("Erro ao cancelar pedido:", error);

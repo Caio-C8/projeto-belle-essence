@@ -65,7 +65,11 @@ const Header = () => {
                 <input
                   type="text"
                   className="barra-pesquisa form-control border-0"
-                  placeholder="Procure por produtos"
+                  placeholder={
+                    usuario?.tipo === "admin"
+                      ? "Busque produtos pelo código"
+                      : "Procure por produtos"
+                  }
                   value={textoBusca}
                   onChange={(e) => setTextoBusca(e.target.value)}
                 />

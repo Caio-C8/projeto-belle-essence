@@ -115,22 +115,22 @@ main {
   transform: scale(1.03);
 }
 
+.btn-primary:active {
+  color: #1c1c1c !important;
+  background-color: #ffffff !important;
+  border-color: #ffb4a2 !important;
+}
+
 .btn-outline-primary {
-  border-color: #ffb4a2;
+  border-color: #e56b6f;
   transition: background-color 0.3s ease, transform 0.2s ease;
   color: #1c1c1c;
 }
 
 .btn-outline-primary:hover {
   background-color: transparent;
-  border-color: #ffb4a2;
+  border-color: #e56b6f;
   transform: scale(1.03);
-}
-
-.btn-primary:active {
-  color: #1c1c1c !important;
-  background-color: #ffffff !important;
-  border-color: #ffb4a2 !important;
 }
 
 .btn-cancelar {
@@ -176,6 +176,11 @@ main {
 .resultado-pesquisa {
   background-color: #fff;
   padding: 1rem;
+}
+
+.btn-outline-primary:active {
+  background-color: #e56b6f !important;
+  border-color: #e56b6f !important;
 }
 /* ---------- Gerais ---------- */
 

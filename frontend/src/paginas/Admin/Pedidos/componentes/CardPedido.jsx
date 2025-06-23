@@ -69,38 +69,39 @@ const CardPedido = ({ pedido, onStatusChange }) => {
         <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex flex-column align-items-start justify-content-center w-100">
             <h3 className="mb-1 fw-semibold">
-              Número do pedido: #{pedido.id_pedido}
+              Número do pedido: #{pedidoAtual.id_pedido}
             </h3>
             <h5 className="mb-1 text-muted">
-              Data de realização do pedido: {formatarData(pedido.data_pedido)}
+              Data de realização do pedido:{" "}
+              {formatarData(pedidoAtual.data_pedido)}
             </h5>
             <h5 className="mb-0 fw-medium">
               Valor total do pedido: {formatarPreco(calcularValorTotal())}
             </h5>
           </div>
 
-          <div className="text-center">
+          <div className="text-center" style={{ minWidth: "200px" }}>
             <h5 className="mb-3 fw-semibold">Status do Pedido</h5>
             <h5
               className="fw-semibold"
               style={{
                 color:
-                  pedido.status === "Pronto para retirada"
+                  pedidoAtual.status === "Pronto para retirada"
                     ? "#0EA700"
-                    : pedido.status === "Realizado"
+                    : pedidoAtual.status === "Realizado"
                     ? "#1c1c1c"
-                    : pedido.status === "Aguardando pagamento"
+                    : pedidoAtual.status === "Aguardando pagamento"
                     ? "#1c1c1c"
-                    : pedido.status === "Em separação"
+                    : pedidoAtual.status === "Em separação"
                     ? "#F0DC00"
-                    : pedido.status === "Em transporte"
+                    : pedidoAtual.status === "Em transporte"
                     ? "#F0DC00"
-                    : pedido.status === "Cancelado"
+                    : pedidoAtual.status === "Cancelado"
                     ? "#E00000"
                     : "#0EA700",
               }}
             >
-              {selectedStatus}
+              {pedidoAtual.status}
             </h5>
           </div>
         </div>
@@ -109,7 +110,7 @@ const CardPedido = ({ pedido, onStatusChange }) => {
           <div id="detalhesPedido" className="mt-3">
             <table className="table table-borderless mb-4">
               <tbody>
-                {pedido.itens.map((item) => (
+                {pedidoAtual.itens.map((item) => (
                   <tr
                     key={item.id_item_pedido}
                     className="item"
@@ -128,24 +129,25 @@ const CardPedido = ({ pedido, onStatusChange }) => {
               <div>
                 <h6 className="fw-bold text-center">Endereço de Entrega</h6>
                 <p className="mb-1">
-                  {pedido.endereco.logradouro}, {pedido.endereco.numero}
+                  {pedidoAtual.endereco.logradouro},{" "}
+                  {pedidoAtual.endereco.numero}
                 </p>
                 <p className="mb-1">
-                  {pedido.endereco.cidade} - {pedido.endereco.estado}
+                  {pedidoAtual.endereco.cidade} - {pedidoAtual.endereco.estado}
                 </p>
                 <p className="mb-0">
-                  {pedido.endereco.bairro} - CEP {pedido.endereco.cep} -{" "}
-                  {pedido.endereco.tipo}
+                  {pedidoAtual.endereco.bairro} - CEP {pedidoAtual.endereco.cep}{" "}
+                  - {pedidoAtual.endereco.tipo}
                 </p>
               </div>
 
               <div>
                 <h6 className="fw-bold text-center">Dados do Cliente</h6>
                 <p className="mb-1">
-                  {pedido.cliente.nome} {pedido.cliente.sobrenome}
+                  {pedidoAtual.cliente.nome} {pedidoAtual.cliente.sobrenome}
                 </p>
-                <p className="mb-1">{pedido.cliente.celular}</p>
-                <p className="mb-0">{pedido.cliente.email}</p>
+                <p className="mb-1">{pedidoAtual.cliente.celular}</p>
+                <p className="mb-0">{pedidoAtual.cliente.email}</p>
               </div>
 
               <div className="d-flex flex-column gap-3">
@@ -161,7 +163,7 @@ const CardPedido = ({ pedido, onStatusChange }) => {
                     "Em transporte",
                     "Entregue",
                     "Cancelado",
-                    "Pronto para retirar",
+                    "Pronto para retirada",
                   ]}
                 />
 

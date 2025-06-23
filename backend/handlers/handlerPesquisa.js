@@ -73,8 +73,11 @@ const pesquisarProdutos = async (
   }
 
   try {
+    let produtos = [];
+
     if (!isTodosRoute) {
       const produtoPorCodigo = await buscarProdutoPorCodigo(pesq, tipoUsuario);
+
       if (produtoPorCodigo) {
         return {
           dados: [produtoPorCodigo],
@@ -83,9 +86,15 @@ const pesquisarProdutos = async (
           sucesso: true,
         };
       }
+
+      const termos = pesq
+        .toLowerCase()
+        .split(" ")
+        .filter((t) => t && t.trim().length > 0);
+
+      produtos = await buscarProdutosPorTermos(termos, filtros, tipoUsuario);
     }
 
-    let produtos;
     if (isTodosRoute) {
       const { conditions, params } = montarFiltrosQuery(filtros);
 
@@ -108,6 +117,8 @@ const pesquisarProdutos = async (
       const result = await pool.query(queryProdutos, params);
       produtos = result.rows;
     }
+
+    if (!produtos) produtos = [];
 
     return {
       dados: produtos,

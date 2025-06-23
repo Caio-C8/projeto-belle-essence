@@ -1,15 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const ImagensCarrossel = () => {
+const ImagensCarrossel = ({ produtos }) => {
+  if (!produtos || produtos.length === 0) return null;
+
   return (
     <div
       id="meuCarrossel"
       className="carousel slide custom-carousel"
       data-bs-ride="carousel"
+      style={{ height: "550px" }}
     >
       {/* Indicadores */}
       <div className="carousel-indicators custom-indicators">
-        {[0, 1, 2, 3].map((index) => (
+        {produtos.map((_, index) => (
           <button
             key={index}
             type="button"
@@ -24,30 +28,21 @@ const ImagensCarrossel = () => {
 
       {/* Slides */}
       <div className="carousel-inner">
-        <div className="carousel-item active">
+        {produtos.map((produto, index) => (
           <div
-            className="d-block w-100"
-            style={{ height: "400px", backgroundColor: "#FDD9D3" }}
-          ></div>
-        </div>
-        <div className="carousel-item">
-          <div
-            className="d-block w-100"
-            style={{ height: "400px", backgroundColor: "#f4d19a" }}
-          ></div>
-        </div>
-        <div className="carousel-item">
-          <div
-            className="d-block w-100"
-            style={{ height: "400px", backgroundColor: "#a2c4f4" }}
-          ></div>
-        </div>
-        <div className="carousel-item">
-          <div
-            className="d-block w-100"
-            style={{ height: "400px", backgroundColor: "aquamarine" }}
-          ></div>
-        </div>
+            key={index}
+            className={`carousel-item ${index === 0 ? "active" : ""}`}
+          >
+            <Link to={`/produto/${produto.id_produto}`}>
+              <img
+                src={produto.banner}
+                alt={produto.nome}
+                className="d-block w-100"
+                style={{ height: "550px", objectFit: "cover" }}
+              />
+            </Link>
+          </div>
+        ))}
       </div>
 
       {/* Botões */}

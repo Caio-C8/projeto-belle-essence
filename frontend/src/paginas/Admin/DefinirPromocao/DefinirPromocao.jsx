@@ -196,10 +196,20 @@ const DefinirPromocao = () => {
             </button>
           </div>
         </div>
+
+        {produto.promocao ? (
+          <h4 className="text-muted mt-3">
+            Produto pesquisado está em promoção
+          </h4>
+        ) : (
+          <h4 className="text-muted mt-3">
+            Produto pesquisado não está em promoção
+          </h4>
+        )}
       </div>
 
       {produto && (
-        <form className="mx-auto card shadow p-4">
+        <form className="mx-auto card shadow p-4" style={{ maxWidth: "800px" }}>
           <div className="row divisoria mb-2">
             <h5>Dados do produto</h5>
           </div>
@@ -261,7 +271,7 @@ const DefinirPromocao = () => {
             label="Data do fim da promoção:"
             type="date"
             value={formData.data_fim_promocao}
-            onChange={handleChange("data_termino_promocao")}
+            onChange={handleChange("data_fim_promocao")}
             disabled={!isEditing}
           />
 

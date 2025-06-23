@@ -33,6 +33,7 @@ const CardProdutoCarrinho = ({ produto, onRemover }) => {
       className="d-flex justify-content-between p-2 border"
       style={{
         borderRadius: "10px",
+        backgroundColor: "#fff",
       }}
     >
       <div className="p-4 my-2" style={{ borderRight: "1px solid #cccccc" }}>

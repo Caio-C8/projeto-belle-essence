@@ -14,10 +14,13 @@ const Home = () => {
 
   const lancamentos = produtos.filter((p) => p.lancamento);
   const promocoes = produtos.filter((p) => p.promocao);
+  const lancamentosComBanner = lancamentos
+    .filter((p) => p.lancamento)
+    .slice(0, 4);
 
   return (
     <div className="d-flex flex-column gap-5">
-      <ImagensCarrossel />
+      <ImagensCarrossel produtos={lancamentosComBanner} />
       <ProdutosCarrossel
         titulo="Lançamentos"
         produtos={lancamentos}

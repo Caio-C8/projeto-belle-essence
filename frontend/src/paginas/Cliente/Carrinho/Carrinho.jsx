@@ -43,7 +43,10 @@ const Carrinho = () => {
           )}
         </div>
 
-        <div className="col-md-4 d-flex flex-column gap-3">
+        <div
+          className="col-md-4 d-flex flex-column gap-3"
+          style={{ backgroundColor: "#fff" }}
+        >
           <h2>Resumo da Compra</h2>
           <div className="border p-4" style={{ borderRadius: "10px" }}>
             <div className="d-flex justify-content-between">
