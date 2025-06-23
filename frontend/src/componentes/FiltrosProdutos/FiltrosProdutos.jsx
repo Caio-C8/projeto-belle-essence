@@ -9,108 +9,106 @@ const FiltrosProdutos = ({ filtros, filtrosAtivos, onFiltrosChange }) => {
 
   if (!filtros) return null;
 
-  const handleFiltroChange = (tipo, valor) => {
+  const handleFiltroClick = (tipo, valor) => {
+    const isAlreadySelected = filtrosLocais[tipo] === valor;
     const novosFiltros = {
       ...filtrosLocais,
-      [tipo]: valor,
+      [tipo]: isAlreadySelected ? "" : valor, // Toggle: desativa se já selecionado, senão seleciona
     };
     setFiltrosLocais(novosFiltros);
     onFiltrosChange(novosFiltros);
   };
 
-  const limparFiltros = () => {
-    const filtrosVazios = {
-      marca: "",
-      familia_olfativa: "",
-      concentracao: "",
-      preco: "",
-    };
-    setFiltrosLocais(filtrosVazios);
-    onFiltrosChange(filtrosVazios);
-  };
-
   return (
-    <div className="filtros-produtos">
-      <h5>Filtrar por:</h5>
-      <div className="filtros-container">
-        {/* Filtro Marca */}
-        <div className="filtro-item">
-          <label htmlFor="marca">Marca:</label>
-          <select
-            id="marca"
-            value={filtrosLocais.marca}
-            onChange={(e) => handleFiltroChange("marca", e.target.value)}
-          >
-            <option value="">Todas as marcas</option>
-            {filtros.marcas?.map((marca, index) => (
-              <option key={index} value={marca}>
-                {marca}
-              </option>
-            ))}
-          </select>
-        </div>
+    <aside>
+      <h3 className="mb-2 text-center">Filtros</h3>
 
-        {/* Filtro Família Olfativa */}
-        <div className="filtro-item">
-          <label htmlFor="familia_olfativa">Família Olfativa:</label>
-          <select
-            id="familia_olfativa"
-            value={filtrosLocais.familia_olfativa}
-            onChange={(e) =>
-              handleFiltroChange("familia_olfativa", e.target.value)
-            }
-          >
-            <option value="">Todas as famílias</option>
-            {filtros.familias_olfativas?.map((familia, index) => (
-              <option key={index} value={familia}>
-                {familia}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Filtro Concentração */}
-        <div className="filtro-item">
-          <label htmlFor="concentracao">Concentração:</label>
-          <select
-            id="concentracao"
-            value={filtrosLocais.concentracao}
-            onChange={(e) => handleFiltroChange("concentracao", e.target.value)}
-          >
-            <option value="">Todas as concentrações</option>
-            {filtros.concentracoes?.map((concentracao, index) => (
-              <option key={index} value={concentracao}>
-                {concentracao}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Filtro Preço */}
-        <div className="filtro-item">
-          <label htmlFor="preco">Faixa de Preço:</label>
-          <select
-            id="preco"
-            value={filtrosLocais.preco}
-            onChange={(e) => handleFiltroChange("preco", e.target.value)}
-          >
-            <option value="">Todos os preços</option>
-            {filtros.faixas_preco?.map((faixa, index) => (
-              <option key={index} value={faixa.slug}>
-                {faixa.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Botão Limpar Filtros */}
-        <div className="filtro-item">
-          <button className="btn-limpar-filtros" onClick={limparFiltros}>
-            Limpar Filtros
-          </button>
-        </div>
+      {/* Filtro Marca */}
+      <div className="filtro-grupo border-top py-2 mb-2">
+        <h5 className="mb-2">Marcas:</h5>
+        {filtros.marcas?.map((marca, index) => (
+          <div className="ps-4 d-flex align-items-center gap-2" key={index}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={marca}
+              id={`checkMarca${index}`}
+              checked={filtrosLocais.marca === marca}
+              onChange={() => handleFiltroClick("marca", marca)}
+            />
+            <label className="form-check-label" htmlFor={`checkMarca${index}`}>
+              {marca}
+            </label>
+          </div>
+        ))}
       </div>
-    </div>
+
+      {/* Filtro Preço */}
+      <div className="filtro-grupo border-top mb-2 py-2">
+        <h5>Preços:</h5>
+        {filtros.faixas_preco?.map((faixa, index) => (
+          <div className="ps-4 d-flex align-items-center gap-2" key={index}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={faixa.slug}
+              id={`checkPreco${index}`}
+              checked={filtrosLocais.preco === faixa.slug}
+              onChange={() => handleFiltroClick("preco", faixa.slug)}
+            />
+            <label className="form-check-label" htmlFor={`checkPreco${index}`}>
+              {faixa.label}
+            </label>
+          </div>
+        ))}
+      </div>
+
+      {/* Filtro Família Olfativa */}
+      <div className="filtro-grupo border-top mb-2 py-2">
+        <h5>Família Olfativa:</h5>
+        {filtros.familias_olfativas?.map((familia, index) => (
+          <div className="ps-4 d-flex align-items-center gap-2" key={index}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={familia}
+              id={`checkFamilia${index}`}
+              checked={filtrosLocais.familia_olfativa === familia}
+              onChange={() => handleFiltroClick("familia_olfativa", familia)}
+            />
+            <label
+              className="form-check-label"
+              htmlFor={`checkFamilia${index}`}
+            >
+              {familia}
+            </label>
+          </div>
+        ))}
+      </div>
+
+      {/* Filtro Concentração */}
+      <div className="filtro-grupo border-top mb-2 py-2">
+        <h5>Concentração:</h5>
+        {filtros.concentracoes?.map((concentracao, index) => (
+          <div className="ps-4 d-flex align-items-center gap-2" key={index}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={concentracao}
+              id={`checkConcentracao${index}`}
+              checked={filtrosLocais.concentracao === concentracao}
+              onChange={() => handleFiltroClick("concentracao", concentracao)}
+            />
+            <label
+              className="form-check-label"
+              htmlFor={`checkConcentracao${index}`}
+            >
+              {concentracao}
+            </label>
+          </div>
+        ))}
+      </div>
+    </aside>
   );
 };
 

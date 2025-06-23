@@ -15,7 +15,11 @@ import { useFavoritos } from "../../contexto/FavoritosContexto";
 
 import { useCarrinho } from "../../contexto/CarrinhoContexto";
 
-const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
+const CardProduto = ({
+  produto,
+  isPaginaFavoritos = false,
+  className = "col-12 col-sm-6 col-md-3 px-2",
+}) => {
   const { usuario } = useAutenticacao();
   const navigate = useNavigate();
   const { favoritos, toggleFavorito, carregarFavoritos } = useFavoritos();
@@ -63,7 +67,7 @@ const CardProduto = ({ produto, isPaginaFavoritos = false }) => {
   };
 
   return (
-    <div className="col-12 col-sm-6 col-md-3 px-2">
+    <div className={className}>
       <div className="card produto shadow-sm hover-shadow">
         {isPaginaFavoritos ? (
           <div className="x-icon" onClick={handleFavoritar}>

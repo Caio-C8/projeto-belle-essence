@@ -7,6 +7,8 @@ import { useCategorias } from "../../../contexto/CategoriasContexto";
 import CardProduto from "../../../componentes/CardProduto/CardProduto";
 import FiltrosProdutos from "../../../componentes/FiltrosProdutos/FiltrosProdutos";
 
+const PRODUTOS_POR_CARGA = 6; // Define quantos produtos carregar por vez
+
 const Pesquisa = () => {
   const {
     produtos,
@@ -23,6 +25,7 @@ const Pesquisa = () => {
     concentracao: "",
     preco: "",
   });
+  const [produtosExibidos, setProdutosExibidos] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const { categoria } = useParams();
   const { buscarNomePorSlug } = useCategorias();
@@ -65,66 +68,97 @@ const Pesquisa = () => {
     atualizarURLComFiltros(novosFiltros);
   };
 
+  // Efeito para buscar produtos e inicializar a exibição
   useEffect(() => {
     const termoPesq = searchParams.get("pesq");
     const filtrosDaURL = extrairFiltrosDaURL();
     setFiltrosAtivos(filtrosDaURL);
 
-    if (categoria) {
-      const nomeExibicao = buscarNomePorSlug(categoria) || categoria;
-      setParametroPesquisa(nomeExibicao);
-      buscarPorCategoria(categoria, filtrosDaURL);
-    } else if (termoPesq) {
-      setParametroPesquisa(termoPesq);
-      buscarPorTexto(termoPesq, filtrosDaURL);
-    } else {
-      setParametroPesquisa("Todos os Produtos");
-      buscarTodosProdutos(filtrosDaURL);
-    }
+    const fetchData = async () => {
+      if (categoria) {
+        const nomeExibicao = buscarNomePorSlug(categoria) || categoria;
+        setParametroPesquisa(nomeExibicao);
+        await buscarPorCategoria(categoria, filtrosDaURL);
+      } else if (termoPesq) {
+        setParametroPesquisa(termoPesq);
+        await buscarPorTexto(termoPesq, filtrosDaURL);
+      } else {
+        setParametroPesquisa("Todos os Produtos");
+        await buscarTodosProdutos(filtrosDaURL);
+      }
+    };
+
+    fetchData();
   }, [categoria, searchParams]);
 
+  // Efeito para atualizar produtos exibidos quando a lista completa de produtos muda
+  useEffect(() => {
+    if (produtos && Array.isArray(produtos)) {
+      setProdutosExibidos(produtos.slice(0, PRODUTOS_POR_CARGA));
+    }
+  }, [produtos]);
+
+  // Função para carregar mais produtos
+  const handleCarregarMais = () => {
+    const proximoIndice = produtosExibidos.length;
+    const novosProdutos = produtos.slice(
+      proximoIndice,
+      proximoIndice + PRODUTOS_POR_CARGA
+    );
+    setProdutosExibidos((prevProdutos) => [...prevProdutos, ...novosProdutos]);
+  };
+
+  // Verifica se o botão de carregar mais deve aparecer
+  const mostrarBotaoCarregarMais = produtosExibidos.length < produtos.length;
+
   return (
-    <div className="container d-flex flex-column gap-3">
-      <h1>{`Resultado para: "${parametroPesquisa}"`}</h1>
-
-      {/* Componente de Filtros */}
-      <FiltrosProdutos
-        filtros={filtros}
-        filtrosAtivos={filtrosAtivos}
-        onFiltrosChange={handleFiltrosChange}
-      />
-
-      <h4>{`Total: ${produtos.length} produtos encontrados`}</h4>
-
-      <div className="row row-gap-3">
-        {produtos.map((produto, index) => (
-          <CardProduto
-            key={index}
-            produto={produto}
-            isFavorito={favoritos.includes(produto.id_produto)}
-            atualizarFavoritos={(novoFavorito) => {
-              setFavoritos((prev) =>
-                prev.includes(novoFavorito)
-                  ? prev.filter((id) => id !== novoFavorito)
-                  : [...prev, novoFavorito]
-              );
-            }}
-            favoritos={favoritos}
-            isPaginaFavoritos={false}
-          />
-        ))}
+    <div className="row">
+      {/* Coluna da Esquerda: Filtros */}
+      <div className="col-lg-3 col-md-4">
+        <FiltrosProdutos
+          filtros={filtros}
+          filtrosAtivos={filtrosAtivos}
+          onFiltrosChange={handleFiltrosChange}
+        />
       </div>
 
-      {produtos.length === 0 && (
-        <div className="text-center py-5">
-          <h5 className="text-muted">
-            Nenhum produto encontrado com os filtros selecionados.
-          </h5>
-          <p className="text-muted">
-            Tente ajustar os filtros ou limpar a pesquisa.
-          </p>
+      {/* Coluna da Direita: Resultados da Busca */}
+      <div className="col-lg-9 col-md-8">
+        <div className="border rounded resultado-pesquisa">
+          <h2>Resultado da busca: "{parametroPesquisa}"</h2>
+          <p className="text-muted">Total de produtos: {produtos.length}</p>
         </div>
-      )}
+
+        <div className="row row-gap-3 mt-3">
+          {produtosExibidos.map((produto, index) => (
+            <CardProduto
+              key={index}
+              produto={produto}
+              isPaginaFavoritos={false}
+              className="col-12 col-sm-6 col-md-4 px-2"
+            />
+          ))}
+        </div>
+
+        {produtos.length === 0 && (
+          <div className="text-center py-5">
+            <h3 className="text-muted">
+              Nenhum produto encontrado com os filtros selecionados.
+            </h3>
+            <h5 className="text-muted">
+              Tente ajustar os filtros ou limpar a pesquisa.
+            </h5>
+          </div>
+        )}
+
+        {mostrarBotaoCarregarMais && (
+          <div className="text-center mt-4">
+            <button className="btn btn-primary" onClick={handleCarregarMais}>
+              Carregar Mais Produtos
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
