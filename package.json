@@ -1,0 +1,10 @@
+{
+  "name": "projeto",
+  "type": "module",
+  "scripts": {
+    "start:all": "node start.mjs"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
+}
