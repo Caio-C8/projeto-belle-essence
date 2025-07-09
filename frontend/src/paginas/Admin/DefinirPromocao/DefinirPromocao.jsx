@@ -196,16 +196,6 @@ const DefinirPromocao = () => {
             </button>
           </div>
         </div>
-
-        {produto.promocao ? (
-          <h4 className="text-muted mt-3">
-            Produto pesquisado está em promoção
-          </h4>
-        ) : (
-          <h4 className="text-muted mt-3">
-            Produto pesquisado não está em promoção
-          </h4>
-        )}
       </div>
 
       {produto && (

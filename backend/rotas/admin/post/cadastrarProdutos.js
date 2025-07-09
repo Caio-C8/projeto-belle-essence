@@ -33,11 +33,11 @@ router.post("/", async (req, res) => {
       marca,
       preco,
       estoque,
-      familiaOlfativa,
-      concentracao,
-      banner,
-      imagem,
-      descricao,
+      familiaOlfativa || null,
+      concentracao || null,
+      banner || null,
+      imagem || null,
+      descricao || null,
       dataVencimento || null,
     ];
 

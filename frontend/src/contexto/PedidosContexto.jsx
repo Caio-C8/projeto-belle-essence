@@ -68,7 +68,7 @@ export const ProvedorPedidos = ({ children }) => {
         return {
           sucesso: true,
           idPedidoCriado: dados.idPedido,
-          nomeCompleto: cliente.nome + cliente.sobrenome,
+          nomeCompleto: `${cliente.nome} ${cliente.sobrenome}`,
         };
       } else {
         alert(mensagem);
