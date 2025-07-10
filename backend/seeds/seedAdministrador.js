@@ -4,17 +4,17 @@ const bcrypt = require("bcrypt");
 // e-mail: adm@email.com
 // senha: 123
 
-const senha = "123";
-const senhaCriptografada = await bcrypt.hash(senha, 10);
-
-const admnistradores = [
-  {
-    email: "adm@email.com",
-    senha: senhaCriptografada,
-  },
-];
-
 async function seedAdministrador() {
+  const senha = "123";
+  const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+  const admnistradores = [
+    {
+      email: "adm@email.com",
+      senha: senhaCriptografada,
+    },
+  ];
+
   for (const adm of admnistradores) {
     try {
       await pool.query(
