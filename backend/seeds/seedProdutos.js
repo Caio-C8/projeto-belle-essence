@@ -1,8 +1,7 @@
-const pool = require("../connect"); // ajuste o caminho se estiver em outra pasta
+const pool = require("../connect");
 
 const produtos = [
   {
-    id_produto: 1,
     codigo_produto: "NATBRA-89834",
     imagem:
       "https://production.na01.natura.com/on/demandware.static/-/Sites-natura-br-storefront-catalog/default/dwd373ef96/produto-joia/background/mobile/89834.jpg",
@@ -18,13 +17,14 @@ const produtos = [
     qtde_estoque: 5,
     lancamento: true,
     promocao: true,
-    tempo_promocao: "45 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 199.9,
+    data_lancamento: new Date("2025-05-23"),
+    data_fim_promocao: new Date("2025-07-27"),
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 2,
     codigo_produto: "NATBRA-71600",
     imagem:
       "https://production.na01.natura.com/on/demandware.static/-/Sites-natura-br-storefront-catalog/default/dwb7151aaf/produto-joia/background/mobile/71600.jpg",
@@ -40,13 +40,14 @@ const produtos = [
     qtde_estoque: 12,
     lancamento: false,
     promocao: false,
-    tempo_promocao: null,
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: null,
+    data_lancamento: new Date("2025-03-14"),
+    data_fim_promocao: null,
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 3,
     codigo_produto: "NATBRA-116201",
     imagem:
       "https://production.na01.natura.com/on/demandware.static/-/Sites-natura-br-storefront-catalog/default/dwa1aa5300/Produtos/NATBRA-116201_1.jpg",
@@ -63,13 +64,14 @@ const produtos = [
     qtde_estoque: 8,
     lancamento: true,
     promocao: false,
-    tempo_promocao: null,
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: null,
+    data_lancamento: new Date("2025-06-02"),
+    data_fim_promocao: null,
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 4,
     codigo_produto: "NATBRA-194392",
     imagem:
       "https://production.na01.natura.com/on/demandware.static/-/Sites-natura-br-storefront-catalog/default/dw7710c1c8/NATBRA-194392_1.jpg",
@@ -85,13 +87,14 @@ const produtos = [
     qtde_estoque: 4,
     lancamento: false,
     promocao: true,
-    tempo_promocao: "10 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 62.82,
+    data_lancamento: new Date("2025-04-03"),
+    data_fim_promocao: new Date("2025-08-08"),
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 5,
     codigo_produto: "NATBRA-92795",
     imagem:
       "https://production.na01.natura.com/on/demandware.static/-/Sites-natura-br-storefront-catalog/default/dw4341ba29/NATBRA-92795_1.jpg",
@@ -107,13 +110,14 @@ const produtos = [
     qtde_estoque: 15,
     lancamento: false,
     promocao: true,
-    tempo_promocao: "20 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 38.3,
+    data_lancamento: new Date("2025-04-13"),
+    data_fim_promocao: new Date("2025-07-02"),
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 6,
     codigo_produto: "B55366",
     imagem:
       "https://res.cloudinary.com/beleza-na-web/image/upload/w_1500,f_auto,fl_progressive,q_auto:eco,w_800/v1/imagens/product/B55366/a916ff40-95ba-46ed-8ac4-5a22603fa11b-bot-55366-arbo-atlantica-desodorante-colonia-01.jpg",
@@ -129,13 +133,14 @@ const produtos = [
     qtde_estoque: 20,
     lancamento: true,
     promocao: false,
-    tempo_promocao: null,
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: null,
+    data_lancamento: new Date("2025-06-07"),
+    data_fim_promocao: null,
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 7,
     codigo_produto: "B49973",
     imagem:
       "https://res.cloudinary.com/beleza-na-web/image/upload/w_1500,f_auto,fl_progressive,q_auto:eco,w_800/v1/imagens/product/B49973/819b0d95-0c96-404c-b31c-6f7bac84f4f5-bot-49973-floratta-red-blossom-frontal-01.jpg",
@@ -151,13 +156,14 @@ const produtos = [
     qtde_estoque: 13,
     lancamento: true,
     promocao: true,
-    tempo_promocao: "30 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 119.9,
+    data_lancamento: new Date("2025-05-28"),
+    data_fim_promocao: new Date("2025-07-12"),
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 8,
     codigo_produto: "B87252",
     imagem:
       "https://res.cloudinary.com/beleza-na-web/image/upload/w_1500,f_auto,fl_progressive,q_auto:eco,w_800/v1/imagens/product/B87252/57c44e52-0884-4e6c-800a-2cdfb5f5e2a1-bot-87252-make-b-urban-ballet-paleta-01.jpg",
@@ -173,13 +179,14 @@ const produtos = [
     qtde_estoque: 10,
     lancamento: false,
     promocao: true,
-    tempo_promocao: "15 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 127.9,
+    data_lancamento: new Date("2025-04-28"),
+    data_fim_promocao: new Date("2025-06-27"),
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 9,
     codigo_produto: "B2023111753",
     imagem:
       "https://res.cloudinary.com/beleza-na-web/image/upload/w_297,f_auto,fl_progressive,q_auto:eco,w_80/v1/imagens/product/B2023111753/9fdee897-66da-4263-b3bc-e3f1b8f68579-bot-2023111753-match-hidratacao-brilho-condicionador-refil.jpg",
@@ -194,13 +201,14 @@ const produtos = [
     qtde_estoque: 7,
     lancamento: true,
     promocao: false,
-    tempo_promocao: null,
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: null,
+    data_lancamento: new Date("2025-05-31"),
+    data_fim_promocao: null,
+    data_vencimento: new Date("2027-06-20"),
   },
   {
-    id_produto: 10,
     codigo_produto: "B45025",
     imagem:
       "https://res.cloudinary.com/beleza-na-web/image/upload/w_297,f_auto,fl_progressive,q_auto:eco,w_80/v1/imagens/product/B45025/5e48a9a4-be3f-4989-a05d-4e15dcd3d771-bot-45025-bolsa-boti-baby-frontal-01.jpg",
@@ -215,10 +223,12 @@ const produtos = [
     qtde_estoque: 11,
     lancamento: false,
     promocao: true,
-    tempo_promocao: "25 days",
     banner_promocao: null,
     descricao_promocao: null,
     preco_promocao: 71.9,
+    data_lancamento: new Date("2025-05-03"),
+    data_fim_promocao: null,
+    data_vencimento: new Date("2027-06-20"),
   },
 ];
 
@@ -227,7 +237,6 @@ async function inserirProdutos() {
     try {
       await pool.query(
         `INSERT INTO produtos (
-          id_produto,
           codigo_produto,
           imagem,
           banner,
@@ -241,16 +250,17 @@ async function inserirProdutos() {
           qtde_estoque,
           lancamento,
           promocao,
-          tempo_promocao,
           banner_promocao,
           descricao_promocao,
-          preco_promocao
+          preco_promocao,
+          data_lancamento,
+          data_fim_promocao,
+          data_vencimento
         ) VALUES (
           $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
-          $11, $12, $13, $14, $15, $16, $17, $18
+          $11, $12, $13, $14, $15, $16, $17, $18, $19
         )`,
         [
-          p.id_produto,
           p.codigo_produto,
           p.imagem,
           p.banner,
@@ -264,10 +274,12 @@ async function inserirProdutos() {
           p.qtde_estoque,
           p.lancamento,
           p.promocao,
-          p.tempo_promocao ? `${p.tempo_promocao}` : null,
           p.banner_promocao,
           p.descricao_promocao,
           p.preco_promocao,
+          p.data_lancamento,
+          p.data_fim_promocao,
+          p.data_vencimento,
         ]
       );
       console.log(`✅ Produto "${p.nome}" inserido com sucesso.`);
