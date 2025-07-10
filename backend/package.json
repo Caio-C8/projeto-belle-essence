@@ -5,7 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon api/server.js",
-    "seed:produtos": "node seeds/seedProdutos.js"
+    "seed:all": "npm run seed:administrador && npm run seed:categoriasOcasioes && npm run seed:produtos && npm run seed:relacoes",
+    "seed:administrador": "node seeds/seedAdministrador.js",
+    "seed:categoriasOcasioes": "node seeds/seedCategoriasOcasioes.js",
+    "seed:produtos": "node seeds/seedProdutos.js",
+    "seed:relacoes": "node seeds/seedRelacoesProdutos.js"
   },
   "keywords": [],
   "author": "",

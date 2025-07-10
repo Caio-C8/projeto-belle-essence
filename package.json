@@ -2,7 +2,8 @@
   "name": "projeto",
   "type": "module",
   "scripts": {
-    "start:all": "node start.mjs"
+    "start:servers": "node start.mjs",
+    "seed": "node seeds.mjs"
   },
   "dependencies": {
     "chalk": "^5.4.1"
