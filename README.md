@@ -1,19 +1,49 @@
-Para rodar o código siga os passos:
+# Projeto Belle Essence
 
-1 - Abra o terminal (no VScode é CTRL+J ou o do windows).
+## Visão geral
 
-2 - Para rodar o frontend, navegue até a pasta "frontend" no terminal.
+Este é um site feito para uma micro empresa, chamada Eliane Multimarcas, que revende produtos cosméticos de outras empresas, como O Boticário, Natura, etc. O foco do desenvolvimento foi fazer com que os processos realizados na empresa fossem centralizados em uma única aplicação, com o administrador podendo controlar estoque, pedidos e promoções, além de possibilitar clientes a realizarem pedidos através do site.
 
-3 - Execute os seguintes comandos no console: npm i ou npm install; npm run dev.
+## Tecnologias Utilizadas
 
-4 - Depois de executar npm run dev, deve aparecer um link, segure CTRL + botão esquerdo do mouse em cima do link para abrir.
+### Front-end
 
-5 - Para derrubar o servidor de execução do código clique no terminal e tecle CTRL+C.
+- **CSS3**
+- **React**
+- **Bootstrap 4/5**
 
-OBS: Caso esteja usando o terminal do VScode e não conseguir executar os comandos, troque o terminal do VScode. Por padrão ele é o powershell, mude para o command prompt, no canto direito superior do terminal terá o tipo do terminal e do lado terá um + e uma seta para baixo, clique na seta e troque o terminal.
+### Back-end
 
-Para desenvolver recomendo a extensão ES7+ React/Redux/React-Native snippets do VScode. Com ela instalada você consegue fazer a estrutura base de um componente com o comando "rafce".
+- **Node.js**
+- **Express.js**
 
-Quando for criar um componente ou página siga a seguinte estrutura de pastas: Componente/Componente.jsx Componente.css
+### Banco de dados
 
-Ao fazer o CSS use a nomenclatura BEM (Bloco Elemento e Modificador). Saiba mais aqui: https://desenvolvimentoparaweb.com/css/bem/ e faça uso de IA para nomer classes para facilitar.
+- **PostgreSQL**
+
+## Observações
+
+- Este projeto foi desenvolvido para fins acadêmicos em aproximadamente 6 meses, durante o 3º período do curso de Sistemas de Informação
+
+## Instruções de execução
+
+1. **Crie um novo banco de dados**
+2. **Crie as tabelas no banco com o arquivo "criarTabelas.sql" (crie do jeito que achar melhor)**
+3. **Troque as informações do arquivo ".env.example" que está em "backend/.env.example", colocando o nome do banco, seu host, sua senha, etc**
+4. **Renomeie o arquivo para ".env"**
+5. **Abra o terminal na raiz do projeto**
+6. **Execute no terminal:**
+
+```bash
+npm run seed
+```
+
+7. **Execute no terminal:**
+
+```bash
+npm run start:servers
+```
+
+### Pré-requsitos
+
+- [PostgreSQL](https://www.postgresql.org/download/) instalado.
